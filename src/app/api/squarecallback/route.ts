@@ -1,5 +1,5 @@
 // pages/api/square-callback.js
-export default function GET(req: any) {
+export async function GET(req: any) {
     if (req.method === 'GET') {
         console.log("si llega")
         const { transactionId, status } = req.query;
