@@ -15,7 +15,7 @@ export default function Home() {
     // Replace this value with your application's ID
     client_id: "sq0idp-Gg38JTyT8ySsWFFyH47jSQ",
 
-    version: "2023-06-28",
+    version: "1.3",
     notes: "notes for the transaction",
     options: {
       supported_tender_types: ["CREDIT_CARD", "CASH", "OTHER", "SQUARE_GIFT_CARD", "CARD_ON_FILE"]
