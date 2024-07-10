@@ -5,7 +5,7 @@ import { Button } from "@mui/material";
 export default function Home() {
   let dataParameter = {
     amount_money: {
-      amount: "1",
+      amount: "15",
       currency_code: "USD"
     },
 
@@ -34,7 +34,7 @@ export default function Home() {
       <br /><br />
       <Button variant="contained" style={{ width: "30vw" }}>
 
-        <a href={`square-commerce-v1://payment/create?data=${dataParameter}
+        <a href={`square-commerce-v1://payment/create?data=${encodeURIComponent(JSON.stringify(dataParameter))}
 `}>
           Pay with Square IOS
         </a>
