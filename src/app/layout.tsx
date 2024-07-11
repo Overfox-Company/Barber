@@ -1,7 +1,14 @@
+
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-
+import './fonts.css'
+import Theme from "@/theme/Theme";
+import { AppContextProvider } from "@/context/AppContext";
+import { PrincipalContainer } from "@/components/Layout/Layout";
+import SideMenu from "@/components/sideMenu";
+import { Box } from "@mui/material";
+import SideMenuMobile from "@/components/sideMenu/SideMenuMobile";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -15,8 +22,31 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
+    <Theme>
+
+      <html lang="en">
+        <AppContextProvider>
+          <body className={inter.className}>
+            <Box sx={{ display: { xs: 'static', md: 'flex' }, }} style={{ padding: '0 20px' }}>
+              <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+
+                <SideMenu />
+              </Box>
+              <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+
+                <SideMenuMobile />
+              </Box>
+
+              <PrincipalContainer>
+                {children}
+              </PrincipalContainer>
+            </Box>
+
+          </body>
+        </AppContextProvider>
+      </html>
+
+    </Theme>
+
   );
 }
