@@ -35,14 +35,18 @@ const SideMenuMobile: NextPage<Props> = ({ }) => {
         <IconButton onClick={() => setOpenDrawer(true)}>
             <MenuIcon size={30} />
         </IconButton>
-        {show ? <FadeIn>
+        {show ?
             <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 10, gap: 10, width: '78%' }}>
+
                 {buttons[menuSelecte].icon}
                 <NameUser>
                     {buttons[menuSelecte].label}
                 </NameUser>
+
             </Box>
-        </FadeIn> : null}
+
+
+            : null}
 
     </div>
 }
