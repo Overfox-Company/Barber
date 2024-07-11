@@ -30,7 +30,7 @@ const RoundedButton = styled(Button)({
     borderRadius: 8,
     minWidth: 160,
     width: '100%',
-    padding: '8px',
+    padding: '12px',
     display: 'flex',
     gap: 12,
 
