@@ -8,7 +8,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { Box } from '@mui/material'
 
 interface Props {
-    mobile: boolean,
+    mobile?: boolean,
     setClose?: Dispatch<SetStateAction<boolean>>
 
 }
