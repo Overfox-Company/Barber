@@ -18,13 +18,14 @@ const SideMenu: NextPage<Props> = ({ mobile, setClose }) => {
 
     useEffect(() => { setTimeout(() => { setShow(true) }, 100) }, [])
     return show ? <div style={{
+        backgroundColor: 'white',
         height: mobile ? '92vh' : '100vh',
         paddingTop: `${mobile ? '2vh' : "10vh"}`,
         display: 'flex',
         flexDirection: 'column',
         gap: 20,
-        paddingRight: `${!mobile ? '0' : '2vh'}`,
-        paddingLeft: `${!mobile ? '0' : '2vh'}`,
+        paddingRight: `${!mobile ? '3vh' : '2vh'}`,
+        paddingLeft: `${!mobile ? '3vh' : '2vh'}`,
     }}>
         {mobile && setClose ? <Box style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <CloseButton onClick={() => setClose(false)} />

@@ -27,7 +27,8 @@ export default function RootLayout({
       <html lang="en">
         <AppContextProvider>
           <body className={inter.className}>
-            <Box sx={{ display: { xs: 'static', md: 'flex' }, }} style={{ padding: '0 20px' }}>
+
+            <Box sx={{ display: { xs: 'static', md: 'flex' }, }} >
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
 
                 <SideMenu />

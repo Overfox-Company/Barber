@@ -6,22 +6,22 @@ import UserIcon from '@/icons/UserIcon'
 import WorkersIcon from '@/icons/WorkersIcon'
 
 
-const sizeIcons = 28
+const sizeIcons = 25
 export const buttons = [
     {
         label: 'Add service',
         icon: <AddServiceIcon size={sizeIcons} />
     }, {
-        label: 'Workers',
+        label: 'Barbers',
         icon: <WorkersIcon size={sizeIcons} />
     }, {
-        label: 'Clients',
+        label: 'Customers',
         icon: <UserIcon size={sizeIcons} />
     }, {
         label: 'History',
         icon: <HistoryIcon size={sizeIcons} />
     }, {
-        label: 'Metrics',
+        label: 'Reports',
         icon: <MetricsIcon size={sizeIcons} />
     },
 ]

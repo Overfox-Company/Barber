@@ -1,5 +1,5 @@
 body {
-  background-color: white !important;
+  background-color: #F9FAFC !important;
 }
 
 :root {
@@ -10,8 +10,7 @@ body {
     "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
 
   --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+
 
   --primary-glow: conic-gradient(from 180deg at 50% 50%,
       #16abff33 0deg,

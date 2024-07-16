@@ -7,7 +7,7 @@ import BackArrowIcon from "@/icons/BackArrowIcon";
 import styled from "@emotion/styled";
 import { Button, Typography } from "@mui/material"
 import { FC, MouseEvent, MouseEventHandler } from "react"
-const sizeIcons = 25
+const sizeIcons = 24
 interface ButtonType {
     children?: React.ReactNode;
     props?: any;
@@ -21,8 +21,8 @@ interface ButtonType {
 const TextButton = styled(Typography)({
     fontFamily: PRIMARYFONT,
     textTransform: 'none',
-    color: PRIMARYCOLOR,
-    width: 100,
+
+    fontWeight: 700,
     textAlign: 'left'
 })
 
@@ -37,7 +37,12 @@ const RoundedButton = styled(Button)({
 })
 export const ContainedButton: FC<ButtonType> = ({ children, lowerCase, ...props }) => {
     return (
-        <Button {...props}>
+        <Button style={{
+            height: 54,
+            color: '#EFF2F7',
+            width: '100%',
+            borderRadius: 8
+        }} variant={"contained"}{...props}>
             <TextButton style={{ textTransform: lowerCase ? 'none' : 'uppercase' }}>
                 {children}
             </TextButton>
@@ -52,7 +57,7 @@ export const SideMenuButton: FC<ButtonType> = ({ logOut, onClick, selected, icon
                 justifyContent: logOut ? 'flex-start' : 'space-between'
             }}>
             {icon}
-            <TextButton >
+            <TextButton style={{ width: 140, fontSize: 14 }}>
                 {children}
             </TextButton>
             {logOut ? null : <ArrowMenuIcon size={sizeIcons} />}
