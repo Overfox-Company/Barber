@@ -78,7 +78,7 @@ const WorkersModal = (props: Props) => {
             <DialogContent>
                 <div style={{ display: 'flex', gap: 10 }}>
                     {workers.map((worker) => (
-                        <ContainerCardWorker onClick={() => SelectValue(worker.id)}
+                        <ContainerCardWorker key={worker.id} onClick={() => SelectValue(worker.id)}
                             style={{ backgroundColor: selectedValue.toString() === worker.id.toString() ? PRIMARYCOLORHOVER : 'white' }}
                         >
                             <div style={{ width: 160, height: 140, position: 'relative' }}>

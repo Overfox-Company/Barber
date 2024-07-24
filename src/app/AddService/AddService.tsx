@@ -60,16 +60,16 @@ const AddService: NextPage<Props> = ({ }) => {
                 }}>
 
                     <div style={{ display: 'flex', gap: 4 }}>
-                        {new Array(step + 1).fill(0).map(() => (
-                            <FadeIn>
+                        {new Array(step + 1).fill(0).map((a) => (
+                            <FadeIn key={a}>
 
                                 <StepFill />
                             </FadeIn>
                         ))}
-                        {new Array(2 - step).fill(0).map(() => (
+                        {new Array(2 - step).fill(0).map((a) => (
 
 
-                            <StepEmty />
+                            <StepEmty key={a} />
 
                         ))}
                     </div>

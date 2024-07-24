@@ -106,7 +106,7 @@ const Step3: NextPage<Props> = ({ setStep, data, setData }) => {
                     <div style={{ display: 'flex', gap: 4 }}>
                         {percent.map((p, i) => (
 
-                            <Option style={{
+                            <Option key={p} style={{
                                 transition: 'all 0.2s ease',
                                 cursor: 'pointer',
                                 display: 'flex',
