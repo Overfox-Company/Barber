@@ -7,24 +7,7 @@ import { AppContext } from "@/context/AppContext";
 
 export default function Home() {
   const { menuSelecte } = useContext(AppContext);
-  let dataParameter = {
-    amount_money: {
-      amount: "15",
-      currency_code: "USD"
-    },
 
-    // Replace this value with your application's callback URL
-    callback_url: "https://localhost:3000/api/squarecallback",
-
-    // Replace this value with your application's ID
-    client_id: "sq0idp-Gg38JTyT8ySsWFFyH47jSQ",
-
-    version: "1.3",
-    notes: "notes for the transaction",
-    options: {
-      supported_tender_types: ["CREDIT_CARD", "CASH", "OTHER", "SQUARE_GIFT_CARD", "CARD_ON_FILE"]
-    }
-  };
 
   return (
     <main
@@ -54,8 +37,7 @@ export default function Home() {
           <br /><br />
           <Button variant="contained" style={{ width: "30vw" }}>
 
-            <a href={`square-commerce-v1://payment/create?data=${encodeURIComponent(JSON.stringify(dataParameter))}
-`}>
+            <a href={`square-commerce-v1://payment/create?data=${encodeURIComponent(JSON.stringify(dataParameter))}`}>
               Pay with Square IOS
             </a>
           </Button>

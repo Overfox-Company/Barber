@@ -9,6 +9,8 @@ import { Button, Typography } from "@mui/material"
 import { FC, MouseEvent, MouseEventHandler } from "react"
 const sizeIcons = 24
 interface ButtonType {
+    type?: 'button' | 'submit' | 'reset',
+    disabled?: boolean;
     children?: React.ReactNode;
     props?: any;
     style?: any,
@@ -35,14 +37,31 @@ const RoundedButton = styled(Button)({
     gap: 12,
 
 })
-export const ContainedButton: FC<ButtonType> = ({ children, lowerCase, ...props }) => {
+export const ContainedButton: FC<ButtonType> = ({ children, lowerCase, type = "button", disabled, ...props }) => {
+    return (
+        <Button
+            disabled={disabled}
+            type={type}
+            style={{
+                height: 54,
+                color: '#EFF2F7',
+                width: '100%',
+                borderRadius: 8
+            }} variant={"contained"}{...props}>
+            <TextButton style={{ textTransform: lowerCase ? 'none' : 'uppercase' }}>
+                {children}
+            </TextButton>
+        </Button>
+    )
+}
+export const OutlinedButton: FC<ButtonType> = ({ children, lowerCase, ...props }) => {
     return (
         <Button style={{
             height: 54,
-            color: '#EFF2F7',
+            color: PRIMARYCOLOR,
             width: '100%',
             borderRadius: 8
-        }} variant={"contained"}{...props}>
+        }} variant={"outlined"}{...props}>
             <TextButton style={{ textTransform: lowerCase ? 'none' : 'uppercase' }}>
                 {children}
             </TextButton>

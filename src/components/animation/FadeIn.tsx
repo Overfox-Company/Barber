@@ -1,8 +1,9 @@
 import { motion } from 'framer-motion'
 import { FC } from 'react'
-const FadeIn: FC<{ children: React.ReactNode }> = ({ children, }) => {
+const FadeIn: FC<{ children: React.ReactNode, props?: any, style?: any }> = ({ children, ...props }) => {
     return (
         <motion.div
+            {...props}
             initial="initial"
             animate="animate"
             exit="exit"

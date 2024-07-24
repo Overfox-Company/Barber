@@ -42,7 +42,7 @@ const Error = styled(Typography)({
     marginLeft: 5,
     textAlign: "left",
     letterSpacing: 2,
-    fontFamily: "Inter",
+    fontFamily: "Mulish",
 });
 const ContainerInput = styled.div({
     display: 'flex',
@@ -108,12 +108,11 @@ const Input: React.FC<InputProps> = ({
                     {type == 'password' ? <IconButton onClick={() => setIsPassword(!isPassword)}>
                         {isPassword ? <ViewPassword /> : <OcultPassword />}
                     </IconButton> : null}
-                </ContainerInput >
-
+                </ContainerInput>
             </Item>
             <Item xs={12}>
                 {error && touched ? <Error>{error}</Error> : null}
-                <br />
+
             </Item>
         </Container>
 

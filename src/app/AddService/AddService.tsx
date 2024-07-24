@@ -6,18 +6,18 @@ import { NextPage } from 'next'
 import * as Yup from 'yup'
 import styled from '@emotion/styled';
 import { Box, Typography } from '@mui/material';
-import { PRIMARYCOLOR } from '@/constants/Colors';
+import { PRIMARYCOLOR, PRIMARYCOLORHOVER, PRIMARYWHITE } from '@/constants/Colors';
 import { ContainedButton } from '@/components/UI/Buttons';
+import { useState } from 'react';
+import Step1 from './components/Step1';
+import Step2 from './components/Step2';
+import TipModal from './components/WorkersModal';
+import Step3 from './components/Step3';
 interface Props { }
 const Title = styled(Typography)({
     color: PRIMARYCOLOR,
     fontSize: 24,
     fontWeight: 700
-})
-const Ray = styled(Box)({
-    height: 1,
-    width: '100%',
-    backgroundColor: '#E5E9F2'
 })
 const validationSchema = Yup.object().shape({
 
@@ -25,87 +25,83 @@ const validationSchema = Yup.object().shape({
         .required("Title is required"),
 
 });
+const StepFill = styled(Box)({
+    borderRadius: 40,
+    width: 60,
+    height: 6,
+    backgroundColor: PRIMARYCOLOR
+})
+const StepEmty = styled(Box)({
+    borderRadius: 40,
+    width: 60,
+    height: 6,
+    backgroundColor: PRIMARYCOLORHOVER
+})
+const emails = ['username@gmail.com', 'user02@gmail.com'];
+
 const AddService: NextPage<Props> = ({ }) => {
-    const initialValues = {
-        title: ''
+
+    const [data, setData] = useState<InitialDataType>(InitialData)
+    const [step, setStep] = useState(0)
+    const handleSendForm = () => {
+
     }
-    return <FadeIn>
+    const [selectedValue, setSelectedValue] = useState(emails[1]);
+    return <div>
         <Container justifyContent={"center"}>
-            <Item xs={10}>
+            <Item xs={12} md={5}>
+
                 <div style={{
+                    height: 550,
                     backgroundColor: 'white',
                     padding: 40,
                     borderRadius: 20,
-                    boxShadow: '0 8px 8px rgba(0, 0, 45, 0.1)'
+                    boxShadow: '0 8px 8px rgba(0, 0, 45, 0.1)',
                 }}>
-                    <Formik
-                        onSubmit={() => console.log('enviando')}
-                        initialValues={initialValues}
-                        validationSchema={validationSchema}
-                    >
 
-                        <Form>
+                    <div style={{ display: 'flex', gap: 4 }}>
+                        {new Array(step + 1).fill(0).map(() => (
+                            <FadeIn>
 
-                            <Container columnSpacing={4}>
-                                <Item xs={12}>
-                                    <Title>
-                                        Service Data
-                                    </Title>
-                                    <Ray />
-                                    <br />
-                                </Item>
-                                <Item xs={6}>
-                                    <Input name="title" label="Worker" placeholder='Jose' />
-                                </Item>
-                                <Item xs={6}>
-                                    <Input name="title" label="Detail" placeholder='Service detail' />
-                                </Item>
-                                <Item xs={6}>
-                                    <Input name="title" label="Price" placeholder='50,00' />
-                                </Item>
-                                <Item xs={6}>
-                                    <Input name="title" label="Tip" placeholder='10,00' />
-                                </Item>
-                                <Item xs={12}>
-                                    <Title>
-                                        Client Data
-                                    </Title>
-                                    <Ray />
-                                    <br />
-                                </Item>
-                                <Item xs={6}>
-                                    <Input name="title" label="Client name" placeholder='Jhon' />
-                                </Item>
-                                <Item xs={6}>
-                                    <Input name="title" label="Email" placeholder='example@gmail.com' />
-                                </Item>
-
-                                <Item xs={6}>
-                                    <Input name="title" label="Phone" placeholder='54 505205' />
-                                </Item>
-
-                            </Container>
-                            <Container columnSpacing={4} justifyContent={"flex-end"}>
-                                <Item xs={4}>
-                                    <ContainedButton lowerCase>
-                                        Add service
-                                    </ContainedButton>
-                                </Item>
-                            </Container>
+                                <StepFill />
+                            </FadeIn>
+                        ))}
+                        {new Array(2 - step).fill(0).map(() => (
 
 
+                            <StepEmty />
 
+                        ))}
+                    </div>
+                    <br />
+                    {step === 0 ? <Step1 setStep={setStep} data={data} setData={setData} /> : null}
+                    {step === 1 ? <Step2 setStep={setStep} data={data} setData={setData} /> : null}
+                    {step === 2 ? <Step3 setStep={setStep} data={data} setData={setData} /> : null}
 
-
-
-                        </Form>
-                    </Formik>
                 </div>
             </Item>
         </Container>
 
 
-    </FadeIn>
+    </div>
 }
 
 export default AddService
+export const InitialData = {
+    customer: '',
+    phone: '',
+    worker: '',
+    detail: '',
+    tip: '',
+    price: '',
+    tax: ''
+}
+export type InitialDataType = {
+    customer?: string | null,
+    phone?: string | null,
+    worker?: string | null,
+    detail?: string | null,
+    tip?: string | null,
+    price?: string | null,
+    tax?: string | null
+}
