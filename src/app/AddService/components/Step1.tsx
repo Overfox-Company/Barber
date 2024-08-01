@@ -27,6 +27,7 @@ export const workers = [{
 const Title = styled(Typography)({
     color: PRIMARYCOLOR,
     fontSize: 24,
+
     fontWeight: 700
 })
 interface Props {

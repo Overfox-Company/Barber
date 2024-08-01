@@ -74,7 +74,7 @@ const WorkersModal = (props: Props) => {
         changeValue((prev: any) => ({ ...prev, worker: id }))
     }
     return (
-        <Dialog onClose={handleClose} open={open} maxWidth="md" fullWidth>
+        <Dialog onClose={handleClose} open={open} maxWidth="xs" fullWidth>
             <DialogContent>
                 <div style={{ display: 'flex', gap: 10 }}>
                     {workers.map((worker) => (

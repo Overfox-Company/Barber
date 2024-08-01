@@ -22,8 +22,8 @@ const validationSchema = Yup.object().shape({
         .required("Price is required").moreThan(0, "Price must be greater than 0"),
     tax: Yup.number()
         .required("Tax is required"),
-    phone: Yup.string().required("The phone number is required"),
-    customer: Yup.string().required("The customer name is required")
+    phone: Yup.string(),
+    customer: Yup.string()
 
 });
 const Title = styled(Typography)({

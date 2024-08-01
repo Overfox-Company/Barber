@@ -10,7 +10,7 @@ export const TextBase = styled(Typography)({
     color: PRIMARYCOLOR
 })
 export const NameUser: NextPage<Props> = ({ children, size = 22 }) => {
-    return <TextBase style={{ fontWeight: 700, fontSize: size }}>
+    return <TextBase style={{ fontWeight: 700, fontSize: size, width: '100%', textAlign: 'center' }}>
         {children}
     </TextBase>
 }
