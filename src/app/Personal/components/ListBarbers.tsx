@@ -34,7 +34,7 @@ const ListBarbers: NextPage<Props> = ({ }) => {
 
         }}>
             {personal.length > 0 ? personal.map((person) => (
-                <Card style={{ flex: "0 0 25%", }}>
+                <Card style={{ flex: "0 0 25%", }} key={person._id}>
                     <div style={{
                         width: 100, height: 100, position: 'relative'
                     }}>
