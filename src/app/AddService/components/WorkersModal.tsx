@@ -26,22 +26,8 @@ import { PRIMARYCOLOR, PRIMARYCOLORHOVER } from '@/constants/Colors';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import { workers } from './Step1';
-const Label = styled(Typography)({
-    color: PRIMARYCOLOR,
-    width: "100%",
-    fontSize: "16px",
-    textAlign: "left",
-    marginLeft: 5,
-    fontWeight: 700
-})
-const Option = styled(Box)({
-    width: 80,
-    height: 30,
-    borderRadius: 6,
+import { AppContext } from '@/context/AppContext';
 
-    color: PRIMARYCOLOR,
-
-})
 
 interface Props {
     open: boolean;
@@ -61,7 +47,7 @@ const ContainerCardWorker = styled(Box)({
     }
 })
 const WorkersModal = (props: Props) => {
-
+    const { personal } = React.useContext(AppContext)
     const { onClose, selectedValue, open, changeValue } = props;
 
     const handleClose = () => {
@@ -77,12 +63,12 @@ const WorkersModal = (props: Props) => {
         <Dialog onClose={handleClose} open={open} maxWidth="xs" fullWidth>
             <DialogContent>
                 <div style={{ display: 'flex', gap: 10 }}>
-                    {workers.map((worker) => (
-                        <ContainerCardWorker key={worker.id} onClick={() => SelectValue(worker.id)}
-                            style={{ backgroundColor: selectedValue.toString() === worker.id.toString() ? PRIMARYCOLORHOVER : 'white' }}
+                    {personal.length > 0 ? personal.map((worker) => (
+                        <ContainerCardWorker key={worker._id} onClick={() => SelectValue(worker._id)}
+                            style={{ backgroundColor: selectedValue.toString() === worker._id.toString() ? PRIMARYCOLORHOVER : 'white' }}
                         >
                             <div style={{ width: 160, height: 140, position: 'relative' }}>
-                                <Image src={worker.Avatar}
+                                <Image src={worker.avatar}
                                     style={{ borderRadius: 6 }}
                                     layout="fill"
                                     objectFit="cover"
@@ -93,7 +79,7 @@ const WorkersModal = (props: Props) => {
                                 {worker.name}
                             </NameUser>
                         </ContainerCardWorker>
-                    ))}
+                    )) : null}
                 </div>
             </DialogContent>
         </Dialog>

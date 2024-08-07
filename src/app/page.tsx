@@ -4,6 +4,7 @@ import { Container, Item } from "@/components/Layout/Layout";
 import AddService from "./AddService/AddService";
 import { useContext } from "react";
 import { AppContext } from "@/context/AppContext";
+import Personal from "./Personal/Personal";
 
 export default function Home() {
   const { menuSelecte } = useContext(AppContext);
@@ -22,6 +23,7 @@ export default function Home() {
 
         <Item xs={12}>
           {menuSelecte === 0 ? <AddService /> : null}
+          {menuSelecte === 1 ? <Personal /> : null}
         </Item>
 
 

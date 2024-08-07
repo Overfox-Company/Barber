@@ -8,12 +8,13 @@ import styled from '@emotion/styled';
 import { Box, Typography } from '@mui/material';
 import { PRIMARYCOLOR, PRIMARYCOLORHOVER } from '@/constants/Colors';
 import { ContainedButton } from '@/components/UI/Buttons';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useContext, useState } from 'react';
 import UserIcon from '@/icons/UserIcon';
 import { NameUser } from '@/components/UI/Text';
 import { useScroll } from 'framer-motion';
 import WorkersModal from './WorkersModal';
 import Image from 'next/image';
+import { AppContext } from '@/context/AppContext';
 export const workers = [{
     id: 1,
     name: 'Luis',
@@ -41,6 +42,7 @@ const Step1: NextPage<Props> = ({ setStep, data, setData }) => {
         title: ''
     }
     const [openModal, setOpenModal] = useState(false)
+    const { personal } = useContext(AppContext)
     return <FadeIn style={{
         height: '100%',
         display: 'flex',
@@ -82,14 +84,14 @@ const Step1: NextPage<Props> = ({ setStep, data, setData }) => {
                     {data.worker ?
                         <Image
                             style={{ borderRadius: 200 }}
-                            src={workers.filter((e: any) => e.id === data.worker)[0].Avatar}
+                            src={personal.filter((e: any) => e._id === data.worker)[0].avatar}
                             layout="fill"
                             objectFit="cover" alt="" />
                         : <UserIcon size={70} />}
                 </div>
                 <br />
                 <NameUser size={14}>
-                    {data.worker ? workers.filter((e: any) => e.id === data.worker)[0].name : 'Not barber selected'}
+                    {data.worker ? personal.filter((e: any) => e._id === data.worker)[0].name : 'Not barber selected'}
                 </NameUser>
             </Item>
         </Container>
