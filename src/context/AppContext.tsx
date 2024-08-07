@@ -40,6 +40,8 @@ export const AppContextProvider: React.FC<ProviderProps> = ({ children }) => {
     })
     const getData = async () => {
         const res = await ApiController.getPersonal()
+        console.log("resultado")
+        console.log(res)
         const { personal } = res.data
         if (personal) {
             setPersonal(personal)
