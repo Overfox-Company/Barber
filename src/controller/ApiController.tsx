@@ -11,7 +11,7 @@ export const Domain = process.env.NEXT_PUBLIC_PRODUCTION == 'true' ? branch : "h
 
 //THIS FILE NEED A REFACTOR, TO USERCONTROLLER, COMPANYCONTROLLER ETC
 const Route = `${Domain}api`;
-
+console.log(Route)
 const api = axios.create({
     baseURL: Route,
 
