@@ -3,12 +3,15 @@ import { AppContext } from '@/context/AppContext'
 import { NextPage } from 'next'
 import { useContext } from 'react'
 import styled from '@emotion/styled'
-import { Box } from '@mui/material'
+import { Box, IconButton } from '@mui/material'
 import Image from 'next/image'
 import { NameUser, TextDialog } from '@/components/UI/Text'
 import { PRIMARYCOLORHOVER } from '@/constants/Colors'
+import DeleteIcon from '@/icons/DeleteIcon'
+import ApiController from '@/controller/ApiController'
 interface Props { }
 const Card = styled(Box)({
+    position: 'relative',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -18,10 +21,17 @@ const Card = styled(Box)({
     width: 140,
     borderRadius: 12,
     border: `solid 1px ${PRIMARYCOLORHOVER}`,
-    position: 'relative'
 })
+
 const ListBarbers: NextPage<Props> = ({ }) => {
-    const { personal } = useContext(AppContext)
+    const { personal, setPersonal } = useContext(AppContext)
+    const deleteWorker = async (id: string) => {
+        const result = await ApiController.deleteWorker(id)
+        const { personal } = result.data
+        if (personal) {
+            setPersonal(personal)
+        }
+    }
     return <div style={{ height: '100%', overflowY: 'auto', }}>
         <TextDialog>
             Barbers list
@@ -35,6 +45,12 @@ const ListBarbers: NextPage<Props> = ({ }) => {
         }}>
             {personal.length > 0 ? personal.map((person) => (
                 <Card style={{ flex: "0 0 25%", }} key={person._id}>
+                    <div style={{ position: 'absolute', top: 4, right: 4 }}>
+                        <IconButton onClick={() => deleteWorker(person._id)}>
+                            <DeleteIcon size={24} />
+                        </IconButton>
+
+                    </div>
                     <div style={{
                         width: 100, height: 100, position: 'relative'
                     }}>
