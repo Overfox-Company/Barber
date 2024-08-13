@@ -2,13 +2,19 @@
 export async function GET(req: any) {
     if (req.method === 'GET') {
         console.log("si llega")
-        //   const { transactionId, status } = req.query;
+        const { transactionId, status } = req.query;
         // Procesa la respuesta de Square aquí
         //   if (status === 'COMPLETED') {
         // Lógica para manejar transacción exitosa
-        //   console.log(`Transaction completed successfully with ID: ${transactionId}`);
+        if (transactionId) {
+            console.log(`Transaction completed successfully with ID: ${transactionId}`);
+            return new Response(JSON.stringify({
+                message: 'pago completado', transactionId
+
+            }))
+        }
         return new Response(JSON.stringify({
-            message: 'pago completado'//, transactionId
+            message: 'pago no completado'//, transactionId
 
         }))
         //} else {
