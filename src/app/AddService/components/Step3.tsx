@@ -71,8 +71,10 @@ const Step3: NextPage<Props> = ({ setStep, data, setData }) => {
     const handleClick = () => {
         const totalTip: any = tipValue === 1 ? customTip : percent[optionSelected] * amountToPay / 100
         const totalPrice = amountToPay + parseFloat(totalTip)
-        console.log(totalPrice)
-        router.push(handlePay(totalPrice))
+        const formated = Math.ceil(totalPrice * 100) / 100;
+        console.log(formated)
+        console.log(typeof formated)
+        router.push(handlePay(formated))
     }
     return <div>
         <FadeIn>
