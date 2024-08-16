@@ -20,7 +20,7 @@ export async function uploadFileToCloudinary(file: File) {
             cloudinary.v2.uploader.upload_stream(
                 {
                     resource_type: "auto",
-                    public_id: publicId,
+                    public_id: file.name,
                 },
                 (error, result) => {
                     if (error) {
@@ -35,6 +35,7 @@ export async function uploadFileToCloudinary(file: File) {
         });
     } catch (error) {
         console.error(error);
+        return (error);
     }
 }
 export async function deleteFileFromCloudinary(publicId: string) {
