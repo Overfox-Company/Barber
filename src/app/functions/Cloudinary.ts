@@ -25,7 +25,7 @@ export async function uploadFileToCloudinary(file: File) {
                 (error, result) => {
                     if (error) {
                         console.log(error);
-                        reject(error);
+                        return (error);
                     } else {
                         console.log("Archivo subido correctamente");
                         resolve(result);
