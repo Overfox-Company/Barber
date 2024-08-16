@@ -8,13 +8,13 @@ import { v4 as uuidv4 } from 'uuid';
     api_secret: process.env.CLOUDINARYKEYSECRET,
     secure: true,
 });
-export async function uploadFileToCloudinary(file: File, company: string) {
+export async function uploadFileToCloudinary(file: File) {
     try {
         // Convertir el archivo a un buffer
         const buffer = await file.arrayBuffer();
         const uint8Array = new Uint8Array(buffer);
 
-        const publicId = `workit/personal/mpany}/${file.name}_$$$_${uuidv4()}`;
+        const publicId = `barber/personal/${file.name}`;
 
         return new Promise((resolve, reject) => {
             cloudinary.v2.uploader.upload_stream(

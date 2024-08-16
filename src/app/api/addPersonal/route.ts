@@ -17,7 +17,8 @@ export async function POST(req: Request) {
         if (!name && !avatar) {
             return new Response(JSON.stringify({ message: 'you need all fields' }))
         }
-        avaUpload = await uploadFileToCloudinary(avatar, 'personal')
+        avaUpload = await uploadFileToCloudinary(avatar)
+        console.log(avaUpload)
         const newPersonal = new Personal({
             name, avatar: avaUpload.url
         }

@@ -34,19 +34,15 @@ export default function RootLayout({
                 <SideMenu />
               </Box>
               <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-
                 <SideMenuMobile />
               </Box>
-
               <PrincipalContainer>
                 {children}
               </PrincipalContainer>
             </Box>
-
           </body>
         </AppContextProvider>
       </html>
-
     </Theme>
 
   );
