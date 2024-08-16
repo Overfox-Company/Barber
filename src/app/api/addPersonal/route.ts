@@ -7,7 +7,7 @@ import { Personal } from "../models/Personal";
 
 export async function POST(req: Request) {
     try {
-        return new Response(JSON.stringify({ message: 'ruta funcionando' }))
+
         await connectDB()
         const formData = await req.formData();
 
@@ -18,6 +18,7 @@ export async function POST(req: Request) {
         if (!name && !avatar) {
             return new Response(JSON.stringify({ message: 'you need all fields' }))
         }
+        return new Response(JSON.stringify({ message: 'ruta funcionando' }))
         avaUpload = await uploadFileToCloudinary(avatar)
         console.log(avaUpload)
         if (!avaUpload.url) {
