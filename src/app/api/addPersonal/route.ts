@@ -7,6 +7,7 @@ import { Personal } from "../models/Personal";
 
 export async function POST(req: Request) {
     try {
+        return new Response(JSON.stringify({ message: 'ruta funcionando' }))
         await connectDB()
         const formData = await req.formData();
 
