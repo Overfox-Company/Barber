@@ -14,7 +14,7 @@ export async function uploadFileToCloudinary(file: File, company: string) {
         const buffer = await file.arrayBuffer();
         const uint8Array = new Uint8Array(buffer);
 
-        const publicId = `workit/${company}/${file.name}_$$$_${uuidv4()}`;
+        const publicId = `workit/personal/mpany}/${file.name}_$$$_${uuidv4()}`;
 
         return new Promise((resolve, reject) => {
             cloudinary.v2.uploader.upload_stream(
