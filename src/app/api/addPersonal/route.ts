@@ -19,6 +19,9 @@ export async function POST(req: Request) {
         }
         avaUpload = await uploadFileToCloudinary(avatar)
         console.log(avaUpload)
+        if (!avaUpload.url) {
+            return new Response(JSON.stringify({ message: 'error subiendo imagen', error: avaUpload }))
+        }
         const newPersonal = new Personal({
             name, avatar: avaUpload.url
         }
