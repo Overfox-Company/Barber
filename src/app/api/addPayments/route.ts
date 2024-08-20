@@ -10,7 +10,14 @@ export async function POST(req: Request) {
     try {
         await connectDB()
         const { customer, phone, price, tax, tip, worker } = await req.json()
-        const newPayment = new Payment({ customer, phone, price, tax, tip, worker })
+        if (!price || !tax || !tip || !worker) {
+            return new Response(JSON.stringify({ message: 'We need al camps', }))
+        }
+        const workerSearched = await Personal.findById(worker)
+        if (!workerSearched._id) {
+            return new Response(JSON.stringify({ message: 'Dont find worker', }))
+        }
+        const newPayment = new Payment({ customer, phone, price, tax, tip, worker: workerSearched.name })
         await newPayment.save()
         const allPayments = await Payment.find()
         return new Response(JSON.stringify({ message: 'Payment processed', payments: allPayments }))
