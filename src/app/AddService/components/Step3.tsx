@@ -60,10 +60,9 @@ const Step3: NextPage<Props> = ({ setStep, data, setData }) => {
     const [customTip, setCustomTip] = useState(0)
     const onChange = (value: number) => {
         if (value > 0) {
-
+            setData((prev) => ({ ...prev, tip: String(value) }))
             setCustomTip(value)
         } else {
-
             setCustomTip(0)
         }
         setTipValue(1)
@@ -72,7 +71,9 @@ const Step3: NextPage<Props> = ({ setStep, data, setData }) => {
         const totalTip: any = tipValue === 1 ? customTip : percent[optionSelected] * amountToPay / 100
         const totalPrice = amountToPay + parseFloat(totalTip)
         const formated = Math.ceil(totalPrice * 100) / 100;
-        console.log(formated)
+        console.log(data)
+
+        localStorage.setItem('payment', JSON.stringify(data))
         console.log(typeof formated)
         router.push(handlePay(formated))
     }
@@ -93,9 +94,9 @@ const Step3: NextPage<Props> = ({ setStep, data, setData }) => {
                     </Label>
 
                 </Item>*/}
-                <Item xs={8}>
+                <Item xs={12}>
                     <br />
-                    <TextDialog>
+                    <TextDialog >
                         Want to leave a tip?
                     </TextDialog>
                 </Item>
@@ -116,7 +117,11 @@ const Step3: NextPage<Props> = ({ setStep, data, setData }) => {
                                 alignItems: 'center',
                                 border: `solid 1px ${optionSelected === i ? PRIMARYCOLOR : 'rgb(200,200,220'}`
                             }}
-                                onClick={() => { setTipValue(0); setOptionSelected(i); }}
+                                onClick={() => {
+                                    setTipValue(0);
+                                    setData((prev) => ({ ...prev, tip: String(percent[optionSelected] * amountToPay / 100) }));
+                                    setOptionSelected(i);
+                                }}
                             >
                                 <TextBase style={{ textAlign: 'center', fontSize: 14, color: optionSelected === i ? PRIMARYCOLOR : 'rgb(200,200,220' }}>
                                     {i === 0 ? 'None' : p + "%"}
@@ -162,7 +167,11 @@ const Step3: NextPage<Props> = ({ setStep, data, setData }) => {
                             Total:
                         </Text>
                         <Label style={{ textAlign: 'center', fontSize: 16, color: PRIMARYCOLOR, margin: 0 }}>
-                            ${amountToPay + (tipValue === 1 ? parseInt(customTip as any) : ((percent[optionSelected] * amountToPay) / 100))}
+                            ${
+
+                                Math.ceil(parseFloat(String(amountToPay + (tipValue === 1 ? parseInt(customTip as any) : ((percent[optionSelected] * amountToPay)) / 100))) * 100) / 100
+
+                            }
                         </Label>
                     </div>
 

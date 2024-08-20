@@ -30,7 +30,7 @@ const ListBarbers: NextPage<Props> = ({ }) => {
         const { personal } = result.data
         if (personal) {
             setPersonal(personal)
-            console.log(personal)
+            //console.log(personal)
         }
     }
     return <div style={{ height: '100%', overflowY: 'auto', }}>

@@ -6,9 +6,9 @@ import './fonts.css'
 import Theme from "@/theme/Theme";
 import { AppContextProvider } from "@/context/AppContext";
 import { PrincipalContainer } from "@/components/Layout/Layout";
-import SideMenu from "@/components/sideMenu";
 import { Box } from "@mui/material";
 import SideMenuMobile from "@/components/sideMenu/SideMenuMobile";
+import SideMenu from "@/components/sideMenu";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -21,6 +21,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <Theme>
 
@@ -30,7 +31,6 @@ export default function RootLayout({
 
             <Box sx={{ display: { xs: 'static', md: 'flex' }, }} >
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-
                 <SideMenu />
               </Box>
               <Box sx={{ display: { xs: 'flex', md: 'none' } }}>

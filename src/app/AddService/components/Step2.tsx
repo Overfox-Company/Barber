@@ -37,7 +37,7 @@ const Step2: NextPage<Props> = ({
     data
 }) => {
     const initialValues = {
-        price: 0,
+        price: null,
         tax: 1.50,
         customer: '',
         phone: '',

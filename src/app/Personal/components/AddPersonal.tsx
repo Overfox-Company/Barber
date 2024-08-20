@@ -38,7 +38,7 @@ const AddPersonal: NextPage<Props> = ({ }) => {
             name: values.name
         }
         const result = await ApiController.addPersonal(data)
-        console.log(result)
+        //console.log(result)
         const { personal } = result.data
         if (personal) {
             setAvatarPersonal(null)
@@ -80,16 +80,12 @@ const AddPersonal: NextPage<Props> = ({ }) => {
             {({ errors, touched }) => (
                 <Form>
                     <Container columnSpacing={4}>
-
-
                         <Item xs={12}>
                             <Input name="name" error={errors.name} touched={touched.name} label="Name" placeholder='jhon' />
                         </Item>
-
                     </Container>
                     <br />
                     <Container columnSpacing={4} justifyContent={"center"}>
-
                         <Item xs={12}>
                             <ContainedButton lowerCase type="submit" disabled={!avatarPersonal}>
                                 Next

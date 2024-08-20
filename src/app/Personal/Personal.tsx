@@ -1,5 +1,4 @@
 import { Container, Item } from '@/components/Layout/Layout'
-import { PRIMARYCOLORHOVER } from '@/constants/Colors'
 import { NextPage } from 'next'
 import AddPersonal from './components/AddPersonal'
 import ListBarbers from './components/ListBarbers'

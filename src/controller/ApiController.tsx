@@ -1,4 +1,5 @@
 
+import { PaymentsType } from "@/types/Payments";
 import axios from "axios";
 
 
@@ -107,7 +108,8 @@ const ApiController = {
             'Content-Type': 'multipart/form-data',
         }
     }),
-    deleteWorker: (id: string) => api.post('/deleteWorker', { id })
+    deleteWorker: (id: string) => api.post('/deleteWorker', { id }),
+    addPayments: (data: PaymentsType) => api.post('/addPayments', data)
 };
 
 

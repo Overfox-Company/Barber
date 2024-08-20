@@ -1,10 +1,11 @@
 'use client'
 import { Button } from "@mui/material";
 import { Container, Item } from "@/components/Layout/Layout";
-import AddService from "./AddService/AddService";
 import { useContext } from "react";
 import { AppContext } from "@/context/AppContext";
+import AddService from "./AddService/AddService";
 import Personal from "./Personal/Personal";
+
 
 export default function Home() {
   const { menuSelecte } = useContext(AppContext);
@@ -19,9 +20,9 @@ export default function Home() {
         flexDirection: 'column',
         alignItems: 'center'
       }}>
-      <Container rowSpacing={4}>
+      <Container rowSpacing={4} justifyContent={"center"}>
 
-        <Item xs={12}>
+        <Item xs={10}>
           {menuSelecte === 0 ? <AddService /> : null}
           {menuSelecte === 1 ? <Personal /> : null}
         </Item>

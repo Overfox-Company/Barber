@@ -21,7 +21,7 @@ export const UserRol: NextPage<Props> = ({ children }) => {
     </TextBase>
 }
 export const TextDialog: NextPage<Props> = ({ children }) => {
-    return <TextBase style={{ fontWeight: 700, fontSize: 24 }}>
+    return <TextBase style={{ fontWeight: 700, fontSize: 24, textAlign: 'center' }}>
         {children}
     </TextBase>
 }

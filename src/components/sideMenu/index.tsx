@@ -6,7 +6,7 @@ import UserData from './components/UserData'
 import LogOutIcon from '@/icons/LogOutIcon'
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { Box } from '@mui/material'
-
+import { usePathname } from "next/navigation";
 interface Props {
     mobile?: boolean,
     setClose?: Dispatch<SetStateAction<boolean>>
@@ -15,8 +15,17 @@ interface Props {
 
 const SideMenu: NextPage<Props> = ({ mobile, setClose }) => {
     const [show, setShow] = useState(false)
+    const pathname = usePathname(); // Obtener la ruta actual
 
-    useEffect(() => { setTimeout(() => { setShow(true) }, 100) }, [])
+    // Define la ruta específica donde no quieres que se renderice el SideMenu
+    // Cambia "/ruta-especifica" por la ruta que quieras
+
+    useEffect(() => {
+        const hideSideMenu = pathname === "/"
+        setTimeout(() => {
+            setShow(hideSideMenu)
+        }, 100)
+    }, [pathname])
     return show ? <div style={{
         backgroundColor: 'white',
         height: mobile ? '92vh' : '100vh',
