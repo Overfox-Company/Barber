@@ -38,7 +38,7 @@ const Step2: NextPage<Props> = ({
 }) => {
     const initialValues = {
         price: null,
-        tax: 1.50,
+        tax: parseFloat(localStorage.getItem("fee") || "1.50") || 1.50,
         customer: '',
         phone: '',
     }
@@ -53,6 +53,11 @@ const Step2: NextPage<Props> = ({
         }));
         setStep(2)
     }
+    const ChangeTax = (name: string, value: number) => {
+        if (name === "tax") {
+            localStorage.setItem("fee", value.toString())
+        }
+    }
     return <div >
         <FadeIn>
 
@@ -62,7 +67,9 @@ const Step2: NextPage<Props> = ({
                 validationSchema={validationSchema}
             >
                 {({ errors, touched }) => (
-                    <Form>
+                    <Form
+                        onChange={(e: any) => ChangeTax(e.target.name, e.target.value)}
+                    >
                         <Container columnSpacing={4} style={{ height: 400 }}>
                             <Item xs={12}>
                                 <Title style={{ textAlign: 'center' }}>
