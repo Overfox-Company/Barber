@@ -75,7 +75,7 @@ const Step2: NextPage<Props> = ({
                                 <Input name="price" type="number" error={errors.price} touched={touched.price} label="Price" placeholder='0,00' />
                             </Item>
                             <Item xs={6}>
-                                <Input name="tax" error={errors.tax} touched={touched.tax} label="Tax" placeholder='0,00' />
+                                <Input name="tax" error={errors.tax} touched={touched.tax} label="Fee" placeholder='0,00' />
                             </Item>
                             <Item xs={6}>
                                 <Input name="phone" error={errors.phone} touched={touched.phone} label="Phone" placeholder='Customer phone' />

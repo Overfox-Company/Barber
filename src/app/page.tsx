@@ -22,7 +22,7 @@ export default function Home() {
       }}>
       <Container rowSpacing={4} justifyContent={"center"}>
 
-        <Item xs={10}>
+        <Item xs={12}>
           {menuSelecte === 0 ? <AddService /> : null}
           {menuSelecte === 1 ? <Personal /> : null}
         </Item>
