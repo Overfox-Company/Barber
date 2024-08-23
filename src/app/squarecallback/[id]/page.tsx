@@ -8,9 +8,9 @@ import FadeIn from '@/components/animation/FadeIn';
 import { NameUser } from '@/components/UI/Text';
 import ApiController from '@/controller/ApiController';
 import { useRouter } from 'next/navigation';
-interface Props { }
+interface Props { params: { id: string } }
 
-const Page: NextPage<Props> = ({ }) => {
+const Page: NextPage<Props> = ({ params }) => {
     const handlePayment = () => {
         const callbackUrl = encodeURIComponent('https://loacalhost:3000/api/squarescallback');
         window.location.href = `intent:#Intent;action=com.squareup.pos.action.CHARGE;S.com.squareup.pos.CLIENT_ID=sq0idp-Gg38JTyT8ySsWFFyH47jSQ;S.com.squareup.pos.WEB_CALLBACK_URI=${callbackUrl};S.com.squareup.pos.CURRENCY_CODE=USD;i.com.squareup.pos.TOTAL_AMOUNT=1;end`;
@@ -54,7 +54,9 @@ const Page: NextPage<Props> = ({ }) => {
             route.push('/')
         }
     }, [time])
-    useEffect(() => { handleSend() }, [])
+    useEffect(() => {
+        //   handleSend()
+    }, [])
     return <div style={{
         height: '100vh', width: '100%',
         alignItems: 'center', display: 'flex', justifyContent: 'center'
@@ -78,6 +80,7 @@ const Page: NextPage<Props> = ({ }) => {
 
                 <CircularProgress />
             </FadeIn>}
+            <p>{JSON.stringify(params.id)}</p>
             <br />
             {result.message ? <NameUser>{result.message}</NameUser> : <NameUser>Procesando</NameUser>}
             {result.type !== 'error' ? <NameUser size={18}>Redirecting in {time}s</NameUser> : null}

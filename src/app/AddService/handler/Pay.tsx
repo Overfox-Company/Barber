@@ -8,7 +8,7 @@ export const handlePay = (value: number) => {
         },
 
         // Replace this value with your application's callback URL
-        callback_url: "https://barber-rose-sigma.vercel.app/api/squarecallback",
+        callback_url: "https://barber-rose-sigma.vercel.app/squarecallback",
 
         // Replace this value with your application's ID
         client_id: process.env.NEXT_PUBLIC_CLIENTSQ,
