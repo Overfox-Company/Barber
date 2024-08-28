@@ -12,7 +12,7 @@ const PaymentSchema = new Schema({
     tax: { type: String },
     tip: { type: String },
     worker: { type: String },
-
+    transaction_id: { type: String }
 });
 
 export const Payment = models.Payment || model<PaymentType>("Payment", PaymentSchema);

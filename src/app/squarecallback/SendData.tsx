@@ -29,11 +29,11 @@ const SendData: NextPage<Props> = ({ }) => {
     const [time, setTime] = useState(3)
     const route = useRouter()
 
-    const handleSend = async () => {
+    const handleSend = async (id: string) => {
         const json = localStorage.getItem("payment")
         const data = json ? JSON.parse(json) : null
         if (data) {
-
+            data.transaction_id = id
             const res = await ApiController.addPayments(data)
             console.log(res)
             const { message, payments } = res.data
@@ -72,7 +72,7 @@ const SendData: NextPage<Props> = ({ }) => {
                 setResult({ message: parsedData.error_code, type: 'error' })
                 setCountDown(true)
             } else {
-                handleSend()
+                handleSend(parsedData.transaction_id)
             }
             // Procesa los datos según sea necesario
         } else {
