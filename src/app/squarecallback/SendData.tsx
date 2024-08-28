@@ -103,7 +103,9 @@ const SendData: NextPage<Props> = ({ }) => {
 
                 <CircularProgress />
             </FadeIn>}{
-                <p>{state}</p>}
+                /*
+                <p>{state}</p>
+           */ }
             <br />
             {result.message ? <NameUser>{result.message}</NameUser> : <NameUser>Procesando</NameUser>}
             {result.message && countDown ? <NameUser size={18}>Redirecting in {time}s</NameUser> : null}
