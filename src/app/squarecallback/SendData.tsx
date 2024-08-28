@@ -52,7 +52,7 @@ const SendData: NextPage<Props> = ({ }) => {
 
         if (countDown) {
             setInterval(() => {
-                //   setTime(prev => prev - 1)
+                setTime(prev => prev - 1)
             }, 1000)
         }
     }, [countDown])
@@ -67,15 +67,13 @@ const SendData: NextPage<Props> = ({ }) => {
         if (data) {
             setSatate(data)
             const parsedData = JSON.parse(data);
-            console.log(parsedData);
+            // console.log(parsedData);
             if (parsedData.status === 'error') {
                 setResult({ message: parsedData.error_code, type: 'error' })
                 setCountDown(true)
             } else {
-
-                //   handleSend()
+                handleSend()
             }
-
             // Procesa los datos según sea necesario
         } else {
             console.log('No se encontraron datos en la URL.');
