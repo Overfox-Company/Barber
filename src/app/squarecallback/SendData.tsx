@@ -26,7 +26,7 @@ const SendData: NextPage<Props> = ({ }) => {
         type: 'error'
     })
     const [countDown, setCountDown] = useState(false)
-    const [time, setTime] = useState(30)
+    const [time, setTime] = useState(3)
     const route = useRouter()
 
     const handleSend = async () => {
