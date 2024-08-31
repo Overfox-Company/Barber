@@ -109,7 +109,8 @@ const ApiController = {
         }
     }),
     deleteWorker: (id: string) => api.post('/deleteWorker', { id }),
-    addPayments: (data: PaymentsType) => api.post('/addPayments', data)
+    addPayments: (data: PaymentsType) => api.post('/addPayments', data),
+    getPayments: () => api.get('/getPayments')
 };
 
 

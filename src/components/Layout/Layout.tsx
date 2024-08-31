@@ -24,7 +24,7 @@ const StyleContentContainer = styled.div({
     gridTemplateColumns: ' minmax(100%, 1fr)',
     width: '100%',
     padding: '0 20px',
-    maxWidth: 1240,
+    maxWidth: 1400,
 })
 
 export const PrincipalContainer: FC<ContainerProps> = ({ children, ...props }) => {

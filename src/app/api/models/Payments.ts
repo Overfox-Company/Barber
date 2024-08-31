@@ -11,8 +11,12 @@ const PaymentSchema = new Schema({
     price: { type: String },
     tax: { type: String },
     tip: { type: String },
+    total: { type: String },
     worker: { type: String },
-    transaction_id: { type: String }
+    worker_id: { type: String },
+    transaction_id: { type: String, unique: true }
+}, {
+    timestamps: true
 });
 
 export const Payment = models.Payment || model<PaymentType>("Payment", PaymentSchema);

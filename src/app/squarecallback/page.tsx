@@ -15,14 +15,18 @@ interface Props { }
 
 const Page: NextPage<Props> = ({ }) => {
 
+    useEffect(() => {
 
+        console.log("veces que se pinta")
+    }, [])
 
-    return <Suspense fallback={<div>
-        cargando
-    </div>}>
-        <SendData />
-    </Suspense>
+    // {//return //<Suspense fallback={<div>
+    //  cargando
+    //</div>}>}
 
+    {// </Suspense>
+    }
+    return <SendData />
 }
 
 export default Page

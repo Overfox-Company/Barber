@@ -1,4 +1,5 @@
 body {
+  padding-right: 15px !important;
   background-color: #F9FAFC !important;
 }
 
@@ -67,4 +68,8 @@ a {
   html {
     color-scheme: dark;
   }
+}
+
+.css-1tfmlru-MuiResponsiveChart-container {
+  /* width: 100% !important;*/
 }

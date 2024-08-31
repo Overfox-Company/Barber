@@ -14,7 +14,7 @@ import { useSearchParams } from 'next/navigation';
 interface Props { }
 
 const SendData: NextPage<Props> = ({ }) => {
-    const searchParams = useSearchParams();
+
     const [state, setSatate] = useState('')
 
     const handlePayment = () => {
@@ -28,14 +28,20 @@ const SendData: NextPage<Props> = ({ }) => {
     const [countDown, setCountDown] = useState(false)
     const [time, setTime] = useState(3)
     const route = useRouter()
+    const [oneSend, setOneSend] = useState(false)
+
+
+
 
     const handleSend = async (id: string) => {
         const json = localStorage.getItem("payment")
         const data = json ? JSON.parse(json) : null
-        if (data) {
+        if (data && !oneSend) {
+            console.log(oneSend)
             data.transaction_id = id
+            console.log(data)
             const res = await ApiController.addPayments(data)
-            console.log(res)
+            // console.log(res)
             const { message, payments } = res.data
             if (payments) {
                 setResult({ message: 'The transaction has been processed correctly', type: 'success' })
@@ -44,10 +50,13 @@ const SendData: NextPage<Props> = ({ }) => {
             } else {
                 setResult({ message, type: 'error' })
             }
+
         } else {
             setResult({ message: 'An error has ocurred in the payment data', type: 'error' })
         }
     }
+
+
     useEffect(() => {
 
         if (countDown) {
@@ -55,16 +64,22 @@ const SendData: NextPage<Props> = ({ }) => {
                 setTime(prev => prev - 1)
             }, 1000)
         }
+
     }, [countDown])
     useEffect(() => {
         if (time === 0) {
             route.push('/')
         }
+        //  console.log("veces que se pinta")
     }, [time])
+    const searchParams = useSearchParams();
     useEffect(() => {
+
         const data = searchParams.get('data');
 
-        if (data) {
+        if (data && !oneSend) {
+            console.log(searchParams.get('data'))
+            setOneSend(true)
             setSatate(data)
             const parsedData = JSON.parse(data);
             // console.log(parsedData);
@@ -74,12 +89,15 @@ const SendData: NextPage<Props> = ({ }) => {
             } else {
                 handleSend(parsedData.transaction_id)
             }
+
             // Procesa los datos según sea necesario
         } else {
-            console.log('No se encontraron datos en la URL.');
+            //    console.log('No se encontraron datos en la URL.');
+            setResult({ message: "Transaction error", type: 'error' })
         }
 
-    }, [searchParams])
+    }, [])
+
     return <div style={{
         height: '100vh', width: '100%',
         alignItems: 'center', display: 'flex', justifyContent: 'center'
