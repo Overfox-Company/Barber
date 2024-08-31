@@ -87,7 +87,7 @@ const ListWorkers: NextPage<Props> = ({ state, dataset, date }) => {
             </Item>
         </Container>
         {dataFilter.map((data) => {
-            return <FadeIn> <ContainerWorker>
+            return <FadeIn key={data.name}> <ContainerWorker>
 
                 <Container alignItems='center'>
                     <Item xs={10}>
