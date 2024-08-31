@@ -20,13 +20,13 @@ const Page: NextPage<Props> = ({ }) => {
         console.log("veces que se pinta")
     }, [])
 
-    // {//return //<Suspense fallback={<div>
-    //  cargando
-    //</div>}>}
+    return <Suspense fallback={<div>
+        cargando
+    </div>}>
+        <SendData />
+    </Suspense>
 
-    {// </Suspense>
-    }
-    return <SendData />
+    // return <SendData />
 }
 
 export default Page
