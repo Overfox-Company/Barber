@@ -100,7 +100,7 @@ const Table: NextPage<Props> = ({ dataFilter }) => {
                             </Item>
                         </Container>
                         {data.paymentsByWorker.map((payment: any) => (
-                            <Container alignItems='center'>
+                            <Container alignItems='center' key={payment._id}>
                                 <Item xs={3}>
                                     <WorkerData>
 
