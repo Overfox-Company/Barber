@@ -72,6 +72,7 @@ const Input: React.FC<InputProps> = ({
     rows,
     cols,
     children,
+    ...props
 }) => {
     const [isPassword, setIsPassword] = useState(type === 'password' ? true : false)
     return (
@@ -102,6 +103,7 @@ const Input: React.FC<InputProps> = ({
                         as={as ?? null}
                         rows={rows}
                         cols={cols}
+
                     >
                         {children}
                     </TextInput>

@@ -19,6 +19,11 @@ type ContextData = {
     setUser: Dispatch<SetStateAction<any>>;
     personal: any[],
     setPersonal: Dispatch<SetStateAction<any[]>>,
+    payments: any[],
+    setPayments: Dispatch<SetStateAction<any[]>>,
+    getData: () => void,
+    customers: any[],
+    setCustomers: Dispatch<SetStateAction<any[]>>,
 };
 export const AppContext = createContext<ContextData>({
     menuSelecte: 0,
@@ -27,6 +32,13 @@ export const AppContext = createContext<ContextData>({
     setUser: () => { },
     personal: [],
     setPersonal: () => { },
+    payments: [],
+    setPayments: () => { },
+    getData: () => { },
+    customers: [],
+    setCustomers: () => { },
+
+
 });
 
 export const AppContextProvider: React.FC<ProviderProps> = ({ children }) => {
@@ -34,19 +46,40 @@ export const AppContextProvider: React.FC<ProviderProps> = ({ children }) => {
     const [menuSelecte, setMenuSelected] = useState(initialMenu)
     const [user, setUser] = useState({})
     const [personal, setPersonal] = useState<any[]>([])
+    const [payments, setPayments] = useState<any[]>([])
+    const [customers, setCustomers] = useState<any[]>([])
     const [isSnackbarOpen, setSnackbarOpen] = useState({
         message: '',
         type: "success" as "error" | "warning" | "info" | "success"
     })
     const getData = async () => {
-        const res = await ApiController.getPersonal()
-        console.log("resultado")
-        console.log(res)
-        const { personal } = res.data
-        if (personal) {
-            setPersonal(personal)
+        try {
+            const [resPersonal, resPayments, resCustomers] = await Promise.all([
+                ApiController.getPersonal(),
+                ApiController.getPayments(),
+                ApiController.getCustomers()
+            ]);
+
+            const { payments } = resPayments.data || {};
+            const { personal } = resPersonal.data || {};
+            const { customers } = resCustomers.data || {};
+            // console.log("logs")
+            //console.log(customers)
+            if (payments) {
+                setPayments(payments);
+            }
+            if (personal) {
+                setPersonal(personal);
+            }
+            if (customers) {
+                setCustomers(customers)
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            // Manejar errores de manera adecuada aquí
         }
-    }
+    };
+
     useEffect(() => {
         getData()
 
@@ -56,10 +89,17 @@ export const AppContextProvider: React.FC<ProviderProps> = ({ children }) => {
     return (
         <AppContext.Provider
             value={{
+                customers,
+                setCustomers,
+                getData,
                 personal,
                 setPersonal,
-                user, setUser,
-                menuSelecte, setMenuSelected
+                user,
+                setUser,
+                menuSelecte,
+                setMenuSelected,
+                payments,
+                setPayments
             }}
         >
             {children}

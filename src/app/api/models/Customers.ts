@@ -7,8 +7,10 @@ type PaymentType = {
 }
 const CustomersSchema = new Schema({
     name: { type: String },
-    phone: { type: String },
+    phone: { type: String, unique: true },
 
+}, {
+    timestamps: true
 });
 
 export const Customers = models.Customers || model<PaymentType>("Customers", CustomersSchema);

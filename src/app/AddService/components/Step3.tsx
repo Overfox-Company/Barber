@@ -80,6 +80,9 @@ const Step3: NextPage<Props> = ({ setStep, data, setData }) => {
         // console.log(typeof formated)
         router.push(handlePay(formated))
     }
+    useEffect(() => {
+        console.log(data)
+    }, [])
     return <div>
         <FadeIn>
             <Container justifyContent={"center"} style={{ height: 400 }}>

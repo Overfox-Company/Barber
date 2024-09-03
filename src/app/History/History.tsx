@@ -2,16 +2,19 @@
 import { NextPage } from 'next'
 import { PRIMARYCOLOR } from '@/constants/Colors';
 import ApiController from '@/controller/ApiController';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import moment from 'moment';
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import { Container, Item } from '@/components/Layout/Layout';
 import Chart from './components/Chart';
 import ListWorkers from './components/ListWorkers';
+import { AppContext } from '@/context/AppContext';
+import Table from './components/Table';
 interface Props { }
 
 const History: NextPage<Props> = ({ }) => {
+    const { personal, payments, getData } = useContext(AppContext)
     const [show, setShow] = useState(false)
     const [dataset, setDataset] = useState<any[]>([])
     const [date, setDate] = useState<string[]>([])
@@ -24,7 +27,7 @@ const History: NextPage<Props> = ({ }) => {
     ]);
     const [maxValue, setMaxValue] = useState(5)
     const getPayments2 = async () => {
-        const res = await ApiController.getPayments();
+
         const startDate = moment(state[0].startDate);
         const endDate = moment(state[0].endDate);
         const dateArray = [];
@@ -33,7 +36,7 @@ const History: NextPage<Props> = ({ }) => {
         const paymentsFounded: any = []
         while (currentDate.isSameOrBefore(endDate)) {
 
-            let dailyTotal = res.data.payments.reduce((total: number, payment: any) => {
+            let dailyTotal = payments.reduce((total: number, payment: any) => {
                 if (moment(payment.createdAt).isSame(currentDate, 'day')) {
                     paymentsFounded.push(payment)
                 }
@@ -90,18 +93,52 @@ const History: NextPage<Props> = ({ }) => {
         getPayments2()
     }, [state])
     useEffect(() => {
-        console.log(state)
+        getData()
 
-    }, [state])
+    }, [])
+
+    const [dataFilter, setDataFilter] = useState<any[]>([])
+
+    const filterData = () => {
+        if (dataset[0]?.paymentsFounded) {
+            const cloneDataset = dataset[0].paymentsFounded;
+            console.log(cloneDataset)
+            if (cloneDataset.length > 0 && date.length > 6) {
+                const result = personal.map((worker) => {
+                    // Filtrar los pagos que pertenecen al trabajador actual
+                    const workerPayments = cloneDataset.filter((payment: any) => payment.worker_id === worker._id);
+
+                    // Calcular la cantidad de trabajos y el total de tips
+                    const jobs = workerPayments.length;
+                    const totalTip = workerPayments.reduce((acc: any, payment: any) => acc + parseFloat(payment.tip), 0);
+
+                    return {
+                        name: worker.name,
+                        avatar: worker.avatar,
+                        jobs: jobs,
+                        totalTip: totalTip,
+                        paymentsByWorker: workerPayments
+                    };
+                });
+                console.log(cloneDataset)
+                setDataFilter(result);
+            } else {
+                setDataFilter([])
+            }
+        }
+
+    };
+    useEffect(() => { filterData() }, [dataset])
     return show && state.length > 0 && date.length && dataset.length > 0 ? <div style={{
-        minHeight: 550,
+        height: 600,
+        overflow: 'auto',
         backgroundColor: 'white',
         padding: 32,
         width: '100%',
         borderRadius: 20,
         boxShadow: '0 8px 8px rgba(0, 0, 45, 0.1)',
     }}>
-        <Container >
+        <Container rowSpacing={4}>
             <Item xs={9}>
                 <Chart
 
@@ -114,10 +151,12 @@ const History: NextPage<Props> = ({ }) => {
             </Item>
             <Item xs={3}>
                 <ListWorkers
-                    date={date}
-                    dataset={dataset}
+                    dataFilter={dataFilter}
                     state={state}
                 />
+            </Item>
+            <Item xs={12}>
+                <Table dataFilter={dataFilter} />
             </Item>
         </Container>
 

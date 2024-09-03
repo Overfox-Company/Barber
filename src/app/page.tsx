@@ -6,6 +6,7 @@ import { AppContext } from "@/context/AppContext";
 import AddService from "./AddService/AddService";
 import Personal from "./Personal/Personal";
 import History from "./History/History";
+import Customers from "./customers/page";
 
 
 export default function Home() {
@@ -26,6 +27,7 @@ export default function Home() {
         <Item xs={12}>
           {menuSelecte === 0 ? <AddService /> : null}
           {menuSelecte === 1 ? <Personal /> : null}
+          {menuSelecte === 2 ? <Customers /> : null}
           {menuSelecte === 3 ? <History /> : null}
         </Item>
         { /*  <Item xs={12}>

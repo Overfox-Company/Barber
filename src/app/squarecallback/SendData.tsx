@@ -61,13 +61,13 @@ const SendData: NextPage<Props> = ({ }) => {
 
         if (countDown) {
             setInterval(() => {
-                setTime(prev => prev - 1)
+                setTime(prev => prev === 0 ? 0 : - 1)
             }, 1000)
         }
 
     }, [countDown])
     useEffect(() => {
-        if (time === 0) {
+        if (time < 1) {
             route.push('/')
         }
         //  console.log("veces que se pinta")

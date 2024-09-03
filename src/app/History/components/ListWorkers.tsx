@@ -7,7 +7,7 @@ import { AppContext } from '@/context/AppContext'
 import { Container, Item } from '@/components/Layout/Layout'
 import { PRIMARYCOLOR } from '@/constants/Colors'
 import FadeIn from '@/components/animation/FadeIn'
-interface Props { state: any, dataset: any, date: any }
+interface Props { state: any, dataFilter: any }
 const Title = styled(Typography)({
     fontSize: 12,
     fontWeight: 700,
@@ -39,35 +39,10 @@ const WorkerData = styled(Typography)({
     fontWeight: 700,
     color: PRIMARYCOLOR
 })
-const ListWorkers: NextPage<Props> = ({ state, dataset, date }) => {
-    const { personal } = useContext(AppContext)
-    const [dataFilter, setDataFilter] = useState<any[]>([])
-    const filterData = () => {
-        const cloneDataset = dataset[0].paymentsFounded;
-        console.log(cloneDataset)
-        if (cloneDataset.length > 0 && date.length > 6) {
-            const result = personal.map((worker) => {
-                // Filtrar los pagos que pertenecen al trabajador actual
-                const workerPayments = cloneDataset.filter((payment: any) => payment.worker_id === worker._id);
+const ListWorkers: NextPage<Props> = ({ state, dataFilter }) => {
 
-                // Calcular la cantidad de trabajos y el total de tips
-                const jobs = workerPayments.length;
-                const totalTip = workerPayments.reduce((acc: any, payment: any) => acc + parseFloat(payment.tip), 0);
 
-                return {
-                    name: worker.name,
-                    avatar: worker.avatar,
-                    jobs: jobs,
-                    totalTip: totalTip
-                };
-            });
-            console.log(cloneDataset)
-            setDataFilter(result);
-        } else {
-            setDataFilter([])
-        }
-    };
-    useEffect(() => { filterData() }, [dataset])
+
     return <div>
         <TitleContainer>
             <Title sx={{ fontSize: { xs: 16, xl: 16 } }}>
@@ -86,7 +61,7 @@ const ListWorkers: NextPage<Props> = ({ state, dataset, date }) => {
                 <Headers>Hair cuts</Headers>
             </Item>
         </Container>
-        {dataFilter.map((data) => {
+        {dataFilter.map((data: any) => {
             return <FadeIn key={data.name}> <ContainerWorker>
 
                 <Container alignItems='center'>
@@ -106,9 +81,8 @@ const ListWorkers: NextPage<Props> = ({ state, dataset, date }) => {
                         </WorkerData>
                     </Item>
                 </Container>
-
-
-            </ContainerWorker> </FadeIn>
+            </ContainerWorker>
+            </FadeIn>
         })}
 
     </div>

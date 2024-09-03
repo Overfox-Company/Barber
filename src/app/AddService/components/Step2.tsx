@@ -77,7 +77,6 @@ const Step2: NextPage<Props> = ({
                                 </Title>
                                 <br />
                             </Item>
-
                             <Item xs={6}>
                                 <Input name="price" type="number" error={errors.price} touched={touched.price} label="Price" placeholder='0,00' />
                             </Item>
@@ -85,7 +84,7 @@ const Step2: NextPage<Props> = ({
                                 <Input name="tax" error={errors.tax} touched={touched.tax} label="Fee" placeholder='0,00' />
                             </Item>
                             <Item xs={6}>
-                                <Input name="phone" error={errors.phone} touched={touched.phone} label="Phone" placeholder='Customer phone' />
+                                <Input name="phone" error={errors.phone} touched={touched.phone} label="Phone" placeholder='Customer phone' onChange={() => console.log("si funciona el onchange")} />
                             </Item>
                             <Item xs={6}>
                                 <Input name="customer" error={errors.customer} touched={touched.customer} label="Customer" placeholder='Customer name' />
