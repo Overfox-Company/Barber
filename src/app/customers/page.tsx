@@ -1,3 +1,5 @@
+'use client'
+
 import { Container, Item } from '@/components/Layout/Layout'
 import { AppContext } from '@/context/AppContext';
 import { NextPage } from 'next'
