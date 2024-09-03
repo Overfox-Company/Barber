@@ -11,6 +11,7 @@ import Chart from './components/Chart';
 import ListWorkers from './components/ListWorkers';
 import { AppContext } from '@/context/AppContext';
 import Table from './components/Table';
+import { Box } from '@mui/material';
 interface Props { }
 
 const History: NextPage<Props> = ({ }) => {
@@ -51,7 +52,8 @@ const History: NextPage<Props> = ({ }) => {
         }
         setMaxValue(relativeAmount)
         const formattedPayments = {
-            curve: "linear",
+            // 'catmullRom' | 'linear' | 'monotoneX' | 'monotoneY' | 'natural' | 'step' | 'stepBefore' | 'stepAfter';
+            curve: 'linear',
             color: PRIMARYCOLOR,
             showMark: true,
             // id: 'Germany',
@@ -106,7 +108,7 @@ const History: NextPage<Props> = ({ }) => {
             if (cloneDataset.length > 0 && date.length > 6) {
                 const result = personal.map((worker) => {
                     // Filtrar los pagos que pertenecen al trabajador actual
-                    const workerPayments = cloneDataset.filter((payment: any) => payment.worker_id === worker._id);
+                    const workerPayments = cloneDataset.filter((payment: any) => payment.worker_id === worker._id).reverse();
 
                     // Calcular la cantidad de trabajos y el total de tips
                     const jobs = workerPayments.length;
@@ -129,17 +131,21 @@ const History: NextPage<Props> = ({ }) => {
 
     };
     useEffect(() => { filterData() }, [dataset])
-    return show && state.length > 0 && date.length && dataset.length > 0 ? <div style={{
-        height: 600,
+    return show && state.length > 0 && date.length && dataset.length > 0 ? <Box style={{
+
         overflow: 'auto',
         backgroundColor: 'white',
-        padding: 32,
+
         width: '100%',
-        borderRadius: 20,
+        marginBottom: 6,
         boxShadow: '0 8px 8px rgba(0, 0, 45, 0.1)',
+    }} sx={{
+        borderRadius: { xs: 4, },
+        padding: { xs: 1, lg: 2 },
+        height: { xs: 800, lg: 600 },
     }}>
         <Container rowSpacing={4}>
-            <Item xs={9}>
+            <Item xs={12} lg={9}>
                 <Chart
 
                     date={date}
@@ -149,7 +155,7 @@ const History: NextPage<Props> = ({ }) => {
                     setState={setState}
                 />
             </Item>
-            <Item xs={3}>
+            <Item xs={12} lg={3}>
                 <ListWorkers
                     dataFilter={dataFilter}
                     state={state}
@@ -160,7 +166,7 @@ const History: NextPage<Props> = ({ }) => {
             </Item>
         </Container>
 
-    </div> : null
+    </Box> : null
 }
 
 export default History

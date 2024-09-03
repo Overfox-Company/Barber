@@ -60,7 +60,6 @@ const Step2: NextPage<Props> = ({
     }
     return <div >
         <FadeIn>
-
             <Formik
                 onSubmit={(values) => onSendForm(values)}
                 initialValues={initialValues}
@@ -70,7 +69,7 @@ const Step2: NextPage<Props> = ({
                     <Form
                         onChange={(e: any) => ChangeTax(e.target.name, e.target.value)}
                     >
-                        <Container columnSpacing={4} style={{ height: 400 }}>
+                        <Container columnSpacing={{ xs: 1, lg: 4 }} style={{ height: 400 }}>
                             <Item xs={12}>
                                 <Title style={{ textAlign: 'center' }}>
                                     Service Data
@@ -90,7 +89,7 @@ const Step2: NextPage<Props> = ({
                                 <Input name="customer" error={errors.customer} touched={touched.customer} label="Customer" placeholder='Customer name' />
                             </Item>
                         </Container>
-                        <Container columnSpacing={4} justifyContent={"center"}>
+                        <Container columnSpacing={{ xs: 1, lg: 4 }} justifyContent={"center"}>
                             <Item xs={5}>
                                 <OutlinedButton lowerCase onClick={() => setStep(0)}>
                                     Back

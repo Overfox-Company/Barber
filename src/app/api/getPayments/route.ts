@@ -9,7 +9,7 @@ import { Payment } from "../models/Payments";
 export async function GET(req: Request) {
     try {
         await connectDB()
-        const allPayments = await Payment.find()
+        const allPayments = await Payment.find().sort({ createdAt: -1 });
         return new Response(JSON.stringify({ message: 'payments searched', payments: allPayments }))
     } catch (error) {
         console.log(error)

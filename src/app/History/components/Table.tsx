@@ -24,27 +24,33 @@ const ContainerWorker = styled(Box)({
     padding: 10,
 })
 const WorkerData = styled(Typography)({
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: 700,
-
+    color: 'rgb(50,50,50)'
 })
 const WorkerDataTitle = styled(Typography)({
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 700,
     color: PRIMARYCOLOR
 })
+const ResponsiveTitles = {
+    fontSize: { xs: 12, lg: 20 }
+}
+const ResponsiveData = {
+    fontSize: { xs: 10, lg: 16 }
+}
 const Table: NextPage<Props> = ({ dataFilter }) => {
     useEffect(() => { console.log(dataFilter) }, [dataFilter])
     return <div>
-        <Container style={{ width: '67vw' }}>
-            <Item xs={4}>
-                <WorkerDataTitle >Barber</WorkerDataTitle >
+        <Container sx={{ width: { xs: '72vw', lg: '67vw' } }} alignItems='center'>
+            <Item xs={6}>
+                <WorkerDataTitle sx={ResponsiveTitles}>Barber</WorkerDataTitle >
             </Item>
-            <Item xs={4}>
-                <WorkerDataTitle >Total Hair Cuts</WorkerDataTitle >
+            <Item xs={3}>
+                <WorkerDataTitle sx={ResponsiveTitles}>Total  Cuts</WorkerDataTitle >
             </Item>
-            <Item xs={4}>
-                <WorkerDataTitle >Total Hair tips</WorkerDataTitle >
+            <Item xs={3}>
+                <WorkerDataTitle sx={ResponsiveTitles}>Total tips</WorkerDataTitle >
             </Item>
 
         </Container>
@@ -59,71 +65,71 @@ const Table: NextPage<Props> = ({ dataFilter }) => {
                         id="panel1-header"
                     >
                         <Container alignItems='center'>
-                            <Item xs={4}>
+                            <Item xs={6}>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                                     <Avatar src={data.avatar} sx={{ width: 32, height: 32 }} />
-                                    <WorkerData>
+                                    <WorkerData sx={ResponsiveData}>
 
                                         {data.name}
                                     </WorkerData>
                                 </div>
 
                             </Item>
-                            <Item xs={4} style={{ display: 'flex', }}>
-                                <WorkerData>
+                            <Item xs={3} style={{ display: 'flex', }}>
+                                <WorkerData sx={ResponsiveData}>
                                     {data.jobs}
                                 </WorkerData>
                             </Item>
-                            <Item xs={4} style={{ display: 'flex', }}>
-                                <WorkerData>
+                            <Item xs={3} style={{ display: 'flex', }}>
+                                <WorkerData sx={ResponsiveData}>
                                     ${data.totalTip.toFixed(2)}
                                 </WorkerData>
                             </Item>
                         </Container>
                     </AccordionSummary>
                     <AccordionDetails>
-                        <Container >
+                        <Container alignItems='center'>
                             <Item xs={3}>
-                                <WorkerDataTitle >Date</WorkerDataTitle >
+                                <WorkerDataTitle sx={ResponsiveTitles}>Date</WorkerDataTitle >
                             </Item>
                             <Item xs={3}>
-                                <WorkerDataTitle >Service</WorkerDataTitle >
+                                <WorkerDataTitle sx={ResponsiveTitles}>Service</WorkerDataTitle >
                             </Item>
                             <Item xs={2}>
-                                <WorkerDataTitle >Tip</WorkerDataTitle >
+                                <WorkerDataTitle sx={ResponsiveTitles}>Tip</WorkerDataTitle >
                             </Item>
                             <Item xs={2}>
-                                <WorkerDataTitle >Fee</WorkerDataTitle >
+                                <WorkerDataTitle sx={ResponsiveTitles}>Fee</WorkerDataTitle >
                             </Item>
                             <Item xs={2}>
-                                <WorkerDataTitle >Total cost</WorkerDataTitle >
+                                <WorkerDataTitle sx={ResponsiveTitles}>Total</WorkerDataTitle >
                             </Item>
                         </Container>
                         {data.paymentsByWorker.map((payment: any) => (
                             <Container alignItems='center' key={payment._id}>
                                 <Item xs={3}>
-                                    <WorkerData>
+                                    <WorkerData sx={ResponsiveData}>
 
                                         {moment(payment.createdAt).format("DD/MM/YYYY HH:mm")}
                                     </WorkerData>
                                 </Item>
                                 <Item xs={3} style={{ display: 'flex', }}>
-                                    <WorkerData>
+                                    <WorkerData sx={ResponsiveData}>
                                         ${payment.price}
                                     </WorkerData>
                                 </Item>
                                 <Item xs={2} style={{ display: 'flex', }}>
-                                    <WorkerData>
+                                    <WorkerData sx={ResponsiveData}>
                                         ${payment.tip}
                                     </WorkerData>
                                 </Item>
                                 <Item xs={2} style={{ display: 'flex', }}>
-                                    <WorkerData>
+                                    <WorkerData sx={ResponsiveData}>
                                         ${payment.tax}
                                     </WorkerData>
                                 </Item>
                                 <Item xs={2} style={{ display: 'flex', }}>
-                                    <WorkerData>
+                                    <WorkerData sx={ResponsiveData}>
                                         ${payment.total}
                                     </WorkerData>
                                 </Item>

@@ -46,7 +46,7 @@ const ListBarbers: NextPage<Props> = ({ }) => {
         }}>
             {personal.length > 0 ? personal.map((person) => (
                 <Card style={{ flex: "0 0 25%", }} key={person._id}>
-                    <div style={{ position: 'absolute', top: 4, right: 4 }}>
+                    <div style={{ position: 'absolute', top: 4, right: 4, zIndex: 99 }}>
                         <IconButton onClick={() => deleteWorker(person._id)}>
                             <DeleteIcon size={24} />
                         </IconButton>

@@ -9,6 +9,7 @@ import styled from '@emotion/styled'
 import { Box, Typography } from '@mui/material';
 import { PRIMARYCOLOR, PRIMARYCOLORHOVER } from '@/constants/Colors';
 import { PRIMARYFONT } from '@/constants/Fonts';
+import moment from 'moment';
 interface Props { }
 const CardCustomer = styled(Box)({
     borderRadius: 8,
@@ -19,31 +20,34 @@ const CardCustomer = styled(Box)({
 const Title = styled(Typography)({
     fontWeight: 700,
     fontSize: 28,
-    color: 'rgb(90,90,90)'
+    color: 'rgb(30,30,30)'
 })
 const Customers: NextPage<Props> = ({ }) => {
     const { customers } = useContext(AppContext);
     useEffect(() => { console.log(customers) }, [customers])
-    return <div style={{
-        minHeight: 550,
+    return <Box style={{
+
         overflow: 'auto',
         backgroundColor: 'white',
-        padding: 32,
+        marginBottom: 20,
         width: '100%',
-        borderRadius: 20,
         boxShadow: '0 8px 8px rgba(0, 0, 45, 0.1)',
+    }} sx={{
+        borderRadius: { xs: 4, },
+        padding: { xs: 1, lg: 2 },
+        height: { xs: 800, lg: 600 },
     }}>
-        <Container rowSpacing={4}>
+        <Container rowSpacing={{ xs: 2, md: 4 }} columnSpacing={2}>
             <Item xs={12}>
                 <Title>Customers list</Title>
             </Item>
             {customers.map((customer: { createdAt: string, _id: string, name: string, phone: string }) => (
-                <Item key={customer._id} xs={2}>
+                <Item key={customer._id} xs={12} md={4} lg={3} >
                     <CardCustomer>
                         <p style={{ color: PRIMARYCOLOR }}>
                             <strong>
                                 Register at:
-                            </strong> {customer.createdAt}
+                            </strong> {moment(customer.createdAt).format("DD/MM/YYYY")}
                         </p>
                         <p style={{ color: PRIMARYCOLOR }}>
                             <strong>
@@ -62,7 +66,7 @@ const Customers: NextPage<Props> = ({ }) => {
             ))}
         </Container>
 
-    </div>
+    </Box>
 }
 
 export default Customers

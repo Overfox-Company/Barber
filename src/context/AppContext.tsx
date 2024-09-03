@@ -64,7 +64,7 @@ export const AppContextProvider: React.FC<ProviderProps> = ({ children }) => {
             const { personal } = resPersonal.data || {};
             const { customers } = resCustomers.data || {};
             // console.log("logs")
-            //console.log(customers)
+            console.log(payments)
             if (payments) {
                 setPayments(payments);
             }

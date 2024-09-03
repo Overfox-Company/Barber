@@ -67,7 +67,7 @@ const SendData: NextPage<Props> = ({ }) => {
 
     }, [countDown])
     useEffect(() => {
-        if (time < 1) {
+        if (time === 0) {
             route.push('/')
         }
         //  console.log("veces que se pinta")

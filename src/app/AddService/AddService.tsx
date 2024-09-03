@@ -48,15 +48,19 @@ const AddService: NextPage<Props> = ({ }) => {
     }
     const [selectedValue, setSelectedValue] = useState(emails[1]);
     return <div>
-        <Container justifyContent={"center"}>
+        <Container justifyContent={"center"} style={{ height: '100vh' }} alignItems='center'>
             <Item xs={12} md={6} lg={6} xl={5}>
 
-                <div style={{
+                <Box style={{
                     height: 550,
                     backgroundColor: 'white',
-                    padding: 40,
-                    borderRadius: 20,
+
+                    marginBottom: 20,
                     boxShadow: '0 8px 8px rgba(0, 0, 45, 0.1)',
+                }} sx={{
+                    borderRadius: { xs: 4, },
+                    padding: { xs: 4, lg: 2 },
+                    height: { xs: 800, lg: 600 },
                 }}>
 
                     <div style={{ display: 'flex', gap: 4 }}>
@@ -78,7 +82,7 @@ const AddService: NextPage<Props> = ({ }) => {
                     {step === 1 ? <Step2 setStep={setStep} data={data} setData={setData} /> : null}
                     {step === 2 ? <Step3 setStep={setStep} data={data} setData={setData} /> : null}
 
-                </div>
+                </Box>
             </Item>
         </Container>
 

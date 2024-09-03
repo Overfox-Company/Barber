@@ -72,7 +72,7 @@ const Chart: NextPage<Props> = ({ state, setState, dataset, date, maxValue }) =>
             />
         </Popover>
         <Container>
-            <Item xs={4}>
+            <Item xs={12} lg={4}>
                 <BoxDate aria-describedby={id} onClick={handleClick}>
                     <DateRangeText>
                         {moment(state[0].startDate).format("MMM D, YYYY")} - {moment(state[0].endDate).format("MMM D, YYYY")}
@@ -118,7 +118,7 @@ const Chart: NextPage<Props> = ({ state, setState, dataset, date, maxValue }) =>
                     })
                 })
             }
-            height={350}
+            height={340}
             grid={{ vertical: true, horizontal: true }}
         >
             <defs>
