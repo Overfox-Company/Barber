@@ -61,7 +61,8 @@ const SendData: NextPage<Props> = ({ }) => {
 
         if (countDown) {
             setInterval(() => {
-                setTime(prev => prev === 0 ? 0 : - 1)
+
+                setTime(prev => prev - 1)
             }, 1000)
         }
 
