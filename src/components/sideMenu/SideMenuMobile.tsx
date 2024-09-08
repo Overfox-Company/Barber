@@ -17,7 +17,11 @@ const SideMenuMobile: NextPage<Props> = ({ }) => {
     const [show, setShow] = useState(false)
 
     useEffect(() => { setTimeout(() => { setShow(true) }, 100) }, [])
-    return <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-start' }}>
+    return <div style={{
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'flex-start'
+    }}>
         <SwipeableDrawer
             anchor={'left'}
             open={openDrawer}
@@ -36,18 +40,20 @@ const SideMenuMobile: NextPage<Props> = ({ }) => {
             <MenuIcon size={30} />
         </IconButton>
         {show ?
-            <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 10, gap: 10, width: '78%' }}>
-
+            <Box style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: 10,
+                gap: 10,
+                width: '78%'
+            }}>
                 {buttons[menuSelecte].icon}
                 <NameUser>
                     {buttons[menuSelecte].label}
                 </NameUser>
-
             </Box>
-
-
             : null}
-
     </div>
 }
 

@@ -20,8 +20,9 @@ export const buttons = [
     }, {
         label: 'History',
         icon: <HistoryIcon size={sizeIcons} />
-    }, {
-        label: 'Reports',
-        icon: <MetricsIcon size={sizeIcons} />
     },
+    //{
+    //label: 'Reports',
+    //    icon: <MetricsIcon size={sizeIcons} />
+    //},
 ]
