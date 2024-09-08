@@ -60,26 +60,35 @@ const WorkersModal = (props: Props) => {
         changeValue((prev: any) => ({ ...prev, worker: id }))
     }
     return (
-        <Dialog onClose={handleClose} open={open} maxWidth="xs" fullWidth>
+        <Dialog onClose={handleClose} open={open} maxWidth="md" fullWidth>
             <DialogContent>
                 <div style={{ display: 'flex', gap: 10 }}>
-                    {personal.length > 0 ? personal.map((worker) => (
-                        <ContainerCardWorker key={worker._id} onClick={() => SelectValue(worker._id)}
-                            style={{ backgroundColor: selectedValue.toString() === worker._id.toString() ? PRIMARYCOLORHOVER : 'white' }}
-                        >
-                            <div style={{ width: 160, height: 140, position: 'relative' }}>
-                                <Image src={worker.avatar}
-                                    style={{ borderRadius: 6 }}
-                                    layout="fill"
-                                    objectFit="cover"
-                                    alt="#" />
-
-                            </div>
-                            <NameUser size={14}>
-                                {worker.name}
-                            </NameUser>
-                        </ContainerCardWorker>
-                    )) : null}
+                    <Container>
+                        {personal.length > 0 ? personal.map((worker) => (
+                            <Item xs={3} key={worker._id}>
+                                <ContainerCardWorker onClick={() => SelectValue(worker._id)}
+                                    style={{
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        flexDirection: 'column',
+                                        alignItems: 'center',
+                                        backgroundColor: selectedValue.toString() === worker._id.toString() ? PRIMARYCOLORHOVER : 'white'
+                                    }}
+                                >
+                                    <div style={{ width: 160, height: 140, position: 'relative' }}>
+                                        <Image src={worker.avatar}
+                                            style={{ borderRadius: 6 }}
+                                            layout="fill"
+                                            objectFit="cover"
+                                            alt="#" />
+                                    </div>
+                                    <NameUser size={14}>
+                                        {worker.name}
+                                    </NameUser>
+                                </ContainerCardWorker>
+                            </Item>
+                        )) : null}
+                    </Container>
                 </div>
             </DialogContent>
         </Dialog>

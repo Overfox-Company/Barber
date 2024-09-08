@@ -8,7 +8,7 @@ interface Props { }
 
 const Personal: NextPage<Props> = ({ }) => {
     return <div style={{ width: '100%', }}>
-        <Container justifyContent={"center"}>
+        <Container justifyContent={"center"} alignItems='center'>
             <Item xs={11} >
                 <Box style={{
                     backgroundColor: 'white',
@@ -16,13 +16,13 @@ const Personal: NextPage<Props> = ({ }) => {
                 }} sx={{
                     borderRadius: { xs: 4, },
                     padding: { xs: 4, lg: 2 },
-                    height: { xs: 700, lg: 600 },
+                    minHeight: { xs: 700, lg: 600 },
                 }}>
-                    <Container style={{ height: '100%' }} columnSpacing={2}>
-                        <Item xs={12} lg={8}>
+                    <Container style={{ height: '100%' }} alignItems='center' columnSpacing={2} rowSpacing={2}>
+                        <Item xs={12} lg={6}>
                             <AddPersonal />
                         </Item>
-                        <Item xs={12} lg={4}>
+                        <Item xs={12} lg={6}>
                             <ListBarbers />
                         </Item>
                     </Container>

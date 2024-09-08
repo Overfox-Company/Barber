@@ -47,7 +47,7 @@ const Step1: NextPage<Props> = ({ setStep, data, setData }) => {
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'flex-end'
+        justifyContent: 'center'
     }}>
         <WorkersModal
             open={openModal}
@@ -56,7 +56,7 @@ const Step1: NextPage<Props> = ({ setStep, data, setData }) => {
             onClose={() => setOpenModal(false)}
         />
 
-        <Container columnSpacing={4} justifyContent={"center"} style={{ marginBottom: '14vh' }} rowSpacing={4}>
+        <Container columnSpacing={4} justifyContent={"center"} style={{ marginBottom: '10vh' }} rowSpacing={4}>
             <Item xs={12}>
                 <Title style={{ textAlign: 'center' }}>
                     Barber
