@@ -1,4 +1,4 @@
-import { Avatar, Box, Typography } from '@mui/material'
+import { Avatar, Box, Button, IconButton, Tooltip, Typography } from '@mui/material'
 import { NextPage } from 'next'
 import styled from '@emotion/styled'
 import { useEffect } from 'react'
@@ -12,6 +12,131 @@ import { PRIMARYCOLOR } from '@/constants/Colors';
 import FadeIn from '@/components/animation/FadeIn';
 import { Widgets } from '@mui/icons-material';
 import moment from 'moment';
+import MetricsIcon from '@/icons/MetricsIcon';
+import jsPDF from 'jspdf';
+
+const generatePDF = (date: string, nameBarber: string, payments: any[]) => {
+    const doc = new jsPDF();
+    let y = 0
+    let x = 0
+    // Obtener el ancho y alto de la página del PDF
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+
+    // Configura el color de fondo del contenedor
+    doc.setFillColor(0, 40, 89); // Color de fondo (RGB)
+    // Dibuja un rectángulo de fondo (contenedor)
+    const containerX = 0; // Posición X del contenedor
+    const containerY = 0; // Posición Y del contenedor
+    const containerWidth = pageWidth; // Ancho del contenedor (dejar un margen)
+    const containerHeight = 30; // Alto del contenedor
+
+    doc.rect(containerX, containerY, containerWidth, containerHeight, 'F');
+    doc.addImage("/assets/l.png", 'PNG', x, y, 30, 30);
+    x += 5
+    y += 40
+
+    ////////////////////////////////////////////////////////
+    doc.setTextColor(30, 30, 30); // Cambiar a rojo
+    doc.setFontSize(12); // Cambiar tamaño del texto
+    doc.setFont('helvetica', 'bold');
+    doc.text(`Payment report`, x, y);
+    y += 12
+    /////////////////////////////////////
+    let w = 120
+    doc.setFillColor(40, 40, 40);
+    doc.rect(x, y - 9, w, 10);
+    doc.setFont('helvetica', 'bold');
+    doc.text(`Name`, x + 1, y);
+    ////////////////////////////
+    doc.setFillColor(40, 40, 40);
+    doc.rect(x + w, y - 9, 80, 10);
+    doc.setFont('helvetica', 'bold');
+    doc.text(`Date rangue`, x + w + 1, y);
+    y += 10
+    ////////////////////////////////
+    doc.setFillColor(40, 40, 40);
+    doc.rect(x, y - 9, w, 10);
+    doc.setFont('helvetica', 'nomal');
+    doc.text(`${nameBarber}`, x + 1, y);
+    ////////////////////////////
+    doc.setFillColor(40, 40, 40);
+    doc.rect(x + w, y - 9, 80, 10);
+    doc.setFont('helvetica', 'nomal');
+    doc.text(`${date}`, x + w + 1, y);
+    y += 20
+
+
+    /////////////////////////////////
+    let w1 = 40
+    doc.setFillColor(40, 40, 40);
+    doc.rect(x, y - 9, w1, 10);
+    doc.setFont('helvetica', 'bold');
+    doc.text(`Hour`, x + 1, y);
+    ////////////////////////////
+
+    doc.setFillColor(40, 40, 40);
+    doc.rect(x + 40, y - 9, 80, 10);
+    doc.setFont('helvetica', 'bold');
+    doc.text(`Date`, x + w1 + 1, y);
+    //////////////////////////////////////
+    w1 += 80
+    doc.setFillColor(40, 40, 40);
+    doc.rect(x + w1, y - 9, 80, 10);
+    doc.setFont('helvetica', 'bold');
+    doc.text(`Tip`, x + w + 1, y);
+    y += 10
+    w1 = 40
+    ////////////////////////////////////////
+    let total = 0
+    // Altura de la página
+    const marginBottom = 20; // Espacio inferior antes de crear una nueva página
+
+    for (let i = 0; i < payments.length; i++) {
+        // Primer bloque
+        doc.setFillColor(40, 40, 40);
+        doc.rect(x, y - 9, w1, 10);
+        doc.setFont('helvetica', 'normal');
+        doc.text(moment(payments[i].createdAt).format("HH:mm"), x + 1, y);
+
+        // Segundo bloque
+        doc.setFillColor(40, 40, 40);
+        doc.rect(x + 40, y - 9, 80, 10);
+        doc.setFont('helvetica', 'normal');
+        doc.text(moment(payments[i].createdAt).format("DD/MM/YYYY"), x + w1 + 1, y);
+
+        // Tercer bloque
+        w1 += 80;
+        doc.setFillColor(40, 40, 40);
+        doc.rect(x + w1, y - 9, 80, 10);
+        doc.setFont('helvetica', 'normal');
+        doc.text(`$${payments[i].tip}`, x + w + 1, y);
+
+        total += parseFloat(payments[i].tip)
+        // Ajustes para la siguiente iteración
+        y += i === 16 ? 500 : 10;
+        w1 = 40;
+        total += parseFloat(payments[i].tip)
+        if (y > pageHeight - marginBottom) {
+            doc.addPage(); // Agregar una nueva página
+            y = 20; // Reiniciar la posición Y para la nueva página
+        }
+    }
+
+    y += 10;
+    doc.setFillColor(40, 40, 40);
+    doc.rect(x, y - 9, 120, 10);
+    doc.setFont('helvetica', 'bold');
+    doc.text(`Total tips`, x, y);
+    /////////////////////////////////
+    doc.setFillColor(40, 40, 40);
+    doc.rect(x + w, y - 9, 80, 10);
+    doc.setFont('helvetica', 'bold');
+    doc.text(`$${total.toFixed(2)}`, x + w + 1, y);
+
+    doc.save(nameBarber + "/" + date);
+};
+
 interface Props { dataFilter: any }
 const ContainerWorker = styled(Box)({
     width: '100%',
@@ -41,10 +166,16 @@ const ResponsiveData = {
 }
 const Table: NextPage<Props> = ({ dataFilter }) => {
     useEffect(() => { console.log(dataFilter) }, [dataFilter])
+    const generateReport = (e: any, data: any) => {
+        e.stopPropagation()
+
+        generatePDF(data.range, data.name, data.paymentsByWorker.reverse())
+    }
     return <div>
-        <Container sx={{ width: { xs: '72vw', lg: '67vw' } }} alignItems='center'>
-            <Item xs={6}>
+        <Container sx={{ width: { xs: '72vw', lg: '68vw' } }} alignItems='center'>
+            <Item xs={5}>
                 <WorkerDataTitle sx={ResponsiveTitles}>Barber</WorkerDataTitle >
+
             </Item>
             <Item xs={3}>
                 <WorkerDataTitle sx={ResponsiveTitles}>Total  Cuts</WorkerDataTitle >
@@ -52,10 +183,12 @@ const Table: NextPage<Props> = ({ dataFilter }) => {
             <Item xs={3}>
                 <WorkerDataTitle sx={ResponsiveTitles}>Total tips</WorkerDataTitle >
             </Item>
-
+            <Item xs={1}>
+                <WorkerDataTitle sx={ResponsiveTitles}></WorkerDataTitle >
+            </Item>
         </Container>
         <br />
-        {dataFilter.filter((e: any) => e.jobs > 0).map((data: any) => {
+        {dataFilter.map((data: any) => {
             return <FadeIn key={data.name}>
 
                 <Accordion>
@@ -65,7 +198,7 @@ const Table: NextPage<Props> = ({ dataFilter }) => {
                         id="panel1-header"
                     >
                         <Container alignItems='center'>
-                            <Item xs={6}>
+                            <Item xs={5}>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                                     <Avatar src={data.avatar} sx={{ width: 32, height: 32 }} />
                                     <WorkerData sx={ResponsiveData}>
@@ -80,10 +213,30 @@ const Table: NextPage<Props> = ({ dataFilter }) => {
                                     {data.jobs}
                                 </WorkerData>
                             </Item>
-                            <Item xs={3} style={{ display: 'flex', }}>
+                            <Item xs={2} style={{ display: 'flex', }}>
                                 <WorkerData sx={ResponsiveData}>
                                     ${data.totalTip.toFixed(2)}
                                 </WorkerData>
+                            </Item>
+                            <Item xs={2}>
+                                <Tooltip title="Generate Report" arrow placement='top'
+
+                                    sx={{
+                                        '& .MuiTooltip-popper': {
+                                            backgroundColor: 'red !important',   // Color de fondo
+                                            color: '#fff',             // Color del texto
+                                            fontSize: '14px',          // Tamaño del texto
+                                            borderRadius: '4px',       // Bordes redondeados
+                                            padding: '10px',           // Espaciado interno
+                                        },
+                                    }}
+                                >
+                                    <IconButton style={{ borderRadius: 200, }} onClick={(e) => generateReport(e, data)}>
+
+                                        <MetricsIcon size={25} />
+                                    </IconButton>
+                                </Tooltip>
+
                             </Item>
                         </Container>
                     </AccordionSummary>
@@ -144,7 +297,7 @@ const Table: NextPage<Props> = ({ dataFilter }) => {
 
                 </ContainerWorker> </FadeIn>
         })}
-    </div>
+    </div >
 }
 
 export default Table

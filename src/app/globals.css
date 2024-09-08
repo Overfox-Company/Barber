@@ -73,3 +73,15 @@ a {
 .css-1tfmlru-MuiResponsiveChart-container {
   /* width: 100% !important;*/
 }
+
+.MuiTooltip-tooltip {
+  background-color: #EFF2F7 !important;
+  color: #002859 !important;
+  font-weight: 700;
+  box-shadow: 0 2px 5px 0 rgba(45, 45, 46, 0.199);
+}
+
+.MuiTooltip-arrow {
+  color: #002859 !important;
+  font-weight: 700;
+}

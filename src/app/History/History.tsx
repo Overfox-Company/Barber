@@ -21,10 +21,10 @@ const History: NextPage<Props> = ({ }) => {
     const [date, setDate] = useState<string[]>([])
     const [state, setState] = useState<any[]>([
         {
-            startDate: new Date(),
-            endDate: new Date(new Date().setDate(new Date().getDate() + 15)),
-            key: 'selection'
-        }
+            startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1), // Primer día del mes actual
+            endDate: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0), // Último día del mes actual
+            key: 'selection',
+        },
     ]);
     const [maxValue, setMaxValue] = useState(5)
     const getPayments2 = async () => {
@@ -119,7 +119,8 @@ const History: NextPage<Props> = ({ }) => {
                         avatar: worker.avatar,
                         jobs: jobs,
                         totalTip: totalTip,
-                        paymentsByWorker: workerPayments
+                        paymentsByWorker: workerPayments,
+                        range: moment(state[0].startDate).format("DD/MM/YYYY") + "-" + moment(state[0].endDate).format("DD/MM/YYYY")
                     };
                 });
                 console.log(cloneDataset)
