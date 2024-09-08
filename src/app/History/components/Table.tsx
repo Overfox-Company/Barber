@@ -55,7 +55,7 @@ const Table: NextPage<Props> = ({ dataFilter }) => {
 
         </Container>
         <br />
-        {dataFilter.map((data: any) => {
+        {dataFilter.filter((e: any) => e.jobs > 0).map((data: any) => {
             return <FadeIn key={data.name}>
 
                 <Accordion>

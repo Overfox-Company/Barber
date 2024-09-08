@@ -9,6 +9,7 @@ import { NameUser, TextDialog } from '@/components/UI/Text'
 import { PRIMARYCOLORHOVER } from '@/constants/Colors'
 import DeleteIcon from '@/icons/DeleteIcon'
 import ApiController from '@/controller/ApiController'
+import { Container, Item } from '@/components/Layout/Layout'
 interface Props { }
 const Card = styled(Box)({
     position: 'relative',
@@ -16,9 +17,10 @@ const Card = styled(Box)({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 180,
+    height: 140,
     padding: 4,
     width: 140,
+    // backgroundColor: 'red',
     borderRadius: 12,
     border: `solid 1px ${PRIMARYCOLORHOVER}`,
 })
@@ -39,30 +41,36 @@ const ListBarbers: NextPage<Props> = ({ }) => {
         </TextDialog>
         <div style={{
             justifyContent: 'flex-start',
-            flexWrap: 'wrap',
+            // flexWrap: 'wrap',
             display: "flex",
-            gap: 6,
 
         }}>
-            {personal.length > 0 ? personal.map((person) => (
-                <Card style={{ flex: "0 0 25%", }} key={person._id}>
-                    <div style={{ position: 'absolute', top: 4, right: 4, zIndex: 99 }}>
-                        <IconButton onClick={() => deleteWorker(person._id)}>
-                            <DeleteIcon size={24} />
-                        </IconButton>
+            <Container>
+                {personal.length > 0 ? personal.map((person) => (
+                    <Item xs={4} key={person._id} style={{ position: 'relative', }}>
+                        <div style={{ position: 'absolute', top: 0, right: 0, zIndex: 99 }}>
+                            <IconButton onClick={() => deleteWorker(person._id)}>
+                                <DeleteIcon size={24} />
+                            </IconButton>
 
-                    </div>
-                    <div style={{
-                        width: 100, height: 100, position: 'relative'
-                    }}>
-                        <Image src={person.avatar} fill objectFit='contain' alt='' style={{ borderRadius: 8 }} />
+                        </div>
+                        <Card >
 
-                    </div>
-                    <NameUser size={14}>
-                        {person.name.length > 16 ? `${person.name.substring(0, 16)}...` : person.name}
-                    </NameUser>
-                </Card>
-            )) : null}
+                            <div style={{
+                                width: 100, height: 100, position: 'relative'
+                            }}>
+                                <Image src={person.avatar} fill objectFit='contain' alt='' style={{ borderRadius: 8 }} />
+
+                            </div>
+                            <NameUser size={14}>
+                                {person.name.length > 16 ? `${person.name.substring(0, 16)}...` : person.name}
+                            </NameUser>
+                        </Card>
+                    </Item>
+
+                )) : null}
+            </Container>
+
         </div>
 
     </div>
