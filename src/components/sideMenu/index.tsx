@@ -4,9 +4,11 @@ import ListButtons from './components/ListButtons'
 import { CloseButton, SideMenuButton } from '../UI/Buttons'
 import UserData from './components/UserData'
 import LogOutIcon from '@/icons/LogOutIcon'
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useContext, useEffect, useState } from 'react'
 import { Box } from '@mui/material'
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import UserIcon from '@/icons/UserIcon'
+import { AppContext } from '@/context/AppContext'
 interface Props {
     mobile?: boolean,
     setClose?: Dispatch<SetStateAction<boolean>>
@@ -16,16 +18,25 @@ interface Props {
 const SideMenu: NextPage<Props> = ({ mobile, setClose }) => {
     const [show, setShow] = useState(false)
     const pathname = usePathname(); // Obtener la ruta actual
-
+    const router = useRouter()
+    const { logOut } = useContext(AppContext)
     // Define la ruta específica donde no quieres que se renderice el SideMenu
     // Cambia "/ruta-especifica" por la ruta que quieras
-
+    const [isLogged, setIsLogged] = useState(true)
     useEffect(() => {
+
+        const storage = localStorage.getItem("ad")
+        if (storage === 'Luis') {
+            setIsLogged(true)
+        } else {
+            setIsLogged(false)
+        }
         const hideSideMenu = pathname === "/"
         setTimeout(() => {
             setShow(hideSideMenu)
         }, 100)
     }, [pathname])
+
     return show ? <div style={{
         backgroundColor: 'white',
         height: mobile ? '92vh' : '100vh',
@@ -39,13 +50,23 @@ const SideMenu: NextPage<Props> = ({ mobile, setClose }) => {
         {mobile && setClose ? <Box style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <CloseButton onClick={() => setClose(false)} />
         </Box> : null}
-        <UserData />
-        <ListButtons setClose={setClose} />
-        <SideMenuButton icon={
-            <LogOutIcon size={40} />
-        } logOut>
-            Log out
-        </SideMenuButton>
+        <UserData isLogged={isLogged} />
+        <ListButtons setClose={setClose} isLogged={isLogged} />
+
+        {isLogged ?
+            <SideMenuButton icon={
+                <LogOutIcon size={40} />
+            } logOut onClick={() => logOut()}>
+                Log out
+            </SideMenuButton>
+            :
+            <SideMenuButton icon={
+                <UserIcon size={25} />
+            } logOut onClick={() => router.push("/login")}>
+                Sig In
+            </SideMenuButton>
+        }
+
     </div> : null
 }
 

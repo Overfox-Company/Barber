@@ -9,7 +9,7 @@ interface Props { size: number }
 
 const AvatarUser: NextPage<Props> = ({ size }) => {
     const { user } = useContext(AppContext)
-    return <Avatar src={user.avatar || './assets/profile.png'} sx={{ width: size, height: size }} />
+    return <Avatar src={user.avatar || './assets/l.png'} sx={{ width: size, height: size }} />
 }
 
 export default AvatarUser

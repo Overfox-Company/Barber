@@ -1,6 +1,6 @@
 'use client'
 import ApiController from '@/controller/ApiController';
-
+import { useRouter } from 'next/navigation';
 import React, { createContext, useState, useEffect, Dispatch, SetStateAction } from "react";
 const SnackbarInitial = {
     message: '',
@@ -24,6 +24,10 @@ type ContextData = {
     getData: () => void,
     customers: any[],
     setCustomers: Dispatch<SetStateAction<any[]>>,
+    logOut: any,
+    login: any,
+    isSnackbarOpen: typeof SnackbarInitial,
+    setSnackbarOpen: Dispatch<SetStateAction<typeof SnackbarInitial>>,
 };
 export const AppContext = createContext<ContextData>({
     menuSelecte: 0,
@@ -37,11 +41,15 @@ export const AppContext = createContext<ContextData>({
     getData: () => { },
     customers: [],
     setCustomers: () => { },
-
+    logOut: () => { },
+    login: () => { },
+    isSnackbarOpen: SnackbarInitial,
+    setSnackbarOpen: () => { },
 
 });
 
 export const AppContextProvider: React.FC<ProviderProps> = ({ children }) => {
+    const router = useRouter()
     const initialMenu = parseInt(typeof localStorage != 'undefined' ? localStorage.getItem('menu') || '0' : "0")
     const [menuSelecte, setMenuSelected] = useState(initialMenu)
     const [user, setUser] = useState({})
@@ -82,13 +90,28 @@ export const AppContextProvider: React.FC<ProviderProps> = ({ children }) => {
 
     useEffect(() => {
         getData()
-
-    }, [
-
-    ])
+    }, [])
+    const login = (user: string, pass: string) => {
+        console.log(user)
+        if (user.toLocaleLowerCase() === 'luis' && pass === 'Haircut2024') {
+            localStorage.setItem("ad", "Luis")
+            router.push("/")
+        } else {
+            setSnackbarOpen({ message: "invalid credentials", type: "error" })
+        }
+    }
+    const logOut = () => {
+        localStorage.removeItem("ad")
+        router.refresh()
+        window.location.reload()
+    }
     return (
         <AppContext.Provider
             value={{
+                isSnackbarOpen,
+                setSnackbarOpen,
+                logOut,
+                login,
                 customers,
                 setCustomers,
                 getData,

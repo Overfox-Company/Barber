@@ -9,6 +9,7 @@ import { PrincipalContainer } from "@/components/Layout/Layout";
 import { Box } from "@mui/material";
 import SideMenuMobile from "@/components/sideMenu/SideMenuMobile";
 import SideMenu from "@/components/sideMenu";
+import SnackbarCustom from "@/components/UI/Alerts";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -28,7 +29,7 @@ export default function RootLayout({
       <html lang="en">
         <AppContextProvider>
           <body className={inter.className}>
-
+            <SnackbarCustom />
             <Box sx={{ display: { xs: 'static', md: 'flex' }, }} >
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                 <SideMenu />

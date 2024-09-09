@@ -9,8 +9,8 @@ import { buttons } from './data'
 
 
 
-interface Props { setClose?: Dispatch<SetStateAction<boolean>> }
-const ListButtons: NextPage<Props> = ({ setClose }) => {
+interface Props { setClose?: Dispatch<SetStateAction<boolean>>, isLogged: boolean }
+const ListButtons: NextPage<Props> = ({ setClose, isLogged }) => {
     const { setMenuSelected, menuSelecte } = useContext(AppContext);
 
     const handleClick = (index: number) => {
@@ -20,9 +20,17 @@ const ListButtons: NextPage<Props> = ({ setClose }) => {
             setClose(false)
         }
     }
+    useEffect(() => {
+        if (!isLogged) {
+            setMenuSelected(0)
+        }
+        return () => {
+
+        };
+    }, [isLogged]);
     return <div style={{ height: '70%' }}><FadeIn>
 
-        {buttons.map((button, index) => {
+        {buttons.filter((e, i) => isLogged || i === 0).map((button, index) => {
             return (
                 <SideMenuButton
                     key={button.label}

@@ -5,22 +5,22 @@ import styled from '@emotion/styled'
 import { Box } from '@mui/material'
 import { NextPage } from 'next'
 
-interface Props { }
+interface Props { isLogged: boolean }
 const Container = styled(Box)({
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
     alignItems: 'center'
 })
-const UserData: NextPage<Props> = ({ }) => {
+const UserData: NextPage<Props> = ({ isLogged }) => {
     return <Container>
-        <AvatarUser size={70} />
+        <AvatarUser size={140} />
         <UserRol>
-            Admin
+            {isLogged ? "Admin" : 'Barber'}
         </UserRol>
-        <NameUser>
+        {isLogged ? <NameUser>
             Luis Perez
-        </NameUser>
+        </NameUser> : null}
     </Container>
 }
 
