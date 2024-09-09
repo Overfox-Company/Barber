@@ -34,64 +34,69 @@ const Page: NextPage<Props> = ({ }) => {
     return <div
         style={{ width: "100%", height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
     >
-        <Box style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: 400,
-            height: 480,
-            flexDirection: 'column',
-            backgroundColor: 'white',
-            padding: 40,
-            borderRadius: 20,
-            boxShadow: '0 8px 8px rgba(0, 0, 45, 0.1)',
-        }}>
-            <Container>
-                <Item xs={12}>
-                    <Title>
-                        Login
-                    </Title>
+        <Container justifyContent={"center"}>
+            <Item xs={12} md={6} lg={4}>
+                <Box style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: "100%",
+                    height: 480,
+                    flexDirection: 'column',
+                    backgroundColor: 'white',
+                    padding: 40,
+                    borderRadius: 20,
+                    boxShadow: '0 8px 8px rgba(0, 0, 45, 0.1)',
+                }}>
+                    <Container>
+                        <Item xs={12}>
+                            <Title>
+                                Login
+                            </Title>
 
-                </Item>
-                <Item xs={12}>
-                    <Formik
-                        onSubmit={(values) => SendValues(values)}
-                        initialValues={{ user: '', password: '' }}
-                        validationSchema={validationSchema}
-                    >
-                        {({ errors, touched }) => (
-                            <Form
-                            //  onChange={(e: any) => ChangeTax(e.target.name, e.target.value)}
+                        </Item>
+                        <Item xs={12}>
+                            <Formik
+                                onSubmit={(values) => SendValues(values)}
+                                initialValues={{ user: '', password: '' }}
+                                validationSchema={validationSchema}
                             >
-                                <Container columnSpacing={{ xs: 1, lg: 4 }} rowSpacing={2}>
+                                {({ errors, touched }) => (
+                                    <Form
+                                    //  onChange={(e: any) => ChangeTax(e.target.name, e.target.value)}
+                                    >
+                                        <Container columnSpacing={{ xs: 1, lg: 4 }} rowSpacing={2}>
 
-                                    <Item xs={12}>
-                                        <Input name="user" error={errors.user} touched={touched.user} label="User" placeholder='your user name' />
-                                    </Item>
-                                    <Item xs={12}>
-                                        <Input name="password" error={errors.password} touched={touched.password} label="Password" placeholder='*********' type='password' />
-                                    </Item>
+                                            <Item xs={12}>
+                                                <Input name="user" error={errors.user} touched={touched.user} label="User" placeholder='your user name' />
+                                            </Item>
+                                            <Item xs={12}>
+                                                <Input name="password" error={errors.password} touched={touched.password} label="Password" placeholder='*********' type='password' />
+                                            </Item>
 
-                                    <Item xs={12}>
-                                        <ContainedButton lowerCase type="submit">
-                                            Log In
-                                        </ContainedButton>
-                                    </Item>
-                                    <Item xs={12}>
-                                        <OutlinedButton lowerCase onClick={() => router.push("/")}>
-                                            Back
-                                        </OutlinedButton>
-                                    </Item>
-                                </Container>
+                                            <Item xs={12}>
+                                                <ContainedButton lowerCase type="submit">
+                                                    Log In
+                                                </ContainedButton>
+                                            </Item>
+                                            <Item xs={12}>
+                                                <OutlinedButton lowerCase onClick={() => router.push("/")}>
+                                                    Back
+                                                </OutlinedButton>
+                                            </Item>
+                                        </Container>
 
-                            </Form>
-                        )}
+                                    </Form>
+                                )}
 
-                    </Formik>
-                </Item>
-            </Container>
+                            </Formik>
+                        </Item>
+                    </Container>
 
-        </Box>
+                </Box>
+            </Item>
+        </Container>
+
     </div>
 }
 
