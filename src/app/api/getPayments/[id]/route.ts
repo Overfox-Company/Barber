@@ -1,8 +1,8 @@
 
 import { uploadFileToCloudinary } from "@/app/functions/Cloudinary";
-import { connectDB } from "../database/MongoConnect";
-import { Personal } from "../models/Personal";
-import { Payment } from "../models/Payments";
+import { connectDB } from "../../database/MongoConnect";
+import { Personal } from "../../models/Personal";
+import { Payment } from "../../models/Payments";
 
 
 

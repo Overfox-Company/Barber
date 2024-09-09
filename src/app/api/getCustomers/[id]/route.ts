@@ -1,5 +1,5 @@
-import { connectDB } from "../database/MongoConnect";
-import { Customers } from "../models/Customers";
+import { connectDB } from "../../database/MongoConnect";
+import { Customers } from "../../models/Customers";
 
 export async function GET(req: Request) {
     try {

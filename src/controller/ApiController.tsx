@@ -1,7 +1,7 @@
 
 import { PaymentsType } from "@/types/Payments";
 import axios from "axios";
-
+import { v4 as uuidv4 } from 'uuid';
 
 
 // Define the base URL for the API
@@ -108,10 +108,10 @@ const ApiController = {
             'Content-Type': 'multipart/form-data',
         }
     }),
-    deleteWorker: (id: string) => api.post('/deleteWorker', { id }),
+    deleteWorker: (id: string) => api.post(`/deleteWorker/${uuidv4()}`, { id }),
     addPayments: (data: PaymentsType) => api.post('/addPayments', data),
-    getPayments: () => api.get('/getPayments'),
-    getCustomers: () => api.get('/getCustomers')
+    getPayments: () => api.get(`/getPayments${uuidv4()}`),
+    getCustomers: () => api.get(`/getCustomers/${uuidv4()}`)
 };
 
 
