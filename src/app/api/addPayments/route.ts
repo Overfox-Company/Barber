@@ -14,12 +14,23 @@ export async function POST(req: Request) {
         if (!price || !tax || !worker || !total) {
             return new Response(JSON.stringify({ message: 'We need all camps', }))
         }
+
+        console.log(total)
+
+        console.log(price)
+        console.log(tax)
+        console.log(worker)
+        console.log(transaction_id)
+        console.log("-----------------")
+        console.log(phone)
+        console.log(client_id)
+        console.log(customer)
         const workerSearched = await Personal.findById(worker)
         if (!workerSearched._id) {
             return new Response(JSON.stringify({ message: 'Dont find worker', }))
         }
         let cId = null
-        if (!client_id && phone && price) {
+        if (!client_id && phone && customer) {
             try {
                 const newClient = new Customers({ name: customer, phone });
                 await newClient.save();
@@ -29,7 +40,9 @@ export async function POST(req: Request) {
                 // Continúa el flujo sin interrumpir en caso de error al crear el cliente
             }
         }
-
+        if (client_id) {
+            cId = client_id
+        }
         const newPayment = new Payment({ transaction_id, customer: cId, phone, price, tax, tip: tip || 0, worker: workerSearched.name, worker_id: workerSearched._id, total })
         const res = await Payment.find({ transaction_id })
         console.log(res)

@@ -19,6 +19,13 @@ const generatePDF = (date: string, nameBarber: string, payments: any[]) => {
     const doc = new jsPDF();
     let y = 0
     let x = 0
+
+    const fisrtColumn = 20
+    const secondColumn = 30
+    const thirdColumn = 30
+    const fourtyColumn = 20
+    const fiveColumn = 70
+    const sixColumn = 30
     // Obtener el ancho y alto de la página del PDF
     const pageWidth = doc.internal.pageSize.getWidth();
     const pageHeight = doc.internal.pageSize.getHeight();
@@ -41,6 +48,11 @@ const generatePDF = (date: string, nameBarber: string, payments: any[]) => {
     doc.setFontSize(12); // Cambiar tamaño del texto
     doc.setFont('helvetica', 'bold');
     doc.text(`Payment report`, x, y);
+    y += 12
+    doc.setTextColor(30, 30, 30); // Cambiar a rojo
+    doc.setFontSize(12); // Cambiar tamaño del texto
+    doc.setFont('helvetica', 'bold');
+    doc.text(`Report date: ${moment().format('DD/MM/YYYY HH:mm')}`, x, y);
     y += 12
     /////////////////////////////////////
     let w = 120
@@ -68,23 +80,42 @@ const generatePDF = (date: string, nameBarber: string, payments: any[]) => {
 
 
     /////////////////////////////////
-    let w1 = 40
+    let w1 = 0
     doc.setFillColor(40, 40, 40);
-    doc.rect(x, y - 9, w1, 10);
+    doc.rect(x, y - 9, fisrtColumn, 10);
     doc.setFont('helvetica', 'bold');
     doc.text(`Hour`, x + 1, y);
     ////////////////////////////
-
+    w1 += 20
     doc.setFillColor(40, 40, 40);
-    doc.rect(x + 40, y - 9, 80, 10);
+    doc.rect(x + w1, y - 9, secondColumn, 10);
     doc.setFont('helvetica', 'bold');
     doc.text(`Date`, x + w1 + 1, y);
+    w1 += 30
     //////////////////////////////////////
-    w1 += 80
     doc.setFillColor(40, 40, 40);
-    doc.rect(x + w1, y - 9, 80, 10);
+    doc.rect(x + w1, y - 9, thirdColumn, 10);
     doc.setFont('helvetica', 'bold');
-    doc.text(`Tip`, x + w + 1, y);
+    doc.text(`Service`, x + w1 + 1, y);
+    ///////////////
+    w1 += 30
+    doc.setFillColor(40, 40, 40);
+    doc.rect(x + w1, y - 9, fourtyColumn, 10);
+    doc.setFont('helvetica', 'bold');
+    doc.text(`Tip`, x + w1 + 1, y);
+
+    w1 += 20
+    doc.setFillColor(40, 40, 40);
+    doc.rect(x + w1, y - 9, fiveColumn, 10);
+    doc.setFont('helvetica', 'bold');
+    doc.text(`-30% (babershop commission)`, x + w1 + 1, y);
+    w1 += 70
+    doc.setFillColor(40, 40, 40);
+    doc.rect(x + w1, y - 9, sixColumn, 10);
+    doc.setFont('helvetica', 'bold');
+    doc.text(`Total`, x + w1 + 1, y);
+
+
     y += 10
     w1 = 40
     ////////////////////////////////////////
@@ -95,24 +126,45 @@ const generatePDF = (date: string, nameBarber: string, payments: any[]) => {
     for (let i = 0; i < payments.length; i++) {
         // Primer bloque
         doc.setFillColor(40, 40, 40);
-        doc.rect(x, y - 9, w1, 10);
+        doc.rect(x, y - 9, fisrtColumn, 10);
         doc.setFont('helvetica', 'normal');
         doc.text(moment(payments[i].createdAt).format("HH:mm"), x + 1, y);
 
         // Segundo bloque
         doc.setFillColor(40, 40, 40);
-        doc.rect(x + 40, y - 9, 80, 10);
+        doc.rect(x + 20, y - 9, secondColumn, 10);
         doc.setFont('helvetica', 'normal');
-        doc.text(moment(payments[i].createdAt).format("DD/MM/YYYY"), x + w1 + 1, y);
+        doc.text(moment(payments[i].createdAt).format("DD/MM/YYYY"), x + 20 + 1, y);
+        w1 += 10;
 
-        // Tercer bloque
-        w1 += 80;
         doc.setFillColor(40, 40, 40);
-        doc.rect(x + w1, y - 9, 80, 10);
+        doc.rect(x + 50, y - 9, thirdColumn, 10);
         doc.setFont('helvetica', 'normal');
-        doc.text(`$${payments[i].tip}`, x + w + 1, y);
+        doc.text("$" + payments[i].price, x + w1 + 1, y);
+        // Tercer bloque
+        w1 += 30;
+        doc.setFillColor(40, 40, 40);
+        doc.rect(x + w1, y - 9, fourtyColumn, 10);
+        doc.setFont('helvetica', 'normal');
+        doc.text(`$${payments[i].tip}`, x + w1 + 1, y);
+        w1 += 20;
+        doc.setFillColor(40, 40, 40);
+        doc.rect(x + w1, y - 9, fiveColumn, 10);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(250, 30, 30);
+        doc.text(`-$${parseFloat(payments[i].price) * 0.3}`, x + w1 + 1, y);
+        doc.setTextColor(30, 30, 30);
 
-        total += parseFloat(payments[i].tip)
+
+        w1 += 70;
+        doc.setFillColor(40, 40, 40);
+        doc.rect(x + w1, y - 9, sixColumn, 10);
+        doc.setFont('helvetica', 'normal');
+        const sevenPercent = parseFloat(payments[i].price) * 0.7
+        const tip = parseFloat(payments[i].tip)
+        const totalCalc = sevenPercent + tip
+        doc.text(`$${totalCalc.toFixed(2)}`, x + w1 + 1, y);
+        total += totalCalc
         // Ajustes para la siguiente iteración
         y += i === 16 ? 500 : 10;
         w1 = 40;
@@ -125,14 +177,14 @@ const generatePDF = (date: string, nameBarber: string, payments: any[]) => {
 
     y += 10;
     doc.setFillColor(40, 40, 40);
-    doc.rect(x, y - 9, 120, 10);
+    doc.rect(x, y - 9, 170, 10);
     doc.setFont('helvetica', 'bold');
-    doc.text(`Total tips`, x, y);
+    doc.text(`Total Payment`, x, y);
     /////////////////////////////////
     doc.setFillColor(40, 40, 40);
-    doc.rect(x + w, y - 9, 80, 10);
+    doc.rect(x + 170, y - 9, sixColumn, 10);
     doc.setFont('helvetica', 'bold');
-    doc.text(`$${total.toFixed(2)}`, x + w + 1, y);
+    doc.text(`$${total.toFixed(2)}`, x + 170 + 1, y);
 
     doc.save(nameBarber + "/" + date);
 };
@@ -168,8 +220,8 @@ const Table: NextPage<Props> = ({ dataFilter }) => {
     useEffect(() => { console.log(dataFilter) }, [dataFilter])
     const generateReport = (e: any, data: any) => {
         e.stopPropagation()
-
-        generatePDF(data.range, data.name, data.paymentsByWorker.reverse())
+        const reverse = data.paymentsByWorker
+        generatePDF(data.range, data.name, reverse)
     }
     return <div>
         <Container sx={{ width: { xs: '72vw', lg: '68vw' } }} alignItems='center'>
@@ -190,7 +242,6 @@ const Table: NextPage<Props> = ({ dataFilter }) => {
         <br />
         {dataFilter.map((data: any) => {
             return <FadeIn key={data.name}>
-
                 <Accordion>
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
@@ -202,11 +253,9 @@ const Table: NextPage<Props> = ({ dataFilter }) => {
                                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                                     <Avatar src={data.avatar} sx={{ width: 32, height: 32 }} />
                                     <WorkerData sx={ResponsiveData}>
-
                                         {data.name}
                                     </WorkerData>
                                 </div>
-
                             </Item>
                             <Item xs={3} style={{ display: 'flex', }}>
                                 <WorkerData sx={ResponsiveData}>
@@ -220,7 +269,6 @@ const Table: NextPage<Props> = ({ dataFilter }) => {
                             </Item>
                             <Item xs={2}>
                                 <Tooltip title="Generate Report" arrow placement='top'
-
                                     sx={{
                                         '& .MuiTooltip-popper': {
                                             backgroundColor: 'red !important',   // Color de fondo
@@ -232,11 +280,9 @@ const Table: NextPage<Props> = ({ dataFilter }) => {
                                     }}
                                 >
                                     <IconButton style={{ borderRadius: 200, }} onClick={(e) => generateReport(e, data)}>
-
                                         <MetricsIcon size={25} />
                                     </IconButton>
                                 </Tooltip>
-
                             </Item>
                         </Container>
                     </AccordionSummary>
@@ -291,11 +337,8 @@ const Table: NextPage<Props> = ({ dataFilter }) => {
                     </AccordionDetails>
                 </Accordion>
                 <ContainerWorker>
-
-
-
-
-                </ContainerWorker> </FadeIn>
+                </ContainerWorker>
+            </FadeIn>
         })}
     </div >
 }

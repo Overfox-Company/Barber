@@ -8,9 +8,10 @@ import styled from '@emotion/styled';
 import { Box, Typography } from '@mui/material';
 import { PRIMARYCOLOR } from '@/constants/Colors';
 import { ContainedButton, OutlinedButton } from '@/components/UI/Buttons';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useContext, useState } from 'react';
 import { Phone } from '@mui/icons-material';
 import { InitialData, InitialDataType } from '../AddService'
+import { AppContext } from '@/context/AppContext';
 interface Props {
     setStep: Dispatch<SetStateAction<number>>,
     setData: Dispatch<SetStateAction<InitialDataType>>,
@@ -31,6 +32,39 @@ const Title = styled(Typography)({
     fontSize: 24,
     fontWeight: 700
 })
+const InputStyled = styled.input({
+    padding: "6px",
+    width: '100%',
+    background: "#FFF",
+    paddingRight: 20,
+    marginBottom: 4,
+    border: 0,
+    fontSize: 16,
+    outline: "none",
+    color: PRIMARYCOLOR,
+    fontFamily: "Mulish",
+    '::placeholder': {
+        color: '#647184'
+    }
+})
+const Label = styled(Typography)({
+    color: PRIMARYCOLOR,
+    width: "100%",
+    fontSize: "16px",
+    textAlign: "left",
+    marginLeft: 5,
+    fontWeight: 700
+})
+const ContainerInput = styled.div({
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 8,
+    border: "solid 1px #E5E9F2",
+    borderRadius: '6px',
+    background: "white",
+    //   borderBottom: 'solid 1px rgb(150,150,150)'
+})
 const Step2: NextPage<Props> = ({
     setStep,
     setData,
@@ -42,21 +76,49 @@ const Step2: NextPage<Props> = ({
         customer: '',
         phone: '',
     }
-    const onSendForm = (values: typeof initialValues) => {
-        console.log(values)
-        setData((prevData: any) => ({
-            ...prevData,
-            customer: values.customer,
-            phone: values.phone,
-            price: values.price,
-            tax: values.tax,
-        }));
-        setStep(2)
-    }
+
     const ChangeTax = (name: string, value: number) => {
         if (name === "tax") {
             localStorage.setItem("fee", value.toString())
         }
+    }
+    const { customers } = useContext(AppContext)
+    const [numberPhone, setNumberPhone] = useState('')
+    const [customerName, setCustomerName] = useState('')
+    const [userFound, setUserFound] = useState(false)
+    const handleChange = (value: string, name: string) => {
+        if (name === 'phone') {
+            setNumberPhone(value)
+            const filter = customers.filter((e) => e.phone === value)[0]?.name
+
+            if (filter) {
+                setCustomerName(filter)
+                setUserFound(true)
+
+            } else {
+                setCustomerName("")
+                setUserFound(false)
+            }
+        } else if (name === 'customer' && !userFound) {
+            setCustomerName(value)
+        }
+
+    }
+    const onSendForm = (values: typeof initialValues) => {
+        console.log(values)
+        let client_id = null
+        if (customerName && numberPhone) {
+            client_id = customers.filter((e) => e.phone === numberPhone && e.name === customerName)[0]?._id
+        }
+        setData((prevData: any) => ({
+            ...prevData,
+            client_id,
+            customer: customerName,
+            phone: numberPhone,
+            price: values.price,
+            tax: values.tax,
+        }));
+        setStep(2)
     }
     return <div >
         <FadeIn>
@@ -83,10 +145,32 @@ const Step2: NextPage<Props> = ({
                                 <Input name="tax" error={errors.tax} touched={touched.tax} label="Fee" placeholder='0,00' />
                             </Item>
                             <Item xs={6}>
-                                <Input name="phone" error={errors.phone} touched={touched.phone} label="Phone" placeholder='Customer phone' />
+                                <Container rowSpacing={1}>
+                                    <Item xs={12}>
+                                        <Label>
+                                            Phone
+                                        </Label>
+                                    </Item>
+                                    <Item xs={12}>
+                                        <ContainerInput>
+                                            <InputStyled placeholder='customer phone' value={numberPhone} onChange={(e: any) => handleChange(e.target.value, 'phone')} />
+                                        </ContainerInput>
+                                    </Item>
+                                </Container>
                             </Item>
                             <Item xs={6}>
-                                <Input name="customer" error={errors.customer} touched={touched.customer} label="Customer" placeholder='Customer name' />
+                                <Container rowSpacing={1}>
+                                    <Item xs={12}>
+                                        <Label>
+                                            Customer
+                                        </Label>
+                                    </Item>
+                                    <Item xs={12}>
+                                        <ContainerInput>
+                                            <InputStyled placeholder='Customer name' value={customerName} onChange={(e: any) => handleChange(e.target.value, 'customer')} />
+                                        </ContainerInput>
+                                    </Item>
+                                </Container>
                             </Item>
                         </Container>
                         <Container columnSpacing={{ xs: 1, lg: 4 }} justifyContent={"center"}>
