@@ -120,6 +120,7 @@ const generatePDF = (date: string, nameBarber: string, payments: any[]) => {
     w1 = 40
     ////////////////////////////////////////
     let total = 0
+
     // Altura de la página
     const marginBottom = 20; // Espacio inferior antes de crear una nueva página
 
@@ -168,7 +169,6 @@ const generatePDF = (date: string, nameBarber: string, payments: any[]) => {
         // Ajustes para la siguiente iteración
         y += i === 16 ? 500 : 10;
         w1 = 40;
-        total += parseFloat(payments[i].tip)
         if (y > pageHeight - marginBottom) {
             doc.addPage(); // Agregar una nueva página
             y = 20; // Reiniciar la posición Y para la nueva página
