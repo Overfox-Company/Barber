@@ -17,7 +17,7 @@ const Page: NextPage<Props> = ({ }) => {
 
     useEffect(() => {
 
-        console.log("veces que se pinta")
+        // console.log("veces que se pinta")
     }, [])
 
     return <Suspense fallback={<div>

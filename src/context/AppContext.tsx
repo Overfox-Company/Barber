@@ -72,7 +72,7 @@ export const AppContextProvider: React.FC<ProviderProps> = ({ children }) => {
             const { personal } = resPersonal.data || {};
             const { customers } = resCustomers.data || {};
             // console.log("logs")
-            console.log(payments)
+            // console.log(payments)
             if (payments) {
                 setPayments(payments);
             }
@@ -92,7 +92,7 @@ export const AppContextProvider: React.FC<ProviderProps> = ({ children }) => {
         getData()
     }, [])
     const login = (user: string, pass: string) => {
-        console.log(user)
+        //console.log(user)
         if (user.toLocaleLowerCase() === 'luis' && pass === 'Haircut2024') {
             localStorage.setItem("ad", "Luis")
             router.push("/")

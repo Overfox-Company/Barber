@@ -29,7 +29,7 @@ const Page: NextPage<Props> = ({ }) => {
     const { login } = useContext(AppContext)
     const SendValues = (values: { user: string, password: string }) => {
         login(values.user, values.password)
-        console.log(values)
+        // console.log(values)
     }
     return <div
         style={{ width: "100%", height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}

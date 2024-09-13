@@ -37,9 +37,9 @@ const SendData: NextPage<Props> = ({ }) => {
         const json = localStorage.getItem("payment")
         const data = json ? JSON.parse(json) : null
         if (data && !oneSend) {
-            console.log(oneSend)
+            // console.log(oneSend)
             data.transaction_id = id
-            console.log(data)
+            // console.log(data)
             const res = await ApiController.addPayments(data)
             // console.log(res)
             const { message, payments } = res.data
@@ -78,7 +78,7 @@ const SendData: NextPage<Props> = ({ }) => {
         const data = searchParams.get('data');
 
         if (data && !oneSend) {
-            console.log(searchParams.get('data'))
+            // console.log(searchParams.get('data'))
             setOneSend(true)
             setSatate(data)
             const parsedData = JSON.parse(data);

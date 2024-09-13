@@ -8,7 +8,7 @@ import styled from '@emotion/styled';
 import { Box, Typography } from '@mui/material';
 import { PRIMARYCOLOR } from '@/constants/Colors';
 import { ContainedButton, OutlinedButton } from '@/components/UI/Buttons';
-import { Dispatch, SetStateAction, useContext, useState } from 'react';
+import { Dispatch, SetStateAction, useContext, useEffect, useState } from 'react';
 import { Phone } from '@mui/icons-material';
 import { InitialData, InitialDataType } from '../AddService'
 import { AppContext } from '@/context/AppContext';
@@ -72,14 +72,18 @@ const Step2: NextPage<Props> = ({
 }) => {
     const initialValues = {
         price: null,
-        tax: parseFloat(localStorage.getItem("fee") || "1.50") || 1.50,
+        tax: parseFloat(localStorage.getItem("fee") ?? "1.50"),
         customer: '',
         phone: '',
     }
+    useEffect(() => {
 
+    }, [])
     const ChangeTax = (name: string, value: number) => {
         if (name === "tax") {
+            // console.log(value)
             localStorage.setItem("fee", value.toString())
+
         }
     }
     const { customers } = useContext(AppContext)
@@ -105,7 +109,7 @@ const Step2: NextPage<Props> = ({
 
     }
     const onSendForm = (values: typeof initialValues) => {
-        console.log(values)
+        //console.log(values)
         let client_id = null
         if (customerName && numberPhone) {
             client_id = customers.filter((e) => e.phone === numberPhone && e.name === customerName)[0]?._id

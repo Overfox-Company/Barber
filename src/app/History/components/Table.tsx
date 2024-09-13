@@ -217,7 +217,7 @@ const ResponsiveData = {
     fontSize: { xs: 10, lg: 16 }
 }
 const Table: NextPage<Props> = ({ dataFilter }) => {
-    useEffect(() => { console.log(dataFilter) }, [dataFilter])
+    //    useEffect(() => { console.log(dataFilter) }, [dataFilter])
     const generateReport = (e: any, data: any) => {
         e.stopPropagation()
         const reverse = data.paymentsByWorker

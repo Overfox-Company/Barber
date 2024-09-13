@@ -54,7 +54,11 @@ const Step3: NextPage<Props> = ({ setStep, data, setData }) => {
         tip: ''
     }
     const { tax, price } = data
-    const [amountToPay, setAmountToPay] = useState<number>(price && tax ? parseFloat(price + tax) : 0)
+    const [amountToPay, setAmountToPay] = useState<number>(() => {
+        const priceValue = price ?? "0";
+        const taxValue = tax ?? "0";
+        return parseFloat(priceValue + taxValue);
+    });
     const [optionSelected, setOptionSelected] = useState(0)
     const [tipValue, setTipValue] = useState(0)
     const [customTip, setCustomTip] = useState(0)
@@ -82,7 +86,7 @@ const Step3: NextPage<Props> = ({ setStep, data, setData }) => {
     }
     useEffect(() => {
         console.log(tax)
-        console.log(price)
+        // console.log(price)
     }, [])
     return <div>
         <FadeIn>

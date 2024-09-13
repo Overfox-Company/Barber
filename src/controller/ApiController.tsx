@@ -35,13 +35,13 @@ api.interceptors.response.use(
         if (error.response && error.response.data) {
             const { status, data } = error.response;
             // Manejar el error de acuerdo a la respuesta
-            console.log(status)
-            console.log(data)
+            //console.log(status)
+            // console.log(data)
             // Verificar el tamaño de la respuesta
             const contentLength = error.response.headers['content-length'];
             const maxSize = 1; // Establece el límite en bytes (1MB en este ejemplo)
             if (contentLength && parseInt(contentLength) > maxSize) {
-                console.log("el tamaño de la peticion es muy grande")
+                //    console.log("el tamaño de la peticion es muy grande")
             }
         }
 
@@ -93,7 +93,7 @@ const createApiRequest = async (method?: string, route?: string, data?: any) => 
             throw new Error('Error en la solicitud'); // Lanzar un error o manejar de otra forma
         }
     }).catch(error => {
-        console.log(error);
+        // console.log(error);
         requestPending = false; // La solicitud ha terminado, permite hacer otra solicitud
         // Manejar el error aquí
         throw error; // Puedes lanzar el error nuevamente para que el código que llamó a esta función maneje el error
