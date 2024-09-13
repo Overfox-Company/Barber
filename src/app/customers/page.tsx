@@ -47,7 +47,7 @@ const Customers: NextPage<Props> = ({ }) => {
                         <p style={{ color: PRIMARYCOLOR }}>
                             <strong>
                                 Register at:
-                            </strong> {moment(customer.createdAt).format("DD/MM/YYYY")}
+                            </strong> {moment(customer.createdAt).format("MM/DD/YYYY")}
                         </p>
                         <p style={{ color: PRIMARYCOLOR }}>
                             <strong>

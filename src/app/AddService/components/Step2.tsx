@@ -115,8 +115,8 @@ const Step2: NextPage<Props> = ({
             client_id,
             customer: customerName,
             phone: numberPhone,
-            price: values.price,
-            tax: values.tax,
+            price: parseFloat(values.price || "0"),
+            tax: typeof values.tax === 'string' ? parseFloat(values.tax || "0") : values.tax,
         }));
         setStep(2)
     }

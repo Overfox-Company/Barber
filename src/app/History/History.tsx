@@ -120,7 +120,7 @@ const History: NextPage<Props> = ({ }) => {
                         jobs: jobs,
                         totalTip: totalTip,
                         paymentsByWorker: workerPayments,
-                        range: moment(state[0].startDate).format("DD/MM/YYYY") + "-" + moment(state[0].endDate).format("DD/MM/YYYY")
+                        range: moment(state[0].startDate).format("MM/DD/YYYY") + "-" + moment(state[0].endDate).format("MM/DD/YYYY")
                     };
                 });
                 console.log(cloneDataset)

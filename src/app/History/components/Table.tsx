@@ -52,7 +52,7 @@ const generatePDF = (date: string, nameBarber: string, payments: any[]) => {
     doc.setTextColor(30, 30, 30); // Cambiar a rojo
     doc.setFontSize(12); // Cambiar tamaño del texto
     doc.setFont('helvetica', 'bold');
-    doc.text(`Report date: ${moment().format('DD/MM/YYYY HH:mm')}`, x, y);
+    doc.text(`Report date: ${moment().format('MM/DD/YYYY HH:mm')}`, x, y);
     y += 12
     /////////////////////////////////////
     let w = 120
@@ -135,7 +135,7 @@ const generatePDF = (date: string, nameBarber: string, payments: any[]) => {
         doc.setFillColor(40, 40, 40);
         doc.rect(x + 20, y - 9, secondColumn, 10);
         doc.setFont('helvetica', 'normal');
-        doc.text(moment(payments[i].createdAt).format("DD/MM/YYYY"), x + 20 + 1, y);
+        doc.text(moment(payments[i].createdAt).format("MM/DD/YYYY"), x + 20 + 1, y);
         w1 += 10;
 
         doc.setFillColor(40, 40, 40);
@@ -309,7 +309,7 @@ const Table: NextPage<Props> = ({ dataFilter }) => {
                                 <Item xs={3}>
                                     <WorkerData sx={ResponsiveData}>
 
-                                        {moment(payment.createdAt).format("DD/MM/YYYY HH:mm")}
+                                        {moment(payment.createdAt).format("MM/DD/YYYY HH:mm")}
                                     </WorkerData>
                                 </Item>
                                 <Item xs={3} style={{ display: 'flex', }}>

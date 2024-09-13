@@ -81,7 +81,8 @@ const Step3: NextPage<Props> = ({ setStep, data, setData }) => {
         router.push(handlePay(formated))
     }
     useEffect(() => {
-        console.log(data)
+        console.log(tax)
+        console.log(price)
     }, [])
     return <div>
         <FadeIn>
@@ -157,7 +158,7 @@ const Step3: NextPage<Props> = ({ setStep, data, setData }) => {
                             Service:
                         </Text>
                         <Label style={{ textAlign: 'center', fontSize: 16, color: PRIMARYCOLOR, margin: 0 }}>
-                            ${amountToPay}
+                            ${Math.ceil(amountToPay * 100) / 100}
                         </Label>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'flex-start', gap: 2 }}>

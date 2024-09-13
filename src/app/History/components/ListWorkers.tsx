@@ -49,7 +49,7 @@ const ListWorkers: NextPage<Props> = ({ state, dataFilter }) => {
                 Top  Barbers
             </Title>
             <Title sx={{ fontSize: { xs: 12, xl: 14 } }}>
-                {moment(state[0].startDate).format("D/MM/YYYY")} - {moment(state[0].endDate).format("D/MM/YYYY")}
+                {moment(state[0].startDate).format("MM/DD/YYYY")} - {moment(state[0].endDate).format("MM/DD/YYYY")}
             </Title>
         </TitleContainer>
         <br />
