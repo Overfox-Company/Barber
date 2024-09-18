@@ -8,6 +8,7 @@ import { Box, Drawer, IconButton, SwipeableDrawer } from '@mui/material'
 import MenuIcon from '@/icons/MenuIcon'
 import SideMenu from '.'
 import FadeIn from '../animation/FadeIn'
+import { usePathname } from 'next/navigation'
 
 interface Props { }
 
@@ -15,7 +16,7 @@ const SideMenuMobile: NextPage<Props> = ({ }) => {
     const { menuSelecte } = useContext(AppContext)
     const [openDrawer, setOpenDrawer] = useState(false)
     const [show, setShow] = useState(false)
-
+    const pathname = usePathname();
     useEffect(() => { setTimeout(() => { setShow(true) }, 100) }, [])
     return <div style={{
         width: '100%',
@@ -48,9 +49,9 @@ const SideMenuMobile: NextPage<Props> = ({ }) => {
                 gap: 10,
                 width: '78%'
             }}>
-                {buttons[menuSelecte].icon}
+                {pathname === '/login' ? null : buttons[menuSelecte].icon}
                 <NameUser>
-                    {buttons[menuSelecte].label}
+                    {pathname === '/login' ? "Login" : buttons[menuSelecte].label}
                 </NameUser>
             </Box>
             : null}

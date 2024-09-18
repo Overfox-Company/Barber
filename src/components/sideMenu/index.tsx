@@ -9,6 +9,7 @@ import { Box } from '@mui/material'
 import { usePathname, useRouter } from "next/navigation";
 import UserIcon from '@/icons/UserIcon'
 import { AppContext } from '@/context/AppContext'
+
 interface Props {
     mobile?: boolean,
     setClose?: Dispatch<SetStateAction<boolean>>
@@ -31,7 +32,7 @@ const SideMenu: NextPage<Props> = ({ mobile, setClose }) => {
         } else {
             setIsLogged(false)
         }
-        const hideSideMenu = pathname === "/"
+        const hideSideMenu = pathname === "/" || window.innerWidth < 438
         setTimeout(() => {
             setShow(hideSideMenu)
         }, 100)
