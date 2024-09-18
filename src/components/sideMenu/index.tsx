@@ -63,7 +63,7 @@ const SideMenu: NextPage<Props> = ({ mobile, setClose }) => {
             :
             <SideMenuButton icon={
                 <UserIcon size={25} />
-            } logOut onClick={() => router.push("/login")}>
+            } logOut onClick={() => { setClose && setClose(false), router.push("/login") }}>
                 Sig In
             </SideMenuButton>
         }

@@ -6,14 +6,19 @@ import { AppContext } from '@/context/AppContext'
 import { NextPage } from 'next'
 import { Dispatch, SetStateAction, useContext, useEffect, useState } from 'react'
 import { buttons } from './data'
+import { usePathname, useRouter } from 'next/navigation'
 
 
 
 interface Props { setClose?: Dispatch<SetStateAction<boolean>>, isLogged: boolean }
 const ListButtons: NextPage<Props> = ({ setClose, isLogged }) => {
     const { setMenuSelected, menuSelecte } = useContext(AppContext);
-
+    const router = useRouter()
+    const phatName = usePathname()
     const handleClick = (index: number) => {
+        if (phatName === '/login') {
+            router.push("/")
+        }
         localStorage.setItem('menu', index.toString())
         setMenuSelected(index)
         if (setClose) {
