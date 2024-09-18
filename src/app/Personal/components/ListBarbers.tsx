@@ -39,15 +39,16 @@ const ListBarbers: NextPage<Props> = ({ }) => {
         <TextDialog>
             Barbers list
         </TextDialog>
+        <br />
         <div style={{
             justifyContent: 'flex-start',
             // flexWrap: 'wrap',
             display: "flex",
 
         }}>
-            <Container>
+            <Container rowSpacing={2}>
                 {personal.length > 0 ? personal.map((person) => (
-                    <Item xs={4} key={person._id} style={{ position: 'relative', }}>
+                    <Item xs={6} md={4} key={person._id} style={{ position: 'relative', }}>
                         <div style={{ position: 'absolute', top: 0, right: 0, zIndex: 99 }}>
                             <IconButton onClick={() => deleteWorker(person._id)}>
                                 <DeleteIcon size={24} />

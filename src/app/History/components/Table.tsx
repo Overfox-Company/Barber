@@ -223,7 +223,7 @@ const Table: NextPage<Props> = ({ dataFilter }) => {
         const reverse = data.paymentsByWorker
         generatePDF(data.range, data.name, reverse)
     }
-    return <div>
+    return <div >
         <Container sx={{ width: { xs: '72vw', lg: '68vw' } }} alignItems='center'>
             <Item xs={5}>
                 <WorkerDataTitle sx={ResponsiveTitles}>Barber</WorkerDataTitle >
@@ -271,7 +271,7 @@ const Table: NextPage<Props> = ({ dataFilter }) => {
                                 <Tooltip title="Generate Report" arrow placement='top'
                                     sx={{
                                         '& .MuiTooltip-popper': {
-                                            backgroundColor: 'red !important',   // Color de fondo
+                                            // backgroundColor: 'red !important',   // Color de fondo
                                             color: '#fff',             // Color del texto
                                             fontSize: '14px',          // Tamaño del texto
                                             borderRadius: '4px',       // Bordes redondeados

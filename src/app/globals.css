@@ -85,3 +85,11 @@ a {
   color: #002859 !important;
   font-weight: 700;
 }
+
+@media only screen and (min-width: 320px) and (max-width: 430px) {
+
+  /* Aplica tus estilos aquí */
+  body {
+    padding-right: 0px !important;
+  }
+}

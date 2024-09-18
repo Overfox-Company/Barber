@@ -1,6 +1,6 @@
 'use client'
 import React, { FC } from 'react'
-import { Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import styled from '@emotion/styled';
 import { ContainerProps, ItemProps } from '@/types/App';
 
@@ -16,13 +16,15 @@ const StylePrincipalContainer = styled.main({
     maxWidth: 1440,
     width: '100%',
     margin: '0 auto',
+    // backgroundColor: 'blue',
     placeItems: " center;"
 
 })
-const StyleContentContainer = styled.div({
+const StyleContentContainer = styled(Box)({
     display: 'grid',
     gridTemplateColumns: ' minmax(100%, 1fr)',
     width: '100%',
+    //   backgroundColor: "blue",
     padding: '0 20px',
     maxWidth: 1400,
 })
@@ -38,7 +40,7 @@ export const PrincipalContainer: FC<ContainerProps> = ({ children, ...props }) =
 }
 export const ContentContainer: FC<ContainerProps> = ({ children, ...props }) => {
     return (
-        <StyleContentContainer  {...props}>
+        <StyleContentContainer sx={{ padding: { xs: 0, md: '0 20px' }, }} {...props}>
             {children}
         </StyleContentContainer>
     )

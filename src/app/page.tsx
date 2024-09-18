@@ -20,9 +20,10 @@ export default function Home() {
         display: 'flex',
         justifyContent: 'center',
         flexDirection: 'column',
+        padding: 2,
         alignItems: 'center'
       }}>
-      <Container rowSpacing={4} justifyContent={"center"}>
+      <Container rowSpacing={4} justifyContent={"center"} >
         <Item xs={12}>
           {menuSelecte === 0 ? <AddService /> : null}
           {menuSelecte === 1 ? <Personal /> : null}
