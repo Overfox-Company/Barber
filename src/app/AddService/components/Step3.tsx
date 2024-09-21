@@ -1,7 +1,7 @@
 import { Container, Item } from '@/components/Layout/Layout'
 import { ContainedButton, OutlinedButton } from '@/components/UI/Buttons'
 import { NextPage } from 'next'
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import React, { Dispatch, SetStateAction, useContext, useEffect, useState } from 'react'
 import styled from '@emotion/styled';
 import { PRIMARYCOLOR } from '@/constants/Colors';
 import { Box, Typography } from '@mui/material';
@@ -14,6 +14,8 @@ import Input from '@/components/UI/Input';
 import FadeIn from '@/components/animation/FadeIn';
 import { InitialDataType } from '../AddService';
 import { handlePay } from '../handler/Pay';
+import { AppContext } from '@/context/AppContext';
+import ApiController from '@/controller/ApiController';
 const Option = styled(Box)({
     width: 80,
     height: 30,
@@ -50,10 +52,12 @@ const validationSchema = Yup.object().shape({
 });
 const Step3: NextPage<Props> = ({ setStep, data, setData }) => {
     const router = useRouter()
+
     const initialValues = {
         tip: ''
     }
     const { tax, price } = data
+    const { setSnackbarOpen } = useContext(AppContext)
     const [amountToPay, setAmountToPay] = useState<number>(() => {
         const priceValue = price ?? "0";
         const taxValue = tax ?? "0";
@@ -71,7 +75,7 @@ const Step3: NextPage<Props> = ({ setStep, data, setData }) => {
         }
         setTipValue(1)
     }
-    const handleClick = () => {
+    const handleClick = async () => {
         const totalTip: any = tipValue === 1 ? customTip : percent[optionSelected] * amountToPay / 100
         const totalPrice = amountToPay + parseFloat(totalTip)
         const formated = Math.ceil(totalPrice * 100) / 100;
@@ -80,9 +84,24 @@ const Step3: NextPage<Props> = ({ setStep, data, setData }) => {
         relativeData.total = formated
         relativeData.tip = totalTip
         //  console.log(relativeData)
-        localStorage.setItem('payment', JSON.stringify(relativeData))
-        // console.log(typeof formated)
-        router.push(handlePay(formated))
+        if (relativeData.method === 'card') {
+            localStorage.setItem('payment', JSON.stringify(relativeData))
+            // console.log(typeof formated)
+            router.push(handlePay(formated))
+        }
+        if (relativeData.method === 'cash') {
+            const res = await ApiController.addPayments(relativeData)
+            const { message, payments } = res.data
+            if (payments) {
+                router.refresh()
+            } else {
+                setSnackbarOpen({ message: message, type: 'error' })
+            }
+        }
+        if (relativeData.method === 'zelle') {
+
+        }
+
     }
     useEffect(() => {
         console.log(tax)

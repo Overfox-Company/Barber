@@ -14,7 +14,8 @@ const PaymentSchema = new Schema({
     total: { type: String },
     worker: { type: String },
     worker_id: { type: String },
-    transaction_id: { type: String, unique: true }
+    transaction_id: { type: String, unique: true },
+    method: { type: String, required: true }
 }, {
     timestamps: true
 });

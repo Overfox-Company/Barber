@@ -10,7 +10,7 @@ import { Customers } from "../models/Customers";
 export async function POST(req: Request) {
     try {
         await connectDB()
-        const { total, phone, price, tax, tip, worker, transaction_id, client_id, customer } = await req.json()
+        const { method, total, phone, price, tax, tip, worker, transaction_id, client_id, customer } = await req.json()
         if (!price || !tax || !worker || !total) {
             return new Response(JSON.stringify({ message: 'We need all camps', }))
         }
@@ -43,7 +43,7 @@ export async function POST(req: Request) {
         if (client_id) {
             cId = client_id
         }
-        const newPayment = new Payment({ transaction_id, customer: cId, phone, price, tax, tip: tip || 0, worker: workerSearched.name, worker_id: workerSearched._id, total })
+        const newPayment = new Payment({ transaction_id, customer: cId, phone, price, tax, tip: tip || 0, worker: workerSearched.name, worker_id: workerSearched._id, total, method: method || 'card' })
         const res = await Payment.find({ transaction_id })
         console.log(res)
         if (res.length === 0) {
