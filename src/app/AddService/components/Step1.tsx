@@ -46,7 +46,7 @@ const ItemSelect: FC<{ images: string[], text: string }> = ({ images, text }) =>
     return (
         <Box style={{ height: 50, display: 'flex', alignItems: 'center', gap: 4 }}>
             {images.map((image) => (
-                <Image src={image}
+                <Image key={image} src={image}
                     // objectFit='cover' 
                     alt=''
                     style={{
