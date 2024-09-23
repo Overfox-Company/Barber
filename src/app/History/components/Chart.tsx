@@ -1,13 +1,15 @@
 import { Container, Item } from '@/components/Layout/Layout';
-import { Button, Popover, Typography } from '@mui/material'
+import { Box, Button, Popover, Typography } from '@mui/material'
 import { NextPage } from 'next'
-import { useState } from 'react';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
 
 import { DateRange } from 'react-date-range';
 import { lineElementClasses } from '@mui/x-charts/LineChart';
 import styled from '@emotion/styled'
 import moment from 'moment';
 import { LineChart } from '@mui/x-charts';
+import Image from 'next/image';
+import SelectCustom from '@/components/UI/Select';
 
 
 
@@ -35,8 +37,48 @@ const currencyFormatter = new Intl.NumberFormat('en-US', {
     currency: 'USD',
 }).format;
 
-interface Props { state: any, setState: any, dataset: any, date: any[], maxValue: number }
-const Chart: NextPage<Props> = ({ state, setState, dataset, date, maxValue }) => {
+interface Props {
+    state: any,
+    setState: any,
+    dataset: any,
+    date: any[],
+    maxValue: number,
+    paymentsFilter: string,
+    setPaymentsFilter: Dispatch<SetStateAction<string>>
+}
+
+const ItemSelect: FC<{ images: string[], text: string }> = ({ images, text }) => {
+    return (
+        <Box style={{ height: 50, display: 'flex', alignItems: 'center', gap: 4 }}>
+            {images.map((image) => (
+                <Image src={image}
+                    // objectFit='cover' 
+                    alt=''
+                    style={{
+                        width: 'auto',
+                        height: 'auto',
+                        maxHeight: '25px'
+                        , maxWidth: '25px'
+                    }}
+                    layout='objectFit'
+                    width={45} height={30}
+                />
+            ))}
+            <p style={{ fontWeight: 700, color: 'rgb(60,60,60)' }}>
+                {text}
+            </p>
+        </Box>
+    )
+}
+
+const Chart: NextPage<Props> = ({
+    state,
+    setState,
+    dataset,
+    date,
+    maxValue,
+    paymentsFilter,
+    setPaymentsFilter }) => {
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -46,6 +88,22 @@ const Chart: NextPage<Props> = ({ state, setState, dataset, date, maxValue }) =>
     const handleClose = () => {
         setAnchorEl(null);
     };
+    const dataPayments = [
+        { label: 'All payment methods', value: 'all' },
+        {
+            label: <ItemSelect images={['/assets/mc.png', '/assets/vs.png']} text='Card' />,
+            value: 'card'
+        },
+        ,
+        {
+            label: <ItemSelect images={['/assets/us.png']} text='Cash' />,
+            value: 'cash'
+        },
+        {
+            label: <ItemSelect images={['/assets/zll.png']} text='Zelle' />,
+            value: 'zelle'
+        }
+    ]
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
     return <div>  <div>
@@ -72,12 +130,18 @@ const Chart: NextPage<Props> = ({ state, setState, dataset, date, maxValue }) =>
             />
         </Popover>
         <Container>
-            <Item xs={12} lg={4}>
-                <BoxDate aria-describedby={id} onClick={handleClick}>
-                    <DateRangeText>
-                        {moment(state[0].startDate).format("MMM D, YYYY")} - {moment(state[0].endDate).format("MMM D, YYYY")}
-                    </DateRangeText>
-                </BoxDate>
+            <Item xs={12} lg={6}>
+                <Box style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <BoxDate aria-describedby={id} onClick={handleClick}>
+                        <DateRangeText>
+                            {moment(state[0].startDate).format("MMM D, YYYY")} - {moment(state[0].endDate).format("MMM D, YYYY")}
+                        </DateRangeText>
+                    </BoxDate>
+                    <Box style={{ width: 500, }}>
+                        <SelectCustom data={dataPayments} selectValue={paymentsFilter} setSelectValue={setPaymentsFilter} />
+                    </Box>
+                </Box>
+
             </Item>
         </Container>
     </div>

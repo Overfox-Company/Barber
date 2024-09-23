@@ -12,10 +12,12 @@ import { useRouter } from 'next/navigation';
 import * as Yup from 'yup'
 import Input from '@/components/UI/Input';
 import FadeIn from '@/components/animation/FadeIn';
-import { InitialDataType } from '../AddService';
+import { InitialData, InitialDataType } from '../AddService';
 import { handlePay } from '../handler/Pay';
 import { AppContext } from '@/context/AppContext';
 import ApiController from '@/controller/ApiController';
+
+import { v4 as uuidv4 } from 'uuid';
 const Option = styled(Box)({
     width: 80,
     height: 30,
@@ -90,16 +92,21 @@ const Step3: NextPage<Props> = ({ setStep, data, setData }) => {
             router.push(handlePay(formated))
         }
         if (relativeData.method === 'cash') {
+            let cloneData: any = data
+            cloneData.transaction_id = uuidv4()
             const res = await ApiController.addPayments(relativeData)
             const { message, payments } = res.data
             if (payments) {
+                setStep(0)
+                setData(InitialData)
                 router.refresh()
+
             } else {
                 setSnackbarOpen({ message: message, type: 'error' })
             }
         }
         if (relativeData.method === 'zelle') {
-
+            setStep(4)
         }
 
     }

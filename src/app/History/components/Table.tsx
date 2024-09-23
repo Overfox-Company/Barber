@@ -20,12 +20,12 @@ const generatePDF = (date: string, nameBarber: string, payments: any[]) => {
     let y = 0
     let x = 0
 
-    const fisrtColumn = 20
+    const fisrtColumn = 15
     const secondColumn = 30
-    const thirdColumn = 30
+    const thirdColumn = 20
     const fourtyColumn = 20
     const fiveColumn = 70
-    const sixColumn = 30
+    const sixColumn = 20
     // Obtener el ancho y alto de la página del PDF
     const pageWidth = doc.internal.pageSize.getWidth();
     const pageHeight = doc.internal.pageSize.getHeight();
@@ -86,7 +86,7 @@ const generatePDF = (date: string, nameBarber: string, payments: any[]) => {
     doc.setFont('helvetica', 'bold');
     doc.text(`Hour`, x + 1, y);
     ////////////////////////////
-    w1 += 20
+    w1 += 15
     doc.setFillColor(40, 40, 40);
     doc.rect(x + w1, y - 9, secondColumn, 10);
     doc.setFont('helvetica', 'bold');
@@ -98,13 +98,17 @@ const generatePDF = (date: string, nameBarber: string, payments: any[]) => {
     doc.setFont('helvetica', 'bold');
     doc.text(`Service`, x + w1 + 1, y);
     ///////////////
-    w1 += 30
+    w1 += 20
     doc.setFillColor(40, 40, 40);
     doc.rect(x + w1, y - 9, fourtyColumn, 10);
     doc.setFont('helvetica', 'bold');
     doc.text(`Tip`, x + w1 + 1, y);
-
     w1 += 20
+    doc.setFillColor(40, 40, 40);
+    doc.rect(x + w1, y - 9, fourtyColumn + 5, 10);
+    doc.setFont('helvetica', 'bold');
+    doc.text(`Method`, x + w1 + 1, y);
+    w1 += 25
     doc.setFillColor(40, 40, 40);
     doc.rect(x + w1, y - 9, fiveColumn, 10);
     doc.setFont('helvetica', 'bold');
@@ -133,22 +137,27 @@ const generatePDF = (date: string, nameBarber: string, payments: any[]) => {
 
         // Segundo bloque
         doc.setFillColor(40, 40, 40);
-        doc.rect(x + 20, y - 9, secondColumn, 10);
+        doc.rect(x + 15, y - 9, secondColumn, 10);
         doc.setFont('helvetica', 'normal');
-        doc.text(moment(payments[i].createdAt).format("MM/DD/YYYY"), x + 20 + 1, y);
+        doc.text(moment(payments[i].createdAt).format("MM/DD/YYYY"), x + 15 + 1, y);
         w1 += 10;
 
         doc.setFillColor(40, 40, 40);
-        doc.rect(x + 50, y - 9, thirdColumn, 10);
+        doc.rect(x + 45, y - 9, thirdColumn, 10);
         doc.setFont('helvetica', 'normal');
-        doc.text("$" + payments[i].price, x + w1 + 1, y);
+        doc.text("$" + payments[i].price, x + (w1 - 5) + 1, y);
         // Tercer bloque
-        w1 += 30;
+        w1 += 15;
         doc.setFillColor(40, 40, 40);
         doc.rect(x + w1, y - 9, fourtyColumn, 10);
         doc.setFont('helvetica', 'normal');
         doc.text(`$${payments[i].tip}`, x + w1 + 1, y);
-        w1 += 20;
+        w1 += 20
+        doc.setFillColor(40, 40, 40);
+        doc.rect(x + w1, y - 9, fourtyColumn + 5, 10);
+        // doc.setFont('helvetica', 'bold');
+        doc.text(`${payments[i].method === 'undefined' ? 'cash' : payments[i].method}`, x + w1 + 1, y);
+        w1 += 25
         doc.setFillColor(40, 40, 40);
         doc.rect(x + w1, y - 9, fiveColumn, 10);
         doc.setFont('helvetica', 'normal');
@@ -177,14 +186,14 @@ const generatePDF = (date: string, nameBarber: string, payments: any[]) => {
 
     y += 10;
     doc.setFillColor(40, 40, 40);
-    doc.rect(x, y - 9, 170, 10);
+    doc.rect(x, y - 9, 180, 10);
     doc.setFont('helvetica', 'bold');
-    doc.text(`Total Payment`, x, y);
+    doc.text(`Total Payment`, x + 1, y);
     /////////////////////////////////
     doc.setFillColor(40, 40, 40);
-    doc.rect(x + 170, y - 9, sixColumn, 10);
+    doc.rect(x + 180, y - 9, sixColumn, 10);
     doc.setFont('helvetica', 'bold');
-    doc.text(`$${total.toFixed(2)}`, x + 170 + 1, y);
+    doc.text(`$${total.toFixed(2)}`, x + 180 + 1, y);
 
     doc.save(nameBarber + "/" + date);
 };
@@ -288,10 +297,10 @@ const Table: NextPage<Props> = ({ dataFilter }) => {
                     </AccordionSummary>
                     <AccordionDetails>
                         <Container alignItems='center'>
-                            <Item xs={3}>
+                            <Item xs={2}>
                                 <WorkerDataTitle sx={ResponsiveTitles}>Date</WorkerDataTitle >
                             </Item>
-                            <Item xs={3}>
+                            <Item xs={2}>
                                 <WorkerDataTitle sx={ResponsiveTitles}>Service</WorkerDataTitle >
                             </Item>
                             <Item xs={2}>
@@ -301,18 +310,21 @@ const Table: NextPage<Props> = ({ dataFilter }) => {
                                 <WorkerDataTitle sx={ResponsiveTitles}>Fee</WorkerDataTitle >
                             </Item>
                             <Item xs={2}>
+                                <WorkerDataTitle sx={ResponsiveTitles}>Method</WorkerDataTitle >
+                            </Item>
+                            <Item xs={2}>
                                 <WorkerDataTitle sx={ResponsiveTitles}>Total</WorkerDataTitle >
                             </Item>
                         </Container>
                         {data.paymentsByWorker.map((payment: any) => (
                             <Container alignItems='center' key={payment._id}>
-                                <Item xs={3}>
+                                <Item xs={2}>
                                     <WorkerData sx={ResponsiveData}>
 
                                         {moment(payment.createdAt).format("MM/DD/YYYY HH:mm")}
                                     </WorkerData>
                                 </Item>
-                                <Item xs={3} style={{ display: 'flex', }}>
+                                <Item xs={2} style={{ display: 'flex', }}>
                                     <WorkerData sx={ResponsiveData}>
                                         ${payment.price}
                                     </WorkerData>
@@ -325,6 +337,11 @@ const Table: NextPage<Props> = ({ dataFilter }) => {
                                 <Item xs={2} style={{ display: 'flex', }}>
                                     <WorkerData sx={ResponsiveData}>
                                         ${payment.tax}
+                                    </WorkerData>
+                                </Item>
+                                <Item xs={2} style={{ display: 'flex', }}>
+                                    <WorkerData sx={ResponsiveData}>
+                                        {payment.method === 'undefined' ? 'cash' : payment.method}
                                     </WorkerData>
                                 </Item>
                                 <Item xs={2} style={{ display: 'flex', }}>

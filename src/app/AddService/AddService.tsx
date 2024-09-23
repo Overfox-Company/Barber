@@ -13,6 +13,7 @@ import Step1 from './components/Step1';
 import Step2 from './components/Step2';
 import TipModal from './components/WorkersModal';
 import Step3 from './components/Step3';
+import ZelleScreen from './components/ZelleScreen';
 interface Props { }
 const Title = styled(Typography)({
     color: PRIMARYCOLOR,
@@ -63,7 +64,7 @@ const AddService: NextPage<Props> = ({ }) => {
                     height: { xs: 800, lg: 600 },
                 }}>
 
-                    <div style={{ display: 'flex', gap: 4 }}>
+                    {step === 4 ? null : <div style={{ display: 'flex', gap: 4 }}>
                         {new Array(step + 1).fill(0).map((a) => (
                             <FadeIn key={a}>
 
@@ -76,12 +77,12 @@ const AddService: NextPage<Props> = ({ }) => {
                             <StepEmty key={a} />
 
                         ))}
-                    </div>
+                    </div>}
                     <br />
                     {step === 0 ? <Step1 setStep={setStep} data={data} setData={setData} /> : null}
                     {step === 1 ? <Step2 setStep={setStep} data={data} setData={setData} /> : null}
                     {step === 2 ? <Step3 setStep={setStep} data={data} setData={setData} /> : null}
-
+                    {step === 4 ? <ZelleScreen setStep={setStep} data={data} setData={setData} /> : null}
                 </Box>
             </Item>
         </Container>
@@ -107,5 +108,7 @@ export type InitialDataType = {
     detail?: string | null,
     tip?: string | null,
     price?: string | null,
-    tax?: string | null
+    tax?: string | null,
+    total?: string | null,
+    method?: string | null
 }

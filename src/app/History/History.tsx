@@ -17,6 +17,7 @@ interface Props { }
 const History: NextPage<Props> = ({ }) => {
     const { personal, payments, getData } = useContext(AppContext)
     const [show, setShow] = useState(false)
+    const [paymentsFilter, setPaymentsFilter] = useState("all")
     const [dataset, setDataset] = useState<any[]>([])
     const [date, setDate] = useState<string[]>([])
     const [state, setState] = useState<any[]>([
@@ -27,6 +28,15 @@ const History: NextPage<Props> = ({ }) => {
         },
     ]);
     const [maxValue, setMaxValue] = useState(5)
+    const calculatefilter = (pay: string) => {
+        if (paymentsFilter === 'all') {
+            return true
+        }
+        if (pay === undefined || pay === 'card') {
+            return pay === paymentsFilter
+        }
+        return pay === paymentsFilter
+    }
     const getPayments2 = async () => {
 
         const startDate = moment(state[0].startDate);
@@ -37,7 +47,7 @@ const History: NextPage<Props> = ({ }) => {
         const paymentsFounded: any = []
         while (currentDate.isSameOrBefore(endDate)) {
 
-            let dailyTotal = payments.reduce((total: number, payment: any) => {
+            let dailyTotal = payments.filter((e) => calculatefilter(e.method)).reduce((total: number, payment: any) => {
                 if (moment(payment.createdAt).isSame(currentDate, 'day')) {
                     paymentsFounded.push(payment)
                 }
@@ -60,7 +70,7 @@ const History: NextPage<Props> = ({ }) => {
             // area: true,
             baseline: 0,
             stack: 'total',
-            label: 'Earnings',
+            label: paymentsFilter,
             data: dateArray,
             paymentsFounded: paymentsFounded
         };
@@ -93,7 +103,7 @@ const History: NextPage<Props> = ({ }) => {
     }, [state, dataset])
     useEffect(() => {
         getPayments2()
-    }, [state])
+    }, [state, paymentsFilter])
     useEffect(() => {
         getData()
 
@@ -148,7 +158,8 @@ const History: NextPage<Props> = ({ }) => {
         <Container rowSpacing={4}>
             <Item xs={12} lg={9}>
                 <Chart
-
+                    paymentsFilter={paymentsFilter}
+                    setPaymentsFilter={setPaymentsFilter}
                     date={date}
                     maxValue={maxValue}
                     dataset={dataset}
