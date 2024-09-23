@@ -156,7 +156,7 @@ const generatePDF = (date: string, nameBarber: string, payments: any[]) => {
         doc.setFillColor(40, 40, 40);
         doc.rect(x + w1, y - 9, fourtyColumn + 5, 10);
         // doc.setFont('helvetica', 'bold');
-        doc.text(`${payments[i].method === 'undefined' ? 'cash' : payments[i].method}`, x + w1 + 1, y);
+        doc.text(`${typeof payments[i].method === 'undefined' ? 'card' : payments[i].method}`, x + w1 + 1, y);
         w1 += 25
         doc.setFillColor(40, 40, 40);
         doc.rect(x + w1, y - 9, fiveColumn, 10);
@@ -341,7 +341,7 @@ const Table: NextPage<Props> = ({ dataFilter }) => {
                                 </Item>
                                 <Item xs={2} style={{ display: 'flex', }}>
                                     <WorkerData sx={ResponsiveData}>
-                                        {payment.method === 'undefined' ? 'cash' : payment.method}
+                                        {typeof payment.method === 'undefined' ? 'card' : payment.method}
                                     </WorkerData>
                                 </Item>
                                 <Item xs={2} style={{ display: 'flex', }}>

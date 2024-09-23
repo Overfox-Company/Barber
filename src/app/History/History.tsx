@@ -32,8 +32,8 @@ const History: NextPage<Props> = ({ }) => {
         if (paymentsFilter === 'all') {
             return true
         }
-        if (pay === undefined || pay === 'card') {
-            return pay === paymentsFilter
+        if (typeof pay === "undefined" || pay === null || pay === 'card') {
+            return paymentsFilter === 'card'
         }
         return pay === paymentsFilter
     }
