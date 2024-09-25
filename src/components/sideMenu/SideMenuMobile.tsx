@@ -49,7 +49,7 @@ const SideMenuMobile: NextPage<Props> = ({ }) => {
                 gap: 10,
                 width: '78%'
             }}>
-                {pathname === '/login' ? null : buttons[menuSelecte].icon}
+
                 <NameUser>
                     {pathname === '/login' ? "Login" : buttons[menuSelecte].label}
                 </NameUser>

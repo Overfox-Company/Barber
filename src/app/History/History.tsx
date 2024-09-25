@@ -153,7 +153,7 @@ const History: NextPage<Props> = ({ }) => {
     }} sx={{
         borderRadius: { xs: 4, },
         padding: { xs: 1, lg: 2 },
-        height: { xs: 800, lg: 600 },
+        height: { xs: 800, lg: 900 },
     }}>
         <Container rowSpacing={4}>
             <Item xs={12} lg={9}>
