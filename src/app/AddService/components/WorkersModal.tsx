@@ -62,10 +62,10 @@ const WorkersModal = (props: Props) => {
     return (
         <Dialog onClose={handleClose} open={open} maxWidth="md" fullWidth>
             <DialogContent>
-                <div style={{ display: 'flex', gap: 10 }}>
-                    <Container>
+                <div style={{ display: 'flex' }}>
+                    <Container columnSpacing={2}>
                         {personal.length > 0 ? personal.map((worker) => (
-                            <Item xs={3} key={worker._id}>
+                            <Item xs={6} sm={4} md={3} lg={3} key={worker._id} >
                                 <ContainerCardWorker onClick={() => SelectValue(worker._id)}
                                     style={{
                                         display: 'flex',
