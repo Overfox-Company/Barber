@@ -144,7 +144,7 @@ const Step1: NextPage<Props> = ({ setStep, data, setData }) => {
                     {data.worker ? personal.filter((e: any) => e._id === data.worker)[0].name : 'Not barber selected'}
                 </NameUser>
             </Item>
-            <Item xs={6}>
+            <Item xs={8} md={6}>
 
                 <Title style={{ textAlign: 'center' }}>
                     Payment Method
