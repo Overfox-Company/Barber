@@ -34,6 +34,7 @@ const ZelleScreen: NextPage<Props> = ({ setStep, data, setData }) => {
         console.log(res)
         const { message, payments } = res.data
         if (payments) {
+            setSnackbarOpen({ message: "Payment successfully processed", type: 'success' })
             setStep(0)
             setData(InitialData)
             router.refresh()

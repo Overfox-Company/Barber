@@ -47,7 +47,7 @@ const SideMenuMobile: NextPage<Props> = ({ }) => {
                 alignItems: 'center',
                 padding: 10,
                 gap: 10,
-                width: '78%'
+                width: '100%'
             }}>
 
                 <NameUser>

@@ -30,11 +30,11 @@ export default function RootLayout({
         <AppContextProvider>
           <body className={inter.className}>
             <SnackbarCustom />
-            <Box sx={{ display: { xs: 'static', md: 'flex' }, }} >
-              <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+            <Box sx={{ display: { xs: 'static', lg: 'flex' }, }} >
+              <Box sx={{ display: { xs: 'none', lg: 'flex' } }}>
                 <SideMenu />
               </Box>
-              <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+              <Box sx={{ display: { xs: 'flex', lg: 'none' } }}>
                 <SideMenuMobile />
               </Box>
               <PrincipalContainer>

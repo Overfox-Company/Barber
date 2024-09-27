@@ -12,6 +12,7 @@ import { Dispatch, SetStateAction, useContext, useEffect, useState } from 'react
 import { Phone } from '@mui/icons-material';
 import { InitialData, InitialDataType } from '../AddService'
 import { AppContext } from '@/context/AppContext';
+import Advise from '@/components/UI/Advise';
 interface Props {
     setStep: Dispatch<SetStateAction<number>>,
     setData: Dispatch<SetStateAction<InitialDataType>>,
@@ -142,6 +143,9 @@ const Step2: NextPage<Props> = ({
                                 </Title>
                                 <br />
                             </Item>
+                            {data.method !== 'card' ? <Item xs={12}>
+                                <Advise />
+                            </Item> : null}
                             <Item xs={6}>
                                 <Input name="price" type="number" error={errors.price} touched={touched.price} label="Price" placeholder='0,00' />
                             </Item>
