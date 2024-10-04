@@ -22,6 +22,7 @@ export const handlePay = (value: number) => {
                 // "OTHER",
                 // "SQUARE_GIFT_CARD",
                 // "CARD_ON_FILE"
+
             ]
         }
     };
