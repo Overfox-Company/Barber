@@ -16,7 +16,13 @@ export const handlePay = (value: number) => {
         version: "1.3",
         notes: "notes for the transaction",
         options: {
-            supported_tender_types: ["CREDIT_CARD", "CASH", "OTHER", "SQUARE_GIFT_CARD", "CARD_ON_FILE"]
+            supported_tender_types: [
+                //  "CREDIT_CARD",
+                "CASH",
+                // "OTHER",
+                // "SQUARE_GIFT_CARD",
+                // "CARD_ON_FILE"
+            ]
         }
     };
     const formated = encodeURIComponent(JSON.stringify(dataParameter))
