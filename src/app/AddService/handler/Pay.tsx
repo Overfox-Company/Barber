@@ -17,7 +17,7 @@ export const handlePay = (value: number) => {
         notes: "notes for the transaction",
         options: {
             supported_tender_types: [
-                //  "CREDIT_CARD",
+                "CREDIT_CARD",
                 "CASH",
                 // "OTHER",
                 // "SQUARE_GIFT_CARD",
