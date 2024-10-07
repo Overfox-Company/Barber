@@ -21,6 +21,7 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import SelectCustom from '@/components/UI/Select';
 import { Height } from '@mui/icons-material';
+import Advise from '@/components/UI/Advise';
 export const workers = [{
     id: 1,
     name: 'Luis',
@@ -106,7 +107,7 @@ const Step1: NextPage<Props> = ({ setStep, data, setData }) => {
             onClose={() => setOpenModal(false)}
         />
 
-        <Container columnSpacing={4} justifyContent={"center"} style={{ marginBottom: '5vh' }} rowSpacing={4}>
+        <Container columnSpacing={4} justifyContent={"center"} style={{ marginBottom: 40 }} rowSpacing={4}>
             <Item xs={12}>
                 <Title style={{ textAlign: 'center' }}>
                     Barber
@@ -144,7 +145,7 @@ const Step1: NextPage<Props> = ({ setStep, data, setData }) => {
                     {data.worker ? personal.filter((e: any) => e._id === data.worker)[0].name : 'Not barber selected'}
                 </NameUser>
             </Item>
-            <Item xs={6}>
+            <Item xs={8} md={6}>
 
                 <Title style={{ textAlign: 'center' }}>
                     Payment Method
@@ -156,7 +157,7 @@ const Step1: NextPage<Props> = ({ setStep, data, setData }) => {
         </Container>
         <Container columnSpacing={4} justifyContent={"center"}>
 
-            <Item xs={5} xl={4}>
+            <Item xs={6} xl={4}>
                 <ContainedButton lowerCase onClick={() => setStep(1)} disabled={!data.worker || !data.method}>
                     Next
                 </ContainedButton>

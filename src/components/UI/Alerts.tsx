@@ -63,7 +63,11 @@ export default function SnackbarCustom() {
             key={state.Transition.name}
             autoHideDuration={5000}
         >
-            <Alert style={{ borderRadius: 8, backgroundColor: isSnackbarOpen.type === 'error' ? "red" : isSnackbarOpen.type === 'success' ? PRIMARYCOLOR : 'yellow' }} onClose={handleClose} severity={isSnackbarOpen.type} sx={{ width: "100%" }}>
+            <Alert style={{
+                borderRadius: 8,
+                color: PRIMARYCOLOR,
+                backgroundColor: isSnackbarOpen.type === 'error' ? "rgb(255,115,132)" : isSnackbarOpen.type === 'success' ? "rgb(115,255,171)" : 'yellow'
+            }} onClose={handleClose} severity={isSnackbarOpen.type} sx={{ width: "100%" }}>
                 {isSnackbarOpen.message}
             </Alert>
         </Snackbar>

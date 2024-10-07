@@ -18,6 +18,7 @@ import { AppContext } from '@/context/AppContext';
 import ApiController from '@/controller/ApiController';
 
 import { v4 as uuidv4 } from 'uuid';
+import Advise from '@/components/UI/Advise';
 const Option = styled(Box)({
     width: 80,
     height: 30,
@@ -58,11 +59,11 @@ const Step3: NextPage<Props> = ({ setStep, data, setData }) => {
     const initialValues = {
         tip: ''
     }
-    const { tax, price } = data
+    const { tax, price, method } = data
     const { setSnackbarOpen } = useContext(AppContext)
     const [amountToPay, setAmountToPay] = useState<number>(() => {
         const priceValue = price ?? "0";
-        const taxValue = tax ?? "0";
+        const taxValue = method === 'card' ? tax ?? "0" : 0;
         return parseFloat(priceValue + taxValue);
     });
     const [optionSelected, setOptionSelected] = useState(0)
@@ -85,6 +86,9 @@ const Step3: NextPage<Props> = ({ setStep, data, setData }) => {
         let relativeData: any = data
         relativeData.total = formated
         relativeData.tip = totalTip
+        if (method !== 'card') {
+            relativeData.tax = '0'
+        }
         //  console.log(relativeData)
         if (relativeData.method === 'card') {
             localStorage.setItem('payment', JSON.stringify(relativeData))
@@ -97,6 +101,7 @@ const Step3: NextPage<Props> = ({ setStep, data, setData }) => {
             const res = await ApiController.addPayments(relativeData)
             const { message, payments } = res.data
             if (payments) {
+                setSnackbarOpen({ message: "Payment successfully processed", type: 'success' })
                 setStep(0)
                 setData(InitialData)
                 router.refresh()
@@ -111,7 +116,7 @@ const Step3: NextPage<Props> = ({ setStep, data, setData }) => {
 
     }
     useEffect(() => {
-        console.log(tax)
+        // console.log(tax)
         // console.log(price)
     }, [])
     return <div>
@@ -139,11 +144,11 @@ const Step3: NextPage<Props> = ({ setStep, data, setData }) => {
                 </Item>
 
                 <Item xs={10}>
-                    <Label style={{ marginBottom: 8 }}>
+                    { /* <Label style={{ marginBottom: 8 }}>
                         By percentage
-                    </Label>
-
-                    <div style={{ display: 'flex', gap: 4 }}>
+                    </Label>*/
+                    }
+                    { /* <div style={{ display: 'flex', gap: 4 }}>
                         {percent.map((p, i) => (
 
                             <Option key={p} style={{
@@ -167,7 +172,7 @@ const Step3: NextPage<Props> = ({ setStep, data, setData }) => {
 
 
                         ))}
-                    </div>
+                    </div>*/}
                     <br />
                     <Formik
                         onSubmit={() => console.log('enviando')}
@@ -181,6 +186,9 @@ const Step3: NextPage<Props> = ({ setStep, data, setData }) => {
                         )}
 
                     </Formik>
+                    {/*<Item xs={12}>
+                        <Advise />
+                    </Item>*/}
                 </Item>
                 <Item xs={10}>
                     <div style={{ display: 'flex', justifyContent: 'flex-start', gap: 2 }}>
@@ -213,6 +221,7 @@ const Step3: NextPage<Props> = ({ setStep, data, setData }) => {
                     </div>
 
                 </Item>
+
             </Container>
 
             <Container columnSpacing={4} justifyContent={"center"}>

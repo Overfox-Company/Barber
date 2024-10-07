@@ -61,7 +61,7 @@ const ListWorkers: NextPage<Props> = ({ state, dataFilter }) => {
                 <Headers>Hair cuts</Headers>
             </Item>
         </Container>
-        {dataFilter.filter((e: any) => e.jobs > 0).map((data: any, index: number) => {
+        {dataFilter.sort((a: any, b: any) => b.jobs - a.jobs).filter((e: any) => e.jobs > 0).map((data: any, index: number) => {
             return index > 3 ? null : <FadeIn key={data.name}> <ContainerWorker>
 
                 <Container alignItems='center'>
