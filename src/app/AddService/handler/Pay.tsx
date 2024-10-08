@@ -1,5 +1,6 @@
 
-export const handlePay = (value: number) => {
+export const handlePay = (value: number, barber: string, method: "CREDIT_CARD" | "CASH" | "OTHER" | "SQUARE_GIFT_CARD" | "CARD_ON_FILE"
+) => {
 
     let dataParameter = {
         amount_money: {
@@ -8,17 +9,18 @@ export const handlePay = (value: number) => {
         },
 
         // Replace this value with your application's callback URL
-        callback_url: "https://barber-git-develop-overfoxcompanys-projects.vercel.app/squarecallback/",
+        callback_url: "https://barber-rose-sigma.vercel.app/squarecallback/",
 
         // Replace this value with your application's ID
         client_id: process.env.NEXT_PUBLIC_CLIENTSQ,
 
         version: "1.3",
-        notes: "notes for the transaction",
+        notes: barber,
         options: {
             supported_tender_types: [
-                "CREDIT_CARD",
-                "CASH",
+                method
+                //"CREDIT_CARD",
+                // "CASH",
                 // "OTHER",
                 // "SQUARE_GIFT_CARD",
                 // "CARD_ON_FILE"

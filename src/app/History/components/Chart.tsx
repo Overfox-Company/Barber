@@ -89,7 +89,7 @@ const Chart: NextPage<Props> = ({
         setAnchorEl(null);
     };
     const dataPayments = [
-        { label: 'All payment methods', value: 'all' },
+        //   { label: 'All payment methods', value: 'all' },
         {
             label: <ItemSelect images={['/assets/mc.png', '/assets/vs.png']} text='Card' />,
             value: 'card'
@@ -130,7 +130,7 @@ const Chart: NextPage<Props> = ({
             />
         </Popover>
         <Container>
-            <Item xs={12} lg={6}>
+            <Item xs={12} md={8} lg={8} xl={6}>
                 <Box style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                     <BoxDate aria-describedby={id} onClick={handleClick}>
                         <DateRangeText>

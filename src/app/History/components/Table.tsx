@@ -69,12 +69,12 @@ const generatePDF = (date: string, nameBarber: string, payments: any[]) => {
     ////////////////////////////////
     doc.setFillColor(40, 40, 40);
     doc.rect(x, y - 9, w, 10);
-    doc.setFont('helvetica', 'nomal');
+    doc.setFont('helvetica', 'regular');
     doc.text(`${nameBarber}`, x + 1, y);
     ////////////////////////////
     doc.setFillColor(40, 40, 40);
     doc.rect(x + w, y - 9, 80, 10);
-    doc.setFont('helvetica', 'nomal');
+    doc.setFont('helvetica', 'regular');
     doc.text(`${date}`, x + w + 1, y);
     y += 20
 
@@ -161,8 +161,8 @@ const generatePDF = (date: string, nameBarber: string, payments: any[]) => {
         doc.setFillColor(40, 40, 40);
         doc.rect(x + w1, y - 9, fiveColumn, 10);
         doc.setFont('helvetica', 'normal');
-        doc.setTextColor(250, 30, 30);
-        doc.text(`-$${parseFloat(payments[i].price) * 0.3}`, x + w1 + 1, y);
+        payments[i].method === "zelle" ? doc.setTextColor(30, 30, 30) : doc.setTextColor(250, 30, 30);
+        doc.text(` ${payments[i].method === "zelle" ? "$" : "-$"}${(parseFloat(payments[i].price) * 0.3).toFixed(2)}`, x + w1 + 1, y);
         doc.setTextColor(30, 30, 30);
 
 
@@ -172,7 +172,7 @@ const generatePDF = (date: string, nameBarber: string, payments: any[]) => {
         doc.setFont('helvetica', 'normal');
         const sevenPercent = parseFloat(payments[i].price) * 0.7
         const tip = parseFloat(payments[i].tip)
-        const totalCalc = sevenPercent + tip
+        const totalCalc = payments[i].method === "zelle" ? parseFloat(payments[i].price) * 0.3 : sevenPercent + (payments[i].method === "card" ? tip : 0)
         doc.text(`$${totalCalc.toFixed(2)}`, x + w1 + 1, y);
         total += totalCalc
         // Ajustes para la siguiente iteración

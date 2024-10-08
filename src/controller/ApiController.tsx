@@ -103,16 +103,23 @@ const createApiRequest = async (method?: string, route?: string, data?: any) => 
 // Create an object to hold API methods
 const ApiController = {
 
+    //workers
     addPersonal: (data: { avatar: File, name: string }) => api.post('/addPersonal', data, {
         headers: {
             'Content-Type': 'multipart/form-data',
         }
     }),
     deleteWorker: (id: string) => api.post(`/deleteWorker`, { id }),
+
+
+    //Pagos
     addPayments: (data: PaymentsType) => api.post('/addPayments', data),
+    sendMail: (data: { amount: string | number, barber: string }) => api.post('/sendMails', data),
+    //cargar informacion de la base de datos
     getPayments: () => api.get(`/getPayments/${uuidv4()}`),
     getPersonal: () => api.get(`/getPersonal/${uuidv4()}`),
     getCustomers: () => api.get(`/getCustomers/${uuidv4()}`)
+
 };
 
 

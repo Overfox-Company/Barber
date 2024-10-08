@@ -17,7 +17,7 @@ interface Props { }
 const History: NextPage<Props> = ({ }) => {
     const { personal, payments, getData } = useContext(AppContext)
     const [show, setShow] = useState(false)
-    const [paymentsFilter, setPaymentsFilter] = useState("all")
+    const [paymentsFilter, setPaymentsFilter] = useState("card")
     const [dataset, setDataset] = useState<any[]>([])
     const [date, setDate] = useState<string[]>([])
     const [state, setState] = useState<any[]>([
