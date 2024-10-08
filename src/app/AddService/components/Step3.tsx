@@ -113,14 +113,14 @@ const Step3: NextPage<Props> = ({ setStep, data, setData }) => {
         if (relativeData.method === 'card') {
             localStorage.setItem('payment', JSON.stringify(relativeData))
             // console.log(typeof formated)
-            router.push(handlePay(formated, relativeData.worker, "CREDIT_CARD"))
+            router.push(handlePay(formated, relativeData.workerName, "CREDIT_CARD"))
         }
         if (relativeData.method === 'cash') {
             // let cloneData: any = data
             //  cloneData.transaction_id = uuidv4()
             // const res = await ApiController.addPayments(relativeData)
             localStorage.setItem('payment', JSON.stringify(relativeData))
-            router.push(handlePay(formated, relativeData.worker, "CASH"))
+            router.push(handlePay(formated, relativeData.workerName, "CASH"))
             //  const { message, payments } = res.data
             // if (payments) {
             //   setSnackbarOpen({ message: "Payment successfully processed", type: 'success' })
