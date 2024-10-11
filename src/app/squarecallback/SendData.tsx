@@ -34,8 +34,12 @@ const SendData: NextPage<Props> = ({ }) => {
 
 
     const handleSend = async (id: string) => {
-        const json = localStorage.getItem("payment")
-        const data = json ? JSON.parse(json) : null
+
+        const getSave = await ApiController.getData()
+        const { message, data: dataserver } = getSave.data
+        const json = dataserver.length > 0 ? dataserver[0] : localStorage.getItem("payment")
+        console.log(json)
+        const data = json ? JSON.parse(json.name) : null
         if (data && !oneSend) {
             // console.log(oneSend)
             data.transaction_id = id

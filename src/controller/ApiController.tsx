@@ -112,7 +112,17 @@ const ApiController = {
     addPayments: (data: PaymentsType) => api.post('/addPayments', data),
     getPayments: () => api.get(`/getPayments/${uuidv4()}`),
     getPersonal: () => api.get(`/getPersonal/${uuidv4()}`),
-    getCustomers: () => api.get(`/getCustomers/${uuidv4()}`)
+    getCustomers: () => api.get(`/getCustomers/${uuidv4()}`),
+
+
+
+
+
+
+
+    saveData: (data: any) => api.post('/saveData', data),
+
+    getData: () => api.post('/getData')
 };
 
 

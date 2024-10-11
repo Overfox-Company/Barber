@@ -92,8 +92,13 @@ const Step3: NextPage<Props> = ({ setStep, data, setData }) => {
         //  console.log(relativeData)
         if (relativeData.method === 'card') {
             localStorage.setItem('payment', JSON.stringify(relativeData))
+            const save = await ApiController.saveData({ data: relativeData })
+            const { message } = save.data
+            if (message === 'ok') {
+                router.push(handlePay(formated))
+            }
             // console.log(typeof formated)
-            router.push(handlePay(formated))
+
         }
         if (relativeData.method === 'cash') {
             let cloneData: any = data
