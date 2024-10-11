@@ -52,7 +52,7 @@ const SendData: NextPage<Props> = ({ }) => {
             }
 
         } else {
-            setResult({ message: 'An error has ocurred in the payment data', type: 'error' })
+            setResult({ message: `An error has ocurred in the payment data, data:${json}`, type: 'error' })
         }
     }
 
