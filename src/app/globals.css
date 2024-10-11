@@ -93,3 +93,15 @@ a {
     padding-right: 0px !important;
   }
 }
+
+.rdrInRange {
+  color: #002859 !important;
+}
+
+.rdrStartEdge {
+  color: #002859 !important;
+}
+
+.rdrEndEdge {
+  color: #002859 !important;
+}

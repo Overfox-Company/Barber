@@ -10,6 +10,7 @@ import moment from 'moment';
 import { LineChart } from '@mui/x-charts';
 import Image from 'next/image';
 import SelectCustom from '@/components/UI/Select';
+import CalendarSelect from './CalendarSelect';
 
 
 
@@ -44,7 +45,9 @@ interface Props {
     date: any[],
     maxValue: number,
     paymentsFilter: string,
-    setPaymentsFilter: Dispatch<SetStateAction<string>>
+    setPaymentsFilter: Dispatch<SetStateAction<string>>,
+    valueDate: string | null,
+    setValueDate: Dispatch<SetStateAction<string | null>>
 }
 
 const ItemSelect: FC<{ images: string[], text: string }> = ({ images, text }) => {
@@ -78,7 +81,10 @@ const Chart: NextPage<Props> = ({
     date,
     maxValue,
     paymentsFilter,
-    setPaymentsFilter }) => {
+    setPaymentsFilter,
+    valueDate,
+    setValueDate
+}) => {
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -88,6 +94,8 @@ const Chart: NextPage<Props> = ({
     const handleClose = () => {
         setAnchorEl(null);
     };
+    const open = Boolean(anchorEl);
+    const id = open ? 'simple-popover' : undefined;
     const dataPayments = [
         //   { label: 'All payment methods', value: 'all' },
         {
@@ -104,103 +112,85 @@ const Chart: NextPage<Props> = ({
             value: 'zelle'
         }
     ]
-    const open = Boolean(anchorEl);
-    const id = open ? 'simple-popover' : undefined;
-    return <div>  <div>
 
-        <Popover
-            id={id}
-            open={open}
-            anchorEl={anchorEl}
-            onClose={handleClose}
-            anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'center',
-            }}
-            transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-            }}
-        >
-            <DateRange
-                editableDateInputs={true}
-                onChange={item => setState([item.selection])}
-                moveRangeOnFirstSelection={false}
-                ranges={state as any}
-            />
-        </Popover>
-        <Container>
-            <Item xs={12} md={8} lg={8} xl={6}>
-                <Box style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <BoxDate aria-describedby={id} onClick={handleClick}>
-                        <DateRangeText>
-                            {moment(state[0].startDate).format("MMM D, YYYY")} - {moment(state[0].endDate).format("MMM D, YYYY")}
-                        </DateRangeText>
-                    </BoxDate>
-                    <Box style={{ width: 500, }}>
-                        <SelectCustom data={dataPayments} selectValue={paymentsFilter} setSelectValue={setPaymentsFilter} />
-                    </Box>
-                </Box>
-
-            </Item>
-        </Container>
-    </div>
-        {date.length >= 7 ? <LineChart
-            {...dataset}
-            sx={{
-                [`& .${lineElementClasses.root}`]: {
-
-                    strokeWidth: 1,
-                },
-                '& .MuiAreaElement-series-Germany': {
-                    fill: "url('#myGradient')",
-                },
-            }}
-            xAxis={[
-                {
-                    data: date,
-                    id: 'Days',
-                    scaleType: "point",
-                    valueFormatter: (date) =>
-                        date.toString()
-                },
-            ]}
-            yAxis={[{
-                max: maxValue,
-
-                id: 'price',
-                valueFormatter: (price) => {
-                    return "$" + price
-                }
-            }]}
-            series={
-                dataset.map((series: any) => {
-                    return ({
-                        ...series,
-                        baseline: 0,
-                        valueFormatter: (v: any) => (v === null ? '' : currencyFormatter(v)),
-                    })
-                })
-            }
-            height={340}
-            grid={{ vertical: true, horizontal: true }}
-        >
-            <defs>
-                <linearGradient id="myGradient" gradientTransform="rotate(90)">
-                    <stop offset="5%" stopColor={"rgba(0,100,200,0.4)"} />
-                    <stop offset="95%" stopColor="rgba(0,100,200,0.2)" />
-                </linearGradient>
-            </defs>
-
-        </LineChart> : <div style={{ height: '50vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-
-
-            <ErrorText>
-                You must select a minimum range of 7 days
-
-            </ErrorText>
+    return <div>
+        <div>
+            <Container>
+                <Item xs={12}>
+                    <Container alignItems='center' gap={4}>
+                        <Item xs={3} lg={4} xl={3}>
+                            <CalendarSelect date={state} setDate={setState} id={id}
+                                valueDate={valueDate} setValueDate={setValueDate}
+                            />
+                        </Item>
+                        <Item xs={2} lg={4} xl={2}>
+                            <Box style={{ width: "100%", }}>
+                                <SelectCustom data={dataPayments} selectValue={paymentsFilter} setSelectValue={setPaymentsFilter} />
+                            </Box>
+                        </Item>
+                    </Container>
+                </Item>
+            </Container>
         </div>
-        }
+        {<div>
+            {date.length >= 7 ? <LineChart
+                {...dataset}
+                sx={{
+                    [`& .${lineElementClasses.root}`]: {
+
+                        strokeWidth: 1,
+                    },
+                    '& .MuiAreaElement-series-Germany': {
+                        fill: "url('#myGradient')",
+                    },
+                }}
+                xAxis={[
+                    {
+                        data: date,
+                        id: 'Days',
+                        scaleType: "point",
+                        valueFormatter: (date) =>
+                            date.toString()
+                    },
+                ]}
+                yAxis={[{
+                    max: maxValue,
+
+                    id: 'price',
+                    valueFormatter: (price) => {
+                        return "$" + price
+                    }
+                }]}
+                series={
+                    dataset.map((series: any) => {
+                        return ({
+                            ...series,
+                            baseline: 0,
+                            valueFormatter: (v: any) => (v === null ? '' : currencyFormatter(v)),
+                        })
+                    })
+                }
+                height={340}
+                grid={{ vertical: true, horizontal: true }}
+            >
+                <defs>
+                    <linearGradient id="myGradient" gradientTransform="rotate(90)">
+                        <stop offset="5%" stopColor={"rgba(0,100,200,0.4)"} />
+                        <stop offset="95%" stopColor="rgba(0,100,200,0.2)" />
+                    </linearGradient>
+                </defs>
+
+            </LineChart> : <div style={{ height: '50vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+
+
+                <ErrorText>
+                    You must select a minimum range of 7 days
+
+                </ErrorText>
+            </div>
+            }
+        </div>}
+
     </div>
 }
 

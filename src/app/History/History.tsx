@@ -12,6 +12,7 @@ import ListWorkers from './components/ListWorkers';
 import { AppContext } from '@/context/AppContext';
 import Table from './components/Table';
 import { Box } from '@mui/material';
+import dayjs, { Dayjs } from 'dayjs';
 interface Props { }
 
 const History: NextPage<Props> = ({ }) => {
@@ -27,6 +28,7 @@ const History: NextPage<Props> = ({ }) => {
             key: 'selection',
         },
     ]);
+    const [valueDate, setValueDate] = useState<Dayjs | null>(null);
     const [maxValue, setMaxValue] = useState(5)
     const calculatefilter = (pay: string) => {
         if (paymentsFilter === 'all') {
@@ -39,27 +41,53 @@ const History: NextPage<Props> = ({ }) => {
     }
     const getPayments2 = async () => {
 
-        const startDate = moment(state[0].startDate);
-        const endDate = moment(state[0].endDate);
+        const startDate = valueDate ? moment(valueDate as any).startOf('day') : moment(state[0].startDate);
+        const endDate = valueDate ? moment(valueDate as any).endOf('day') : moment(state[0].endDate);
+
+        //   console.log(startDate)
+        //    console.log(endDate)
         const dateArray = [];
         let currentDate = startDate.clone();
         let relativeAmount = 10
         const paymentsFounded: any = []
-        while (currentDate.isSameOrBefore(endDate)) {
+        if (!valueDate) {
+            while (currentDate.isSameOrBefore(endDate)) {
 
-            let dailyTotal = payments.filter((e) => calculatefilter(e.method)).reduce((total: number, payment: any) => {
-                if (moment(payment.createdAt).isSame(currentDate, 'day')) {
-                    paymentsFounded.push(payment)
+                let dailyTotal = payments.filter((e) => calculatefilter(e.method)).reduce((total: number, payment: any) => {
+                    if (moment(payment.createdAt).isSame(currentDate, 'day')) {
+                        paymentsFounded.push(payment)
+                    }
+                    let totalResult = total + (moment(payment.createdAt).isSame(currentDate, 'day') ? parseFloat(payment.total) : 0)
+                    return totalResult;
+                }, 0);
+                if (dailyTotal > relativeAmount) {
+                    relativeAmount = Math.ceil(dailyTotal / 10) * 10 + 10
                 }
-                let totalResult = total + (moment(payment.createdAt).isSame(currentDate, 'day') ? parseFloat(payment.total) : 0)
-                return totalResult;
-            }, 0);
-            if (dailyTotal > relativeAmount) {
-                relativeAmount = Math.ceil(dailyTotal / 10) * 10 + 10
+                dateArray.push(dailyTotal);
+                currentDate.add(1, valueDate ? 'hour' : 'day');
             }
-            dateArray.push(dailyTotal);
-            currentDate.add(1, 'day');
+        } else {
+            while (currentDate.isSameOrBefore(endDate)) {
+                let hourlyTotal = payments.filter((e) => calculatefilter(e.method)).reduce((total: number, payment: any) => {
+                    //console.log(payment.createdAt)
+                    if (moment(payment.createdAt).format("HH") === moment(currentDate).format("HH")) {
+                        paymentsFounded.push(payment);
+                        //   console.log("its true")
+                    }
+                    let totalResult = total + (moment(payment.createdAt).isSame(currentDate, 'hour') ? parseFloat(payment.total) : 0);
+                    return totalResult;
+                }, 0);
+
+                if (hourlyTotal > relativeAmount) {
+                    relativeAmount = Math.ceil(hourlyTotal / 10) * 10 + 10;
+                }
+                dateArray.push(hourlyTotal);
+
+                console.log(hourlyTotal);
+                currentDate.add(1, 'hour');
+            }
         }
+
         setMaxValue(relativeAmount)
         const formattedPayments = {
             // 'catmullRom' | 'linear' | 'monotoneX' | 'monotoneY' | 'natural' | 'step' | 'stepBefore' | 'stepAfter';
@@ -103,7 +131,7 @@ const History: NextPage<Props> = ({ }) => {
     }, [state, dataset])
     useEffect(() => {
         getPayments2()
-    }, [state, paymentsFilter])
+    }, [state, paymentsFilter, valueDate])
     useEffect(() => {
         getData()
 
@@ -165,6 +193,8 @@ const History: NextPage<Props> = ({ }) => {
                     dataset={dataset}
                     state={state}
                     setState={setState}
+                    valueDate={valueDate as any}
+                    setValueDate={setValueDate as any}
                 />
             </Item>
             <Item xs={12} lg={3}>
