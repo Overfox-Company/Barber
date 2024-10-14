@@ -214,8 +214,8 @@ const CalendarSelect: NextPage<Props> = ({ date, setDate, id, valueDate, setValu
             // Verificamos si la fecha de creación del pago está dentro del rango de fechas
             return paymentDate.isBetween(startDate, endDate, 'days', '[]');
         });
-
-        GeneratePDF(!value ? "General" : value, filterPayments)
+        const filterByTypeReport = filterPayments.filter((e: any) => !value ? true : e.method === value)
+        GeneratePDF(!value ? "General" : value, filterByTypeReport)
     }
     return <div>
         <Popover
@@ -260,10 +260,18 @@ const CalendarSelect: NextPage<Props> = ({ date, setDate, id, valueDate, setValu
                                 <BoxDate style={{
 
                                     // backgroundColor: `rgba(231,240,253,${optionSelected === i ? '1' : '0.1'})`,
-                                }}>
-                                    <Image src={"/assets/us.png"} alt=""
+                                }}
+                                    onClick={() => handleClickReport("card")}
+                                >
+
+
+                                    <Image src={"/assets/mc.png"} alt=""
                                         width={24}
                                         height={18} />
+                                    <Image src={"/assets/vs.png"} alt=""
+                                        width={24}
+                                        height={18} />
+
                                     Card
                                 </BoxDate>
                             </Item>
@@ -271,21 +279,26 @@ const CalendarSelect: NextPage<Props> = ({ date, setDate, id, valueDate, setValu
                                 <BoxDate style={{
 
                                     // backgroundColor: `rgba(231,240,253,${optionSelected === i ? '1' : '0.1'})`,
-                                }}>
-                                    <Image src={"/assets/mc.png"} alt=""
+                                }}
+                                    onClick={() => handleClickReport("cash")}
+
+                                >
+
+                                    <Image src={"/assets/us.png"} alt=""
                                         width={24}
                                         height={18} />
-                                    <Image src={"/assets/vs.png"} alt=""
-                                        width={24}
-                                        height={18} />
+
                                     Cash
                                 </BoxDate>
                             </Item>
                             <Item xs={4}>
-                                <BoxDate style={{
+                                <BoxDate
 
-                                    // backgroundColor: `rgba(231,240,253,${optionSelected === i ? '1' : '0.1'})`,
-                                }}>
+                                    onClick={() => handleClickReport("zelle")}
+                                    style={{
+
+                                        // backgroundColor: `rgba(231,240,253,${optionSelected === i ? '1' : '0.1'})`,
+                                    }}>
                                     <Image src={"/assets/zll.png"} alt=""
                                         width={24}
                                         height={24} />
