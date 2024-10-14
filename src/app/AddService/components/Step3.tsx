@@ -115,7 +115,7 @@ const Step3: NextPage<Props> = ({ setStep, data, setData }) => {
             const save = await ApiController.saveData({ data: relativeData })
             const { message } = save.data
             if (message === 'ok') {
-                router.push(handlePay(formated))
+                router.push(handlePay(formated, relativeData.workerName, "CREDIT_CARD"))
             }
             // console.log(typeof formated)
         }

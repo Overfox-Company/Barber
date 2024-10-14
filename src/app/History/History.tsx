@@ -29,6 +29,7 @@ const History: NextPage<Props> = ({ }) => {
         },
     ]);
     const [valueDate, setValueDate] = useState<Dayjs | null>(null);
+    const [workersFilter, setWorkersFilter] = useState<string | null>(null);
     const [maxValue, setMaxValue] = useState(5)
     const calculatefilter = (pay: string) => {
         if (paymentsFilter === 'all') {
@@ -49,11 +50,13 @@ const History: NextPage<Props> = ({ }) => {
         const dateArray = [];
         let currentDate = startDate.clone();
         let relativeAmount = 10
+        console.log(workersFilter)
+        let filterPaymentsByWorkers = workersFilter === null ? payments : payments.filter((e: any) => e.worker_id === workersFilter)
         const paymentsFounded: any = []
         if (!valueDate) {
             while (currentDate.isSameOrBefore(endDate)) {
 
-                let dailyTotal = payments.filter((e) => calculatefilter(e.method)).reduce((total: number, payment: any) => {
+                let dailyTotal = filterPaymentsByWorkers.filter((e) => calculatefilter(e.method)).reduce((total: number, payment: any) => {
                     if (moment(payment.createdAt).isSame(currentDate, 'day')) {
                         paymentsFounded.push(payment)
                     }
@@ -67,14 +70,23 @@ const History: NextPage<Props> = ({ }) => {
                 currentDate.add(1, valueDate ? 'hour' : 'day');
             }
         } else {
+
+            const day = filterPaymentsByWorkers.filter((e: any) => {
+                // console.log(moment(e.createdAt).format('MM/DD/YYYY'))
+                console.log(valueDate.format('MM/DD/YYYY'))
+                return moment(e.createdAt).format('MM/DD/YYYY') === valueDate.format('MM/DD/YYYY')
+            })
+
             while (currentDate.isSameOrBefore(endDate)) {
-                let hourlyTotal = payments.filter((e) => calculatefilter(e.method)).reduce((total: number, payment: any) => {
+
+                let hourlyTotal = day.filter((e) => calculatefilter(e.method)).reduce((total: number, payment: any) => {
                     //console.log(payment.createdAt)
                     if (moment(payment.createdAt).format("HH") === moment(currentDate).format("HH")) {
                         paymentsFounded.push(payment);
-                        //   console.log("its true")
+                        console.log("its true")
                     }
-                    let totalResult = total + (moment(payment.createdAt).isSame(currentDate, 'hour') ? parseFloat(payment.total) : 0);
+                    let relativeAmoubnt = moment(payment.createdAt).format("HH") === moment(currentDate).format("HH") ? parseFloat(payment.total) : 0
+                    let totalResult = total + relativeAmoubnt;
                     return totalResult;
                 }, 0);
 
@@ -83,11 +95,11 @@ const History: NextPage<Props> = ({ }) => {
                 }
                 dateArray.push(hourlyTotal);
 
-                console.log(hourlyTotal);
+                //  console.log(hourlyTotal);
                 currentDate.add(1, 'hour');
             }
         }
-
+        // console.log(dateArray)
         setMaxValue(relativeAmount)
         const formattedPayments = {
             // 'catmullRom' | 'linear' | 'monotoneX' | 'monotoneY' | 'natural' | 'step' | 'stepBefore' | 'stepAfter';
@@ -102,24 +114,35 @@ const History: NextPage<Props> = ({ }) => {
             data: dateArray,
             paymentsFounded: paymentsFounded
         };
-
+        //  console.log(dateArray)
         setDataset([formattedPayments]);
         setShow(true);
     };
 
     const formatDate = () => {
-        const startDate = moment(state[0].startDate);
-        const endDate = moment(state[0].endDate);
+
+        const startDate = valueDate ? moment(valueDate as any).startOf('day') : moment(state[0].startDate);
+        const endDate = valueDate ? moment(valueDate as any).endOf('day') : moment(state[0].endDate);
+
         const dateArray = [];
         let currentDate = startDate.clone();
-        while (currentDate.isSameOrBefore(endDate)) {
-            if (currentDate.date() === 1 || dateArray.length === 0) {
-                dateArray.push(currentDate.format("MMM DD").toLowerCase());
-            } else {
-                dateArray.push(currentDate.format("DD"));
+        if (!valueDate) {
+            while (currentDate.isSameOrBefore(endDate)) {
+                if (currentDate.date() === 1 || dateArray.length === 0) {
+                    dateArray.push(currentDate.format("MMM DD").toLowerCase());
+                } else {
+                    dateArray.push(currentDate.format("DD"));
+                }
+                currentDate.add(1, 'day');
             }
-            currentDate.add(1, 'day');
+        } else {
+            // Si se seleccionó una fecha, selecciona las horas del día
+            while (currentDate.isSameOrBefore(endDate)) {
+                dateArray.push(currentDate.format("HH:mm")); // Formato de hora
+                currentDate.add(1, 'hour'); // Incrementa una hora
+            }
         }
+
         if (dateArray.length > 1) {
 
             setDate(dateArray)
@@ -131,7 +154,7 @@ const History: NextPage<Props> = ({ }) => {
     }, [state, dataset])
     useEffect(() => {
         getPayments2()
-    }, [state, paymentsFilter, valueDate])
+    }, [state, paymentsFilter, valueDate, workersFilter])
     useEffect(() => {
         getData()
 
@@ -142,9 +165,9 @@ const History: NextPage<Props> = ({ }) => {
     const filterData = () => {
         if (dataset[0]?.paymentsFounded) {
             const cloneDataset = dataset[0].paymentsFounded;
-            console.log(cloneDataset)
+            //  console.log(cloneDataset)
             if (cloneDataset.length > 0 && date.length > 6) {
-                const result = personal.map((worker) => {
+                const result = personal.filter((e: any) => workersFilter ? e._id === workersFilter : true).map((worker) => {
                     // Filtrar los pagos que pertenecen al trabajador actual
                     const workerPayments = cloneDataset.filter((payment: any) => payment.worker_id === worker._id).reverse();
 
@@ -161,7 +184,7 @@ const History: NextPage<Props> = ({ }) => {
                         range: moment(state[0].startDate).format("MM/DD/YYYY") + "-" + moment(state[0].endDate).format("MM/DD/YYYY")
                     };
                 });
-                console.log(cloneDataset)
+                //  console.log(cloneDataset)
                 setDataFilter(result);
             } else {
                 setDataFilter([])
@@ -169,7 +192,7 @@ const History: NextPage<Props> = ({ }) => {
         }
 
     };
-    useEffect(() => { filterData() }, [dataset])
+    useEffect(() => { filterData() }, [state, dataset])
     return show && state.length > 0 && date.length && dataset.length > 0 ? <Box style={{
 
         overflow: 'auto',
@@ -195,6 +218,8 @@ const History: NextPage<Props> = ({ }) => {
                     setState={setState}
                     valueDate={valueDate as any}
                     setValueDate={setValueDate as any}
+                    workersFilter={workersFilter}
+                    setWorkersFilter={setWorkersFilter}
                 />
             </Item>
             <Item xs={12} lg={3}>

@@ -1,7 +1,7 @@
 import { NextPage } from 'next'
 import { Container, Item } from '@/components/Layout/Layout';
 import { Box, Button, Popover, Typography } from '@mui/material'
-import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useContext, useEffect, useState } from 'react';
 
 import { DateRange } from 'react-date-range';
 import { lineElementClasses } from '@mui/x-charts/LineChart';
@@ -15,6 +15,8 @@ import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
+import GeneratePDF from '../functions/GeneratePDF';
+import { AppContext } from '@/context/AppContext';
 const initialValues = [
     {
         startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1), // Primer día del mes actual
@@ -49,7 +51,7 @@ interface Props {
     date: any[],
     setDate: Dispatch<SetStateAction<any[]>>,
     id: string | undefined
-    valueDate: string | null,
+    valueDate: string | null | any,
     setValueDate: Dispatch<SetStateAction<string | null>>
 }
 
@@ -201,6 +203,20 @@ const CalendarSelect: NextPage<Props> = ({ date, setDate, id, valueDate, setValu
         }
 
     }, [optionSelected])
+    const { personal, payments, getData } = useContext(AppContext)
+    const handleClickReport = (value?: string) => {
+
+        const filterPayments = valueDate ? payments.filter((e: any) => moment(e.createdAt).format('MM/DD/YYYY') === valueDate.format('MM/DD/YYYY')) : payments.filter((e: any) => {
+            const paymentDate = moment(e.createdAt);
+            const startDate = moment(date[0].startDate); // Suponiendo que solo hay un objeto en el array `date`
+            const endDate = moment(date[0].endDate);
+
+            // Verificamos si la fecha de creación del pago está dentro del rango de fechas
+            return paymentDate.isBetween(startDate, endDate, 'days', '[]');
+        });
+
+        GeneratePDF(!value ? "General" : value, filterPayments)
+    }
     return <div>
         <Popover
             id={id}
@@ -231,7 +247,11 @@ const CalendarSelect: NextPage<Props> = ({ date, setDate, id, valueDate, setValu
 
                                     <DateCalendar
                                         views={[optionSelected === 0 || optionSelected === 2 || optionSelected === 3 ? 'day' : 'month']}
-                                        value={valueDate as any} onChange={(newValue) => setValueDate(newValue)} />
+                                        value={valueDate as any}
+                                        onChange={(newValue) => {
+                                            console.log(newValue)
+                                            setValueDate(newValue)
+                                        }} />
 
                                 </DemoContainer>
                             </LocalizationProvider>}
@@ -273,10 +293,12 @@ const CalendarSelect: NextPage<Props> = ({ date, setDate, id, valueDate, setValu
                                 </BoxDate>
                             </Item>
                             <Item xs={12}>
-                                <BoxDate style={{
+                                <BoxDate
+                                    onClick={() => handleClickReport()}
+                                    style={{
 
-                                    // backgroundColor: `rgba(231,240,253,${optionSelected === i ? '1' : '0.1'})`,
-                                }}>
+                                        // backgroundColor: `rgba(231,240,253,${optionSelected === i ? '1' : '0.1'})`,
+                                    }}>
                                     General Report
                                 </BoxDate>
                             </Item>

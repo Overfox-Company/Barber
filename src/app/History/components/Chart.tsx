@@ -1,7 +1,7 @@
 import { Container, Item } from '@/components/Layout/Layout';
 import { Box, Button, Popover, Typography } from '@mui/material'
 import { NextPage } from 'next'
-import { Dispatch, FC, SetStateAction, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useContext, useEffect, useState } from 'react';
 
 import { DateRange } from 'react-date-range';
 import { lineElementClasses } from '@mui/x-charts/LineChart';
@@ -11,6 +11,7 @@ import { LineChart } from '@mui/x-charts';
 import Image from 'next/image';
 import SelectCustom from '@/components/UI/Select';
 import CalendarSelect from './CalendarSelect';
+import { AppContext } from '@/context/AppContext';
 
 
 
@@ -47,7 +48,9 @@ interface Props {
     paymentsFilter: string,
     setPaymentsFilter: Dispatch<SetStateAction<string>>,
     valueDate: string | null,
-    setValueDate: Dispatch<SetStateAction<string | null>>
+    setValueDate: Dispatch<SetStateAction<string | null>>,
+    workersFilter: null | string,
+    setWorkersFilter: Dispatch<SetStateAction<string | null>>
 }
 
 const ItemSelect: FC<{ images: string[], text: string }> = ({ images, text }) => {
@@ -60,8 +63,8 @@ const ItemSelect: FC<{ images: string[], text: string }> = ({ images, text }) =>
                     style={{
                         width: 'auto',
                         height: 'auto',
-                        maxHeight: '25px'
-                        , maxWidth: '25px'
+                        maxHeight: '30px'
+                        , maxWidth: '50px'
                     }}
                     layout='objectFit'
                     width={45} height={30}
@@ -83,10 +86,12 @@ const Chart: NextPage<Props> = ({
     paymentsFilter,
     setPaymentsFilter,
     valueDate,
-    setValueDate
+    setValueDate,
+    workersFilter,
+    setWorkersFilter
 }) => {
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-
+    const { personal } = useContext(AppContext)
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
     };
@@ -112,7 +117,17 @@ const Chart: NextPage<Props> = ({
             value: 'zelle'
         }
     ]
+    const [dataPersonal, setDataPersonal] = useState<any[]>([{ label: 'All Barbers', value: null }]);
+    useEffect(() => {
+        if (personal.length > 0) {
+            const newDataPersonal = personal.map((person) => ({
+                label: <ItemSelect images={[person.avatar]} text={person.name} />,
+                value: person._id,
+            }));
 
+            setDataPersonal([{ label: 'All Barbers', value: null }, ...newDataPersonal]); // Actualiza el estado
+        }
+    }, [personal]);
     return <div>
         <div>
             <Container>
@@ -123,9 +138,14 @@ const Chart: NextPage<Props> = ({
                                 valueDate={valueDate} setValueDate={setValueDate}
                             />
                         </Item>
-                        <Item xs={2} lg={4} xl={2}>
+                        <Item xs={2} lg={4} xl={3}>
                             <Box style={{ width: "100%", }}>
                                 <SelectCustom data={dataPayments} selectValue={paymentsFilter} setSelectValue={setPaymentsFilter} />
+                            </Box>
+                        </Item>
+                        <Item xs={2} lg={4} xl={2}>
+                            <Box style={{ width: "100%", }}>
+                                <SelectCustom data={dataPersonal} selectValue={workersFilter} setSelectValue={setWorkersFilter} />
                             </Box>
                         </Item>
                     </Container>
