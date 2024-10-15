@@ -250,7 +250,26 @@ const CalendarSelect: NextPage<Props> = ({ date, setDate, id, valueDate, setValu
                                         value={valueDate as any}
                                         onChange={(newValue) => {
                                             console.log(newValue)
-                                            setValueDate(newValue)
+                                            if (optionSelected === 1) {
+                                                setValueDate(null);
+                                                const selectedDate = new Date(newValue);
+
+                                                // Obtener el primer día del mes seleccionado
+                                                const startDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
+
+                                                // Obtener el último día del mes seleccionado
+                                                const endDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0);
+
+                                                setDate([
+                                                    {
+                                                        startDate,
+                                                        endDate,
+                                                        key: 'selection',
+                                                    },])
+                                            } else {
+                                                setValueDate(newValue)
+                                            }
+
                                         }} />
 
                                 </DemoContainer>
