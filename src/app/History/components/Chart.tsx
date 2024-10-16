@@ -156,6 +156,10 @@ const Chart: NextPage<Props> = ({
             {date.length >= 7 ? <LineChart
                 {...dataset}
                 sx={{
+                    width: '100%', // Aseguramos que el contenedor ocupe todo el ancho
+                    maxWidth: '100%', // Para evitar desbordamiento
+                    height: 'auto', // Ajustar automáticamente la altura
+
                     [`& .${lineElementClasses.root}`]: {
 
                         strokeWidth: 1,

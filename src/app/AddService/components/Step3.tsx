@@ -109,10 +109,11 @@ const Step3: NextPage<Props> = ({ setStep, data, setData }) => {
         if (method !== 'card') {
             relativeData.tax = '0'
         }
+        const save = await ApiController.saveData({ data: relativeData })
         //  console.log(relativeData)
         if (relativeData.method === 'card') {
             localStorage.setItem('payment', JSON.stringify(relativeData))
-            const save = await ApiController.saveData({ data: relativeData })
+
             const { message } = save.data
             if (message === 'ok') {
                 router.push(handlePay(formated, relativeData.workerName, "CREDIT_CARD"))
