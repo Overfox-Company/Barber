@@ -232,9 +232,9 @@ const CalendarSelect: NextPage<Props> = ({ date, setDate, id, valueDate, setValu
                 horizontal: 'left',
             }}
         >
-            <Box sx={{ width: 520 }}>
+            <Box sx={{ width: 520, maxWidth: '100%' }}>
                 <Container style={{ padding: 4 }} columnSpacing={1}>
-                    <Item xs={8}>
+                    <Item xs={12} lg={8}>
                         {valueDate === null ? <DateRange
                             editableDateInputs={true}
                             onChange={item => setDate([item.selection])}
@@ -337,21 +337,27 @@ const CalendarSelect: NextPage<Props> = ({ date, setDate, id, valueDate, setValu
                         </Container>
 
                     </Item>
-                    <Item xs={4}>
-                        <Box style={{ display: 'flex', gap: 8, flexDirection: 'column', height: '100%', justifyContent: 'space-between' }}>
+                    <Item xs={12} lg={4}>
+
+                        <Container columnSpacing={2} style={{ width: '100%', justifyContent: 'space-between', display: 'flex', height: '100%', }}>
                             {buttons.map((b, i) => (
-                                <BoxDate style={{
+                                <Item xs={6} lg={12} key={b.label}>
+                                    <BoxDate style={{
 
-                                    backgroundColor: `rgba(231,240,253,${optionSelected === i ? '1' : '0.1'})`,
-                                }} key={b.label} onClick={() => {
+                                        backgroundColor: `rgba(231,240,253,${optionSelected === i ? '1' : '0.1'})`,
+                                    }} onClick={() => {
 
-                                    b.function()
-                                    setOptionSelected(i)
-                                }}>
-                                    {b.label}
-                                </BoxDate>
+                                        b.function()
+                                        setOptionSelected(i)
+                                    }}>
+                                        {b.label}
+                                    </BoxDate>
+                                </Item>
+
                             ))}
-                        </Box>
+                        </Container>
+
+
 
                     </Item>
                 </Container>

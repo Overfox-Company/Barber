@@ -133,17 +133,17 @@ const Chart: NextPage<Props> = ({
             <Container>
                 <Item xs={12}>
                     <Container alignItems='center' gap={4}>
-                        <Item xs={3} lg={4} xl={3}>
+                        <Item xs={12} lg={4} xl={3}>
                             <CalendarSelect date={state} setDate={setState} id={id}
                                 valueDate={valueDate} setValueDate={setValueDate}
                             />
                         </Item>
-                        <Item xs={2} lg={4} xl={3}>
+                        <Item xs={12} lg={4} xl={3}>
                             <Box style={{ width: "100%", }}>
                                 <SelectCustom data={dataPayments} selectValue={paymentsFilter} setSelectValue={setPaymentsFilter} />
                             </Box>
                         </Item>
-                        <Item xs={2} lg={4} xl={2}>
+                        <Item xs={12} lg={4} xl={2}>
                             <Box style={{ width: "100%", }}>
                                 <SelectCustom data={dataPersonal} selectValue={workersFilter} setSelectValue={setWorkersFilter} />
                             </Box>
