@@ -49,6 +49,8 @@ export async function POST(req: Request) {
         console.log(res.length)
         if (res.length === 0) {
             await newPayment.save()
+        } else {
+            return new Response(JSON.stringify({ message: 'No 2 ids can be the same', }))
         }
 
         const allPayments = await Payment.find()

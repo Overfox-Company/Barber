@@ -69,6 +69,7 @@ const Step3: NextPage<Props> = ({ setStep, data, setData }) => {
     const [optionSelected, setOptionSelected] = useState(0)
     const [tipValue, setTipValue] = useState(0)
     const [customTip, setCustomTip] = useState(0)
+    const [hasClicked, setHasClicked] = useState(false)
     const onChange = (value: number) => {
         if (value > 0) {
             setData((prev) => ({ ...prev, tip: String(value) }))
@@ -101,7 +102,7 @@ const Step3: NextPage<Props> = ({ setStep, data, setData }) => {
         const totalTip: any = tipValue === 1 ? customTip : percent[optionSelected] * amountToPay / 100
         const totalPrice = amountToPay + parseFloat(totalTip)
         const formated = Math.ceil(totalPrice * 100) / 100;
-
+        setHasClicked(true)
         let relativeData: any = data
         relativeData.total = formated
         relativeData.tip = totalTip
@@ -262,7 +263,7 @@ const Step3: NextPage<Props> = ({ setStep, data, setData }) => {
                     </OutlinedButton>
                 </Item>
                 <Item xs={5}>
-                    <ContainedButton lowerCase onClick={() => handleClick()}>
+                    <ContainedButton disabled={hasClicked} lowerCase onClick={() => handleClick()}>
                         Pay
                     </ContainedButton>
                 </Item>
