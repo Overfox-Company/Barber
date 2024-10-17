@@ -45,7 +45,8 @@ export async function POST(req: Request) {
         }
         const newPayment = new Payment({ transaction_id, customer: cId, phone, price, tax, tip: tip || 0, worker: workerSearched.name, worker_id: workerSearched._id, total, method: method || 'card' })
         const res = await Payment.find({ transaction_id })
-        console.log(res)
+        console.log("aca es la cantidad de registros con la misma url transaction")
+        console.log(res.length)
         if (res.length === 0) {
             await newPayment.save()
         }
