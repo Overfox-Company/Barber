@@ -144,9 +144,20 @@ const GeneratePDF = (type: string, data: any[]) => {
         doc.setFillColor(40, 40, 40);
         doc.rect(x + 165, y - 9, sixColumn, 10);
         doc.text(`$${(data[j].total * 0.3).toFixed(2)}`, x + 180 + 1, y);
-        total += data[j].total.toFixed(2) * 0.3
+        total += data[j].total
         y += 20;
     }
+
+    y += 10;
+    doc.setFillColor(40, 40, 40);
+    doc.rect(x, y - 9, 165, 10);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(fontSize);
+    doc.text(`Total ${type}`, x + 1, y);
+
+    doc.setFillColor(40, 40, 40);
+    doc.rect(x + 165, y - 9, sixColumn, 10);
+    doc.text(`$${total}`, x + 165 + 1, y);
 
 
     y += 10;
@@ -158,7 +169,7 @@ const GeneratePDF = (type: string, data: any[]) => {
 
     doc.setFillColor(40, 40, 40);
     doc.rect(x + 165, y - 9, sixColumn, 10);
-    doc.text(`$${total.toFixed(2)}`, x + 180 + 1, y);
+    doc.text(`$${(total * 0.3).toFixed(2)}`, x + 165 + 1, y);
 
     doc.save(`${type}_report_${moment().format('MM_DD_YYYY')}.pdf`);
 };
