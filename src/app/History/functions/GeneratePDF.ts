@@ -1,7 +1,7 @@
 import jsPDF from 'jspdf';
 import moment from 'moment';
 
-const GeneratePDF = (type: string, payments: any[]) => {
+const GeneratePDF = (type: string, data: any[]) => {
     const doc = new jsPDF();
     let y = 0;
     let x = 0;
@@ -47,87 +47,107 @@ const GeneratePDF = (type: string, payments: any[]) => {
 
     /////////////////////////////////
     let w1 = 0;
-    doc.setFillColor(40, 40, 40);
-    doc.rect(x, y - 9, fisrtColumn, 10);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(fontSize); // Usando la variable de tamaño de fuente
-    doc.text(`Date`, x + 1, y);
 
-    w1 += fisrtColumn;
-    doc.setFillColor(40, 40, 40);
-    doc.rect(x + w1, y - 9, secondColumn, 10);
-    doc.setFont('helvetica', 'bold');
-    doc.text(`Barber`, x + w1 + 1, y);
-
-    w1 += secondColumn;
-    doc.setFillColor(40, 40, 40);
-    doc.rect(x + w1, y - 9, thirdColumn, 10);
-    doc.setFont('helvetica', 'bold');
-    doc.text(`Service`, x + w1 + 1, y);
-
-
-
-    w1 += fourtyColumn;
-    doc.setFillColor(40, 40, 40);
-    doc.rect(x + w1, y - 9, fourtyColumn + 5, 10);
-    doc.setFont('helvetica', 'bold');
-    doc.text(`Method`, x + w1 + 1, y);
-
-
-
-    w1 += fiveColumn;
-    doc.setFillColor(40, 40, 40);
-    doc.rect(x + w1, y - 9, sixColumn, 10);
-    doc.setFont('helvetica', 'bold');
-    doc.text(`30% Total`, x + w1 + 1, y);
-
-    y += 10;
-    w1 = 40;
 
     let total = 0;
     const marginBottom = 20; // Espacio inferior antes de crear una nueva página
+    for (let j = 0; j < data.length; j++) {
+        console.log(data[j])
 
-    for (let i = 0; i < payments.length; i++) {
+        const payments = data[j].payments
+
         doc.setFillColor(40, 40, 40);
         doc.rect(x, y - 9, fisrtColumn, 10);
-        doc.setFont('helvetica', 'normal');
+        doc.setFont('helvetica', 'bold');
         doc.setFontSize(fontSize); // Usando la variable de tamaño de fuente
-        doc.text(moment(payments[i].createdAt).format("MM/DD/YYYY HH:mm"), x + 1, y);
+        doc.text(`Date`, x + 1, y);
 
-        w1 = fisrtColumn;
+        w1 += fisrtColumn;
         doc.setFillColor(40, 40, 40);
         doc.rect(x + w1, y - 9, secondColumn, 10);
-        doc.text(payments[i].worker, x + w1 + 1, y);
+        doc.setFont('helvetica', 'bold');
+        doc.text(`Barber`, x + w1 + 1, y);
 
         w1 += secondColumn;
         doc.setFillColor(40, 40, 40);
         doc.rect(x + w1, y - 9, thirdColumn, 10);
-        doc.text(`$${payments[i].price}`, x + w1 + 1, y);
+        doc.setFont('helvetica', 'bold');
+        doc.text(`Service`, x + w1 + 1, y);
+
 
 
         w1 += fourtyColumn;
         doc.setFillColor(40, 40, 40);
         doc.rect(x + w1, y - 9, fourtyColumn + 5, 10);
-        doc.text(`${typeof payments[i].method === 'undefined' ? 'card' : payments[i].method}`, x + w1 + 1, y);
+        doc.setFont('helvetica', 'bold');
+        doc.text(`Method`, x + w1 + 1, y);
 
 
 
         w1 += fiveColumn;
         doc.setFillColor(40, 40, 40);
         doc.rect(x + w1, y - 9, sixColumn, 10);
-        const sevenPercent = parseFloat(payments[i].price) * 0.7;
-        const tip = parseFloat(payments[i].tip);
-        const totalCalc = parseFloat(payments[i].price) * 0.3
-        doc.text(`$${totalCalc.toFixed(2)}`, x + w1 + 1, y);
-        total += totalCalc;
+        doc.setFont('helvetica', 'bold');
+        doc.text(`30% Total`, x + w1 + 1, y);
 
-        y += i === 16 ? 500 : 10;
-        w1 = 40;
-        if (y > pageHeight - marginBottom) {
-            doc.addPage(); // Agregar una nueva página
-            y = 20; // Reiniciar la posición Y para la nueva página
+        y += 10;
+
+        for (let i = 0; i < payments.length; i++) {
+            doc.setFillColor(40, 40, 40);
+            doc.rect(x, y - 9, fisrtColumn, 10);
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(fontSize); // Usando la variable de tamaño de fuente
+            doc.text(moment(payments[i].createdAt).format("MM/DD/YYYY HH:mm"), x + 1, y);
+
+            w1 = fisrtColumn;
+            doc.setFillColor(40, 40, 40);
+            doc.rect(x + w1, y - 9, secondColumn, 10);
+            doc.text(payments[i].worker, x + w1 + 1, y);
+
+            w1 += secondColumn;
+            doc.setFillColor(40, 40, 40);
+            doc.rect(x + w1, y - 9, thirdColumn, 10);
+            doc.text(`$${payments[i].price}`, x + w1 + 1, y);
+
+
+            w1 += fourtyColumn;
+            doc.setFillColor(40, 40, 40);
+            doc.rect(x + w1, y - 9, fourtyColumn + 5, 10);
+            doc.text(`${typeof payments[i].method === 'undefined' ? 'card' : payments[i].method}`, x + w1 + 1, y);
+
+
+
+            w1 += fiveColumn;
+            doc.setFillColor(40, 40, 40);
+            doc.rect(x + w1, y - 9, sixColumn, 10);
+            const sevenPercent = parseFloat(payments[i].price) * 0.7;
+            const tip = parseFloat(payments[i].tip);
+            const totalCalc = parseFloat(payments[i].price) * 0.3
+            doc.text(`$${totalCalc.toFixed(2)}`, x + w1 + 1, y);
+            //    total += totalCalc;
+
+            y += 10;
+            w1 = 40;
+            if (y > pageHeight - marginBottom) {
+                doc.addPage(); // Agregar una nueva página
+                y = 20; // Reiniciar la posición Y para la nueva página
+            }
+            w1 = 0;
         }
+
+        doc.setFillColor(40, 40, 40);
+        doc.rect(x, y - 9, 165, 10);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(fontSize);
+        doc.text(`Total ${data[j].worker}`, x + 1, y);
+
+        doc.setFillColor(40, 40, 40);
+        doc.rect(x + 165, y - 9, sixColumn, 10);
+        doc.text(`$${(data[j].total * 0.3).toFixed(2)}`, x + 180 + 1, y);
+        total += data[j].total.toFixed(2) * 0.3
+        y += 20;
     }
+
 
     y += 10;
     doc.setFillColor(40, 40, 40);

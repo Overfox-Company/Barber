@@ -215,7 +215,32 @@ const CalendarSelect: NextPage<Props> = ({ date, setDate, id, valueDate, setValu
             return paymentDate.isBetween(startDate, endDate, 'days', '[]');
         });
         const filterByTypeReport = filterPayments.filter((e: any) => !value ? true : e.method === value)
-        GeneratePDF(!value ? "General" : value, filterByTypeReport)
+        const filterByWorker = filterByTypeReport.reduce((acc: any, payment: any) => {
+            const { worker, worker_id, total } = payment;
+
+            // Verificar si el trabajador ya está en el array acumulado
+            const existingWorker = acc.find((item: any) => item.worker_id === worker_id);
+            const totalFloat = parseFloat(total);
+            if (existingWorker) {
+                // Si ya existe, agregar el pago y sumar el total
+                existingWorker.payments.push(payment);
+                existingWorker.total += totalFloat;
+            } else {
+                // Si no existe, crear una nueva entrada para ese trabajador
+                acc.push({
+                    worker: worker,
+                    worker_id: worker_id,
+                    payments: [payment],
+                    total: parseFloat(total)
+                });
+            }
+
+            return acc;
+        }, []);
+
+        // Resultado en filterByWorker
+        console.log(filterByWorker);
+        GeneratePDF(!value ? "General" : value, filterByWorker)
     }
     return <div>
         <Popover
