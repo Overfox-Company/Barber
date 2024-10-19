@@ -53,9 +53,12 @@ const GeneratePDF = (type: string, data: any[]) => {
     const marginBottom = 20; // Espacio inferior antes de crear una nueva página
     for (let j = 0; j < data.length; j++) {
         console.log(data[j])
-
+        if (y > pageHeight - marginBottom) {
+            doc.addPage(); // Agregar una nueva página
+            y = 20; // Reiniciar la posición Y para la nueva página
+        }
         const payments = data[j].payments
-
+        y += 10;
         doc.setFillColor(40, 40, 40);
         doc.rect(x, y - 9, fisrtColumn, 10);
         doc.setFont('helvetica', 'bold');
@@ -139,13 +142,26 @@ const GeneratePDF = (type: string, data: any[]) => {
         doc.rect(x, y - 9, 165, 10);
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(fontSize);
-        doc.text(`Total ${data[j].worker}`, x + 1, y);
+        doc.text(`Total 30% ${data[j].worker}`, x + 1, y);
 
         doc.setFillColor(40, 40, 40);
         doc.rect(x + 165, y - 9, sixColumn, 10);
         doc.text(`$${(data[j].total * 0.3).toFixed(2)}`, x + 180 + 1, y);
+        if (type === 'cash') {
+            y += 10
+            doc.setFillColor(40, 40, 40);
+            doc.rect(x, y - 9, 165, 10);
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(fontSize);
+            doc.text(`Total 70% ${data[j].worker}`, x + 1, y);
+
+            doc.setFillColor(40, 40, 40);
+            doc.rect(x + 165, y - 9, sixColumn, 10);
+            doc.text(`$${(data[j].total * 0.7).toFixed(2)}`, x + 180 + 1, y);
+        }
+
         total += data[j].total
-        y += 20;
+        y += 10;
     }
 
     y += 10;
@@ -161,6 +177,10 @@ const GeneratePDF = (type: string, data: any[]) => {
 
 
     y += 10;
+    if (y > pageHeight - marginBottom) {
+        doc.addPage(); // Agregar una nueva página
+        y = 20; // Reiniciar la posición Y para la nueva página
+    }
     doc.setFillColor(40, 40, 40);
     doc.rect(x, y - 9, 165, 10);
     doc.setFont('helvetica', 'bold');
