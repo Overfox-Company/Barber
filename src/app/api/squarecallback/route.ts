@@ -17,7 +17,7 @@ export async function POST(req: any) {
                 console.log(dataPayment)
                 const { id, object } = dataPayment
 
-                //  const {source } = object.payment
+                const { source_type } = object.payment
                 const temporal = await Temporal.find()
                 const dataTemporal = JSON.parse(temporal[0].name)
                 console.log(temporal)
@@ -50,7 +50,7 @@ export async function POST(req: any) {
                     worker: workerSearched.name,
                     worker_id: workerSearched._id,
                     total,
-                    method: method || 'card',
+                    method: source_type === 'CASH' ? 'cash' : 'card',
                     square: true
                 })
                 try {
