@@ -8,13 +8,13 @@ export async function POST(req: any) {
     try {
         if (req.method === 'POST') {
             // console.log(req)
-            // console.log("-------------")
+            console.log("-------------")
             const data = await req.json()
-            //  console.log(data)
+            console.log(data)
             const { type, data: dataPayment } = data
-            //  console.log("-------------")
+            console.log("-------------")
             if (type === 'payment.created') {
-                // console.log(dataPayment)
+                console.log(dataPayment)
                 const { id, object } = dataPayment
 
                 //  const {source } = object.payment
