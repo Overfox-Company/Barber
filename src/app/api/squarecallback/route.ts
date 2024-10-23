@@ -19,7 +19,7 @@ export async function POST(req: any) {
             //  const {source } = object.payment
             const temporal = await Temporal.find()
 
-            const { method, total, phone, price, tax, tip, worker, client_id, customer } = await req.json()
+            const { method, total, phone, price, tax, tip, worker, client_id, customer } = temporal[0]
             const workerSearched = await Personal.findById(worker)
             if (!workerSearched._id) {
                 return new Response(JSON.stringify({ message: 'Dont find worker', }))
