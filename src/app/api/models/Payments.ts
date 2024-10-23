@@ -1,5 +1,6 @@
 
 import { Schema, model, models } from 'mongoose';
+
 type PaymentType = {
     avatar: string;
     name: string;
@@ -15,7 +16,8 @@ const PaymentSchema = new Schema({
     worker: { type: String },
     worker_id: { type: String },
     transaction_id: { type: String, unique: true },
-    method: { type: String, required: true }
+    method: { type: String, required: true },
+    square: { type: Boolean }
 }, {
     timestamps: true
 });
