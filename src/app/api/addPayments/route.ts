@@ -4,6 +4,7 @@ import { connectDB } from "../database/MongoConnect";
 import { Personal } from "../models/Personal";
 import { Payment } from "../models/Payments";
 import { Customers } from "../models/Customers";
+import { VerifyPayments } from "@/app/functions/Square";
 
 
 
@@ -48,7 +49,12 @@ export async function POST(req: Request) {
         console.log("aca es la cantidad de registros con la misma url transaction")
         console.log(res.length)
         if (res.length === 0) {
-            await newPayment.save()
+            const resultValidation = await VerifyPayments(transaction_id)
+            if (resultValidation !== 404 && resultValidation !== 500) {
+
+                await newPayment.save()
+            }
+
         } else {
             //   return new Response(JSON.stringify({ message: 'No 2 ids can be the same', }))
         }

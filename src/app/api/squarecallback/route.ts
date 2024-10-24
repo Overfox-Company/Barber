@@ -1,3 +1,4 @@
+import { VerifyPayments } from "@/app/functions/Square"
 import { Customers } from "../models/Customers"
 import { Payment } from "../models/Payments"
 import { Personal } from "../models/Personal"
@@ -16,49 +17,54 @@ export async function POST(req: any) {
             if (type === 'payment.created') {
                 console.log(dataPayment)
                 const { id, object } = dataPayment
-
-                const { source_type } = object.payment
-                const temporal = await Temporal.find()
-                const dataTemporal = JSON.parse(temporal[0].name)
-                console.log(temporal)
-                const { method, total, phone, price, tax, tip, worker, client_id, customer } = dataTemporal
-                const workerSearched = await Personal.findById(worker)
-                if (!workerSearched._id) {
-                    return new Response(JSON.stringify({ message: 'Dont find worker', }))
-                }
-                let cId = null
-                if (!client_id && phone && customer) {
-                    try {
-                        const newClient = new Customers({ name: customer, phone });
-                        await newClient.save();
-                        cId = newClient._id;
-                    } catch (err) {
-                        console.log('Error creating client:', err);
-                        // Continúa el flujo sin interrumpir en caso de error al crear el cliente
+                const resultValidation = await VerifyPayments(id)
+                if (resultValidation !== 404 && resultValidation !== 500) {
+                    const { source_type, total_money } = object.payment
+                    const temporal = await Temporal.find()
+                    const dataTemporal = JSON.parse(temporal[0].name)
+                    console.log(temporal)
+                    const { method, total, phone, price, tax, tip, worker, client_id, customer } = dataTemporal
+                    const workerSearched = await Personal.findById(worker)
+                    if (!workerSearched._id) {
+                        return new Response(JSON.stringify({ message: 'Dont find worker', }))
                     }
-                }
-                if (client_id) {
-                    cId = client_id
-                }
-                const newPayment = new Payment({
-                    transaction_id: id,
-                    customer: cId,
-                    phone,
-                    price,
-                    tax,
-                    tip: tip || 0,
-                    worker: workerSearched.name,
-                    worker_id: workerSearched._id,
-                    total,
-                    method: source_type === 'CASH' ? 'cash' : 'card',
-                    square: true
-                })
-                try {
-                    await newPayment.save()
-                    const allPayments = await Payment.find()
-                    return new Response(JSON.stringify({ message: 'Payment processed', payments: allPayments }))
-                } catch (e) {
-                    console.log(e)
+                    let cId = null
+                    if (!client_id && phone && customer) {
+                        try {
+                            const newClient = new Customers({ name: customer, phone });
+                            await newClient.save();
+                            cId = newClient._id;
+                        } catch (err) {
+                            console.log('Error creating client:', err);
+                            // Continúa el flujo sin interrumpir en caso de error al crear el cliente
+                        }
+                    }
+                    if (client_id) {
+                        cId = client_id
+                    }
+                    const calculate = total_money.amount / 100
+                    const newPayment = new Payment({
+                        transaction_id: id,
+                        customer: cId,
+                        phone,
+                        price: source_type === 'CASH' ? calculate : price,
+                        tax,
+                        tip: tip || 0,
+                        worker: workerSearched.name,
+                        worker_id: workerSearched._id,
+                        total: source_type === 'CASH' ? calculate : total,
+                        method: source_type === 'CASH' ? 'cash' : 'card',
+                        square: true
+                    })
+                    try {
+                        await newPayment.save()
+                        const allPayments = await Payment.find()
+                        return new Response(JSON.stringify({ message: 'Payment processed', payments: allPayments }))
+                    } catch (e) {
+                        console.log(e)
+                    }
+                } else {
+                    console.log(resultValidation)
                 }
             }
 
