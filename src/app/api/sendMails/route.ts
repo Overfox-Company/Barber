@@ -18,7 +18,7 @@ export async function POST(req: Request) {
         });
         const { amount, barber } = await req.json();
 
-        const to = 'overfoxcompany@gmail.com'//perezbarbershop1411@gmail.com'
+        const to =/* 'overfoxcompany@gmail.com'*/'perezbarbershop1411@gmail.com'
         const subject = 'Zelle payment by barber shop'
         const text = `Payment for $${amount} to the barber ${barber}`
         const mailOptions = {
