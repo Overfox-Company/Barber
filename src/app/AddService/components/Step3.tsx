@@ -110,33 +110,36 @@ const Step3: NextPage<Props> = ({ setStep, data, setData }) => {
         if (method !== 'card') {
             relativeData.tax = '0'
         }
-        const save = await ApiController.saveData({ data: relativeData })
-        //  console.log(relativeData)
-        if (relativeData.method === 'card') {
-            localStorage.setItem('payment', JSON.stringify(relativeData))
+        const save = method === 'zelle' ? null : await ApiController.saveData({ data: relativeData })
+        if (save) {
+            if (relativeData.method === 'card') {
+                localStorage.setItem('payment', JSON.stringify(relativeData))
 
-            const { message } = save.data
-            if (message === 'ok') {
-                router.push(handlePay(formated, relativeData.workerName, "CREDIT_CARD"))
+                const { message } = save.data
+                if (message === 'ok') {
+                    router.push(handlePay(formated, relativeData.workerName, "CREDIT_CARD"))
+                }
+                // console.log(typeof formated)
             }
-            // console.log(typeof formated)
+            if (relativeData.method === 'cash') {
+                // let cloneData: any = data
+                //  cloneData.transaction_id = uuidv4()
+                // const res = await ApiController.addPayments(relativeData)
+                localStorage.setItem('payment', JSON.stringify(relativeData))
+                router.push(handlePay(formated, relativeData.workerName, "CASH"))
+                //  const { message, payments } = res.data
+                // if (payments) {
+                //   setSnackbarOpen({ message: "Payment successfully processed", type: 'success' })
+                //   setStep(0)
+                //   setData(InitialData)
+                //   router.refresh()
+                //  } else {
+                //   setSnackbarOpen({ message: message, type: 'error' })
+                // }
+            }
         }
-        if (relativeData.method === 'cash') {
-            // let cloneData: any = data
-            //  cloneData.transaction_id = uuidv4()
-            // const res = await ApiController.addPayments(relativeData)
-            localStorage.setItem('payment', JSON.stringify(relativeData))
-            router.push(handlePay(formated, relativeData.workerName, "CASH"))
-            //  const { message, payments } = res.data
-            // if (payments) {
-            //   setSnackbarOpen({ message: "Payment successfully processed", type: 'success' })
-            //   setStep(0)
-            //   setData(InitialData)
-            //   router.refresh()
-            //  } else {
-            //   setSnackbarOpen({ message: message, type: 'error' })
-            // }
-        }
+        //  console.log(relativeData)
+
         if (relativeData.method === 'zelle') {
             // setStep(4)
             handlePayZelle()

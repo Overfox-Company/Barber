@@ -54,7 +54,9 @@ export async function POST(req: Request) {
                 console.log(resultValidation)
                 await newPayment.save()
             }
-
+            if (method === 'zelle') {
+                await newPayment.save()
+            }
         } else {
             //   return new Response(JSON.stringify({ message: 'No 2 ids can be the same', }))
         }
