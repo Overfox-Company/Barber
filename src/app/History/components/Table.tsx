@@ -52,6 +52,9 @@ const Table: NextPage<Props> = ({ dataFilter }) => {
         const reverse = data.paymentsByWorker
         GeneratePDFByWorker(data.range, data.name, reverse)
     }
+    useEffect(() => {
+        console.log(dataFilter)
+    }, [dataFilter])
     return <div >
         <Container sx={{ width: { xs: '72vw', lg: '68vw' } }} alignItems='center'>
             <Item xs={5}>
