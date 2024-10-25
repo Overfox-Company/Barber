@@ -19,7 +19,7 @@ export async function POST(req: any) {
                 const { id, object } = dataPayment
                 const resultValidation = await VerifyPayments(id)
                 if (resultValidation !== 404 && resultValidation !== 500) {
-                    const { source_type, total_money } = object.payment
+                    const { source_type, total_money, status } = object.payment
                     const temporal = await Temporal.find()
                     const dataTemporal = JSON.parse(temporal[0].name)
                     console.log(temporal)
@@ -57,7 +57,10 @@ export async function POST(req: any) {
                         square: true
                     })
                     try {
-                        await newPayment.save()
+                        if (status === 'COMPLETED') {
+                            await newPayment.save()
+                        }
+
                         const allPayments = await Payment.find()
                         return new Response(JSON.stringify({ message: 'Payment processed', payments: allPayments }))
                     } catch (e) {
