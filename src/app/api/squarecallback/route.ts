@@ -57,9 +57,9 @@ export async function POST(req: any) {
                         square: true
                     })
                     try {
-                        // if (status === 'COMPLETED') {
+                        //  if (resultValidation && resultValidation.status === 'COMPLETED') {
                         await newPayment.save()
-                        // }
+                        //   }
 
                         const allPayments = await Payment.find()
                         return new Response(JSON.stringify({ message: 'Payment processed', payments: allPayments }))

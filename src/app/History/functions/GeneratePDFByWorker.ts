@@ -111,7 +111,7 @@ const GeneratePDFByWorker = (date: string, nameBarber: string, payments: any[]) 
     let total = 0
 
     // Altura de la página
-    const marginBottom = 20; // Espacio inferior antes de crear una nueva página
+    const marginBottom = 40; // Espacio inferior antes de crear una nueva página
 
     for (let i = 0; i < payments.length; i++) {
         // Primer bloque

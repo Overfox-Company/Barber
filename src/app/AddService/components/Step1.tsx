@@ -145,7 +145,7 @@ const Step1: NextPage<Props> = ({ setStep, data, setData }) => {
                     {data.worker ? personal.filter((e: any) => e._id === data.worker)[0].name : 'Not barber selected'}
                 </NameUser>
             </Item>
-            <Item xs={8} md={6}>
+            <Item xs={12} sm={10} lg={6}>
 
                 <Title style={{ textAlign: 'center' }}>
                     Payment Method
@@ -157,7 +157,7 @@ const Step1: NextPage<Props> = ({ setStep, data, setData }) => {
         </Container>
         <Container columnSpacing={4} justifyContent={"center"}>
 
-            <Item xs={6} xl={4}>
+            <Item xs={12} sm={10} md={8} lg={6} xl={4}>
                 <ContainedButton lowerCase onClick={() => setStep(1)} disabled={!data.worker || !data.method}>
                     Next
                 </ContainedButton>

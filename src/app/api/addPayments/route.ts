@@ -51,10 +51,10 @@ export async function POST(req: Request) {
         if (res.length === 0) {
             const resultValidation = await VerifyPayments(transaction_id)
             if (resultValidation !== 404 && resultValidation !== 500) {
-                console.log(resultValidation)
-                if (resultValidation && resultValidation.status === 'COMPLETED') {
-                    await newPayment.save()
-                }
+
+                //   if (resultValidation && resultValidation.status === 'COMPLETED') {
+                await newPayment.save()
+                //   }
 
             }
             if (method === 'zelle') {

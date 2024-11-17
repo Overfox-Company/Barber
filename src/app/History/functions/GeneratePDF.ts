@@ -50,7 +50,7 @@ const GeneratePDF = (type: string, data: any[]) => {
 
 
     let total = 0;
-    const marginBottom = 20; // Espacio inferior antes de crear una nueva página
+    const marginBottom = 40; // Espacio inferior antes de crear una nueva página
     for (let j = 0; j < data.length; j++) {
         console.log(data[j])
         if (y > pageHeight - marginBottom) {
@@ -165,6 +165,10 @@ const GeneratePDF = (type: string, data: any[]) => {
     }
 
     y += 10;
+    if (y >= pageHeight - marginBottom) {
+        doc.addPage(); // Agregar una nueva página
+        y = 20; // Reiniciar la posición Y para la nueva página
+    }
     doc.setFillColor(40, 40, 40);
     doc.rect(x, y - 9, 165, 10);
     doc.setFont('helvetica', 'bold');
@@ -177,10 +181,7 @@ const GeneratePDF = (type: string, data: any[]) => {
 
 
     y += 10;
-    if (y > pageHeight - marginBottom) {
-        doc.addPage(); // Agregar una nueva página
-        y = 20; // Reiniciar la posición Y para la nueva página
-    }
+
     doc.setFillColor(40, 40, 40);
     doc.rect(x, y - 9, 165, 10);
     doc.setFont('helvetica', 'bold');

@@ -35,12 +35,13 @@ const Page: NextPage<Props> = ({ }) => {
         style={{ width: "100%", height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
     >
         <Container justifyContent={"center"}>
-            <Item xs={12} md={6} lg={4}>
+            <Item xs={12} md={6} lg={4} style={{ display: 'flex', justifyContent: 'center' }}>
                 <Box style={{
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    width: "100%",
+                    width: "auto",
+                    maxWidth: 400,
                     height: 480,
                     flexDirection: 'column',
                     backgroundColor: 'white',

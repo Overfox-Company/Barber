@@ -50,12 +50,13 @@ const AddService: NextPage<Props> = ({ }) => {
     const [selectedValue, setSelectedValue] = useState(emails[1]);
     return <div>
         <Container justifyContent={"center"} style={{ height: '100vh' }} alignItems='center'>
-            <Item xs={12} sm={8} md={10} lg={6} xl={5}>
+            <Item xs={12} sm={7} md={8} lg={6} xl={5} style={{ display: 'flex', justifyContent: 'center' }}>
 
                 <Box style={{
                     height: 550,
                     backgroundColor: 'white',
-
+                    width: 'auto',
+                    maxWidth: 550,
                     marginBottom: 20,
                     boxShadow: '0 8px 8px rgba(0, 0, 45, 0.1)',
                 }} sx={{
